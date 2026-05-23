@@ -6,15 +6,15 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 <!-- END:nextjs-agent-rules -->
 
-# DriveMargin Agent Guide
+## DriveMargin Agent Guide
 
-## Project
+### Project
 
 DriveMargin is a fullstack profitability dashboard for multi-app delivery workers.
 
 The app helps users track work sessions, split earnings by platform, estimate fuel costs, log non-fuel expenses, and understand real profit per hour and per mile.
 
-## Tech stack
+### Tech stack
 
 - Next.js App Router
 - TypeScript
@@ -28,7 +28,7 @@ The app helps users track work sessions, split earnings by platform, estimate fu
 - Recharts
 - Vitest
 
-## Development rules
+### Development rules
 
 - Use current Next.js App Router patterns.
 - Prefer Server Components by default.
@@ -42,7 +42,7 @@ The app helps users track work sessions, split earnings by platform, estimate fu
 - Do not use official delivery app logos in the MVP.
 - Use generic icons, app names, or app initials instead.
 
-## Product rules
+### Product rules
 
 - The core unit is a work session, not one session per app.
 - A work session can contain multiple app earnings.
@@ -55,7 +55,7 @@ The app helps users track work sessions, split earnings by platform, estimate fu
 - Default report period is the current week.
 - Users can navigate previous week, next week, or choose a custom date range.
 
-## MVP boundaries
+### MVP boundaries
 
 Do not implement these in the MVP unless explicitly requested:
 
