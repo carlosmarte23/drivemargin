@@ -1,6 +1,8 @@
 import { PublicShell } from "@/components/layout/public-shell";
 import { LandingHero } from "@/components/marketing/landing-hero";
 import { LandingProblem } from "@/components/marketing/landing-problem";
+import { LandingFeatures } from "@/components/marketing/landing-features";
+import { LandingHowItWorks } from "@/components/marketing/landing-how-it-works";
 
 export default function HomePage() {
   return (
@@ -8,8 +10,8 @@ export default function HomePage() {
       <div className="overflow-hidden">
         <LandingHero />
         <LandingProblem />
-        {/* Features Section */}
-        {/* How it works Section */}
+        <LandingFeatures />
+        <LandingHowItWorks />
         {/* Final CTA Section */}
       </div>
     </PublicShell>
