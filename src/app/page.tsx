@@ -1,19 +1,15 @@
 import { PublicShell } from "@/components/layout/public-shell";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <PublicShell>
-      <section className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-16 sm:px-6">
-        <p className="text-sm font-medium text-primary">DriveMargin</p>
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <h1 className="text-3xl font-semibold tracking-tight">DriveMargin</h1>
 
-        <h1 className="max-w-3xl text-4xl font-bold tracking-tight md:text-6xl">
-          Know what you really earn after miles, fuel, and expenses.
-        </h1>
-
-        <p className="max-w-2xl text-lg text-muted-foreground">
-          A fullstack profitability dashboard for multi-app delivery workers.
+        <p className="mt-3 max-w-2xl text-muted-foreground">
+          Landing design will be defined in a later phase.
         </p>
-      </section>
+      </div>
     </PublicShell>
   );
 }
