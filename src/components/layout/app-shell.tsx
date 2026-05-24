@@ -4,12 +4,18 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 type AppShellProps = {
   children: React.ReactNode;
+  basePath?: "/demo" | "/app";
+  workspaceLabel?: string;
 };
 
-export function AppShell({ children }: AppShellProps) {
+export function AppShell({
+  children,
+  basePath = "/demo",
+  workspaceLabel = "Demo workspace",
+}: AppShellProps) {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <AppSidebar />
+      <AppSidebar basePath={basePath} />
 
       <div className="lg:pl-64">
         <header className="sticky top-0 z-40 border-b border-border/70 bg-background/90 backdrop-blur">
@@ -18,7 +24,7 @@ export function AppShell({ children }: AppShellProps) {
               <MobileNav />
 
               <p className="text-sm font-medium text-muted-foreground">
-                Demo workspace
+                {workspaceLabel}
               </p>
             </div>
 

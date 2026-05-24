@@ -10,39 +10,56 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-const navItems = [
-  {
-    name: "Dashboard",
-    href: "/demo",
-    icon: LayoutDashboard,
-  },
-  {
-    name: "Sessions",
-    href: "/demo/sessions",
-    icon: Clock,
-  },
-  {
-    name: "Fuel",
-    href: "/demo/fuel",
-    icon: Fuel,
-  },
-  {
-    name: "Expenses",
-    href: "/demo/expenses",
-    icon: Receipt,
-  },
-  {
-    name: "Settings",
-    href: "/demo/settings",
-    icon: Settings,
-  },
-];
+type AppSidebarProps = {
+  basePath?: "/demo" | "/app";
+};
 
-export function AppSidebar() {
+function getDashboardHref(basePath: "/demo" | "/app") {
+  return basePath === "/demo" ? "/demo" : "/app/dashboard";
+}
+
+function getNavItems(basePath: "/demo" | "/app") {
+  return [
+    {
+      name: "Dashboard",
+      href: getDashboardHref(basePath),
+      icon: LayoutDashboard,
+    },
+    {
+      name: "Sessions",
+      href: `${basePath}/sessions`,
+      icon: Clock,
+    },
+    {
+      name: "Fuel",
+      href: `${basePath}/fuel`,
+      icon: Fuel,
+    },
+    {
+      name: "Expenses",
+      href: `${basePath}/expenses`,
+      icon: Receipt,
+    },
+    {
+      name: "Settings",
+      href: `${basePath}/settings`,
+      icon: Settings,
+    },
+  ];
+}
+
+export function AppSidebar({ basePath = "/demo" }: AppSidebarProps) {
+  const navItems = getNavItems(basePath);
+  const footerLabel =
+    basePath === "/demo" ? "Back to site" : "Back to public site";
+
   return (
     <aside className="fixed hidden inset-y-0 left-0 w-64 border-r border-border/70 bg-card lg:flex lg:flex-col">
       <div className="flex h-16 items-center border-b border-border/70 px-5">
-        <Link href="/demo" className="text-lg font-semibold tracking-tight">
+        <Link
+          href={getDashboardHref(basePath)}
+          className="text-lg font-semibold tracking-tight"
+        >
           DriveMargin
         </Link>
       </div>
@@ -75,7 +92,7 @@ export function AppSidebar() {
         >
           <Link href="/">
             <ArrowLeft className="size-4" />
-            Back to site
+            {footerLabel}
           </Link>
         </Button>
       </div>

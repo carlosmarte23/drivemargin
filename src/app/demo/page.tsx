@@ -2,7 +2,7 @@ import { AppShell } from "@/components/layout/app-shell";
 
 export default function DemoPage() {
   return (
-    <AppShell>
+    <AppShell basePath="/demo" workspaceLabel="Demo workspace">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold tracking-tight">Demo</h1>
 
