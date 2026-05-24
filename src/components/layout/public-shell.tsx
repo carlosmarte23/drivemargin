@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { BrandLogo } from "@/components/brand-logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { CurrentYear } from "@/components/current-year";
 import { Button } from "@/components/ui/button";
@@ -14,8 +15,8 @@ export function PublicShell({ children }: PublicShellProps) {
       <header className="border-b border-border/70">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div className="flex items-center justify-between">
-            <Link href="/" className="text-lg font-semibold tracking-tight">
-              DriveMargin
+            <Link href="/" aria-label="DriveMargin home">
+              <BrandLogo />
             </Link>
 
             <div className="sm:hidden">
@@ -39,7 +40,9 @@ export function PublicShell({ children }: PublicShellProps) {
         </div>
       </header>
 
-      <main className="flex-1">{children}</main>
+      <main className="min-h-screen bg-background text-foreground">
+        {children}
+      </main>
 
       <footer className="border-t border-border/70">
         <div className="mx-auto flex min-h-14 max-w-6xl flex-col justify-center gap-2 px-4 py-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">
