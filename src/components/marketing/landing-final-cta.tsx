@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export function LandingFinalCta() {
   return (
-    <section>
+    <section className="motion-safe:timeline-view motion-safe:animate-zoom-in motion-safe:animate-range-[entry_4%_cover_38%]">
       <div className="relative overflow-hidden rounded-3xl border border-primary/35 bg-card/80 p-5 shadow-2xl shadow-primary/10 sm:p-6 lg:p-8">
         <div
           aria-hidden="true"

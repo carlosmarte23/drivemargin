@@ -2,7 +2,7 @@ import { AlertTriangle } from "lucide-react";
 
 export function LandingProblem() {
   return (
-    <section>
+    <section className="motion-safe:timeline-view motion-safe:animate-fade-in-up motion-safe:animate-range-[entry_0%_cover_32%]">
       <div className="rounded-4xl border border-border bg-card/60 p-5 sm:p-6 lg:p-7">
         <div className="grid grid-cols-[auto_1fr] gap-x-5 lg:grid-cols-[auto_minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-x-6">
           <AlertTriangle className="mt-1 size-8 shrink-0 text-secondary sm:size-10 lg:mt-0 lg:size-14" />

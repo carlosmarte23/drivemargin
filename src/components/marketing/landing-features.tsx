@@ -33,11 +33,18 @@ const features = [
   },
 ];
 
+const revealRanges = [
+  "motion-safe:animate-range-[entry_0%_cover_30%]",
+  "motion-safe:animate-range-[entry_6%_cover_36%]",
+  "motion-safe:animate-range-[entry_12%_cover_42%]",
+  "motion-safe:animate-range-[entry_18%_cover_48%]",
+];
+
 export function LandingFeatures() {
   return (
     <section>
       <div>
-        <header className="mx-auto max-w-2xl text-center">
+        <header className="motion-safe:timeline-view motion-safe:animate-fade-in-up motion-safe:animate-range-[entry_0%_cover_30%] mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             Everything you need to understand your real margin
           </h2>
@@ -49,7 +56,7 @@ export function LandingFeatures() {
 
         {/* Mobile  */}
 
-        <div className="mt-6 overflow-hidden rounded-3xl border border-border bg-card/60 md:hidden">
+        <div className="motion-safe:timeline-view motion-safe:animate-fade-in-up motion-safe:animate-range-[entry_0%_cover_28%] mt-6 overflow-hidden rounded-3xl border border-border bg-card/60 md:hidden">
           {features.map((feature) => (
             <details
               key={feature.title}
@@ -78,10 +85,10 @@ export function LandingFeatures() {
 
         {/* Desktop */}
         <div className="mt-8 hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature) => (
+          {features.map((feature, index) => (
             <article
               key={feature.title}
-              className="rounded-4xl border border-border bg-card/60 p-5 lg:p-6"
+              className={`motion-safe:timeline-view motion-safe:animate-fade-in-up ${revealRanges[index]} rounded-4xl border border-border bg-card/60 p-5 lg:p-6`}
             >
               <div className="mb-4 inline-flex rounded-2xl border border-primary/30 bg-primary/10 p-3 text-primary">
                 <feature.icon className="size-6" />

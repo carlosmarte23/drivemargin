@@ -17,22 +17,22 @@ export function LandingHero() {
     <section className="relative">
       <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-10 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
         <div className="max-w-xl lg:pt-1">
-          <div className="mb-4 inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
+          <div className="motion-safe:animate-fade-in-up motion-safe:animate-duration-700 mb-4 inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
             In active development
           </div>
 
-          <h1 className="text-balance text-4xl leading-[1.05] font-semibold tracking-tight sm:text-5xl lg:text-[clamp(3rem,3.1vw,3.35rem)]">
+          <h1 className="motion-safe:animate-fade-in-up motion-safe:animate-delay-100 motion-safe:animate-duration-700 text-balance text-4xl leading-[1.05] font-semibold tracking-tight sm:text-5xl lg:text-[clamp(3rem,3.1vw,3.35rem)]">
             Know what you <span className="text-primary">really earn</span>{" "}
             after miles, fuel, and expenses.
           </h1>
 
-          <p className="mt-4 max-w-lg text-base leading-7 text-muted-foreground lg:mt-[clamp(0.875rem,2svh,1.125rem)] xl:text-lg">
+          <p className="motion-safe:animate-fade-in-up motion-safe:animate-delay-150 motion-safe:animate-duration-700 mt-4 max-w-lg text-base leading-7 text-muted-foreground lg:mt-[clamp(0.875rem,2svh,1.125rem)] xl:text-lg">
             DriveMargin helps multi-app delivery workers track shifts, split
             earnings by platform, estimate fuel costs, log expenses, and
             understand real profit per hour and per mile.
           </p>
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row lg:mt-[clamp(1.25rem,3svh,1.75rem)]">
+          <div className="motion-safe:animate-fade-in-up motion-safe:animate-delay-200 motion-safe:animate-duration-700 mt-6 flex flex-col gap-3 sm:flex-row lg:mt-[clamp(1.25rem,3svh,1.75rem)]">
             <Button asChild size="lg">
               <Link href="/demo">
                 Try demo
@@ -60,7 +60,7 @@ export function LandingHero() {
             </Button>
           </div>
 
-          <div className="mt-6 lg:mt-[clamp(1rem,3svh,1.5rem)]">
+          <div className="motion-safe:animate-fade-in-up motion-safe:animate-delay-300 motion-safe:animate-duration-700 mt-6 lg:mt-[clamp(1rem,3svh,1.5rem)]">
             <p className="text-sm text-muted-foreground">
               Built for multi-app delivery drivers
             </p>
@@ -114,7 +114,9 @@ export function LandingHero() {
             </div>
           </div>
         </div>
-        <LandingDashboardPreview />
+        <div className="motion-safe:animate-fade-in-up motion-safe:animate-delay-200 motion-safe:animate-duration-700">
+          <LandingDashboardPreview />
+        </div>
       </div>
     </section>
   );
