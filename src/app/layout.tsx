@@ -14,12 +14,17 @@ const geistMono = Geist_Mono({
 });
 
 const siteName = "DriveMargin";
+const siteUrl = new URL("https://drivemargin.carlosmarte.dev");
+const description =
+  "A profitability dashboard for multi-app independent drivers.";
 
 export const metadata: Metadata = {
+  metadataBase: siteUrl,
   title: {
     default: siteName,
     template: `%s | ${siteName}`,
   },
+  description,
 };
 
 export default function RootLayout({
