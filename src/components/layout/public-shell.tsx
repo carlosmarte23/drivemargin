@@ -47,7 +47,11 @@ export function PublicShell({ children }: PublicShellProps) {
       </header>
 
       <main className="min-h-screen bg-background text-foreground">
-        {children}
+        <div className="px-4 py-10 sm:px-6 sm:py-12 lg:py-14">
+          <div className="mx-auto flex max-w-6xl flex-col gap-10 sm:gap-12 lg:gap-14">
+            {children}
+          </div>
+        </div>
       </main>
 
       <footer className="border-t border-border/70">

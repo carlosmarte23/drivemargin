@@ -2,10 +2,16 @@ import Image from "next/image";
 
 export function LandingDashboardPreview() {
   return (
-    <div className="relative mx-auto w-full max-w-3xl lg:-mr-6 lg:w-[calc(100%+1.5rem)] lg:max-w-none lg:justify-self-end xl:-mr-10 xl:w-[calc(100%+2.5rem)]">
-      <div className="absolute -inset-5 -z-10 rounded-[2rem] bg-primary/10 blur-3xl lg:-inset-7" />
+    <div className="relative mx-auto w-full max-w-3xl lg:max-w-176 xl:max-w-200 2xl:max-w-4xl">
+      <div className="absolute inset-0 -z-10 rounded-[2rem] bg-primary/10 blur-3xl" />
+      <div className="absolute inset-x-24 -bottom-2 -z-10 h-8 rounded-full bg-primary/8 blur-3xl" />
 
-      <div className="rounded-4xl border border-border bg-card/80 p-2 shadow-2xl shadow-primary/10 backdrop-blur">
+      <div className="relative overflow-hidden rounded-4xl border border-primary/20 bg-card/80 p-2 shadow-2xl shadow-primary/15 backdrop-blur">
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-primary/0 via-primary/45 to-primary/0"
+        />
+
         <div className="overflow-hidden rounded-3xl border border-border bg-background">
           <Image
             src="/images/landing-dashboard-preview.webp"

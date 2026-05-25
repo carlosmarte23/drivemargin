@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 
 export function LandingFinalCta() {
   return (
-    <section className="px-4 py-10 pb-16 sm:px-6 lg:py-14">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl border border-primary/35 bg-card/80 p-6 shadow-2xl shadow-primary/10 sm:p-8">
+    <section>
+      <div className="relative overflow-hidden rounded-3xl border border-primary/35 bg-card/80 p-5 shadow-2xl shadow-primary/10 sm:p-6 lg:p-8">
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-[radial-gradient(circle_at_16%_25%,--alpha(var(--primary)/22%),transparent_30%),radial-gradient(circle_at_86%_20%,--alpha(var(--primary)/14%),transparent_32%)]"

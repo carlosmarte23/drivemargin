@@ -8,13 +8,11 @@ import { LandingFinalCta } from "@/components/marketing/landing-final-cta";
 export default function HomePage() {
   return (
     <PublicShell>
-      <div className="overflow-hidden">
-        <LandingHero />
-        <LandingProblem />
-        <LandingFeatures />
-        <LandingHowItWorks />
-        <LandingFinalCta />
-      </div>
+      <LandingHero />
+      <LandingProblem />
+      <LandingFeatures />
+      <LandingHowItWorks />
+      <LandingFinalCta />
     </PublicShell>
   );
 }

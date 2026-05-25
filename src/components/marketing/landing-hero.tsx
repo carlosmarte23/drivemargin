@@ -14,10 +14,10 @@ const appIcons = [
 ];
 export function LandingHero() {
   return (
-    <section className="relative lg:h-[calc(100svh-4.4rem)] lg:overflow-hidden">
-      <div className="mx-auto grid max-w-7xl items-start gap-10 px-4 py-8 sm:px-6 lg:h-full lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] lg:gap-12 lg:py-[clamp(1.25rem,3svh,2rem)] xl:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)]">
+    <section className="relative">
+      <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-10 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
         <div className="max-w-xl lg:pt-1">
-          <div className="mb-5 inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
+          <div className="mb-4 inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
             In active development
           </div>
 
@@ -26,13 +26,13 @@ export function LandingHero() {
             after miles, fuel, and expenses.
           </h1>
 
-          <p className="mt-5 max-w-lg text-base leading-7 text-muted-foreground lg:mt-[clamp(1rem,2svh,1.25rem)] xl:text-lg">
+          <p className="mt-4 max-w-lg text-base leading-7 text-muted-foreground lg:mt-[clamp(0.875rem,2svh,1.125rem)] xl:text-lg">
             DriveMargin helps multi-app delivery workers track shifts, split
             earnings by platform, estimate fuel costs, log expenses, and
             understand real profit per hour and per mile.
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:mt-[clamp(1.5rem,3svh,2rem)]">
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row lg:mt-[clamp(1.25rem,3svh,1.75rem)]">
             <Button asChild size="lg">
               <Link href="/demo">
                 Try demo
@@ -60,7 +60,7 @@ export function LandingHero() {
             </Button>
           </div>
 
-          <div className="mt-8 lg:mt-[clamp(1.25rem,3svh,2rem)]">
+          <div className="mt-6 lg:mt-[clamp(1rem,3svh,1.5rem)]">
             <p className="text-sm text-muted-foreground">
               Built for multi-app delivery drivers
             </p>
@@ -99,7 +99,7 @@ export function LandingHero() {
 
               <span
                 aria-label="More delivery apps"
-                className="group relative inline-flex h-10 items-center rounded-xl border border-border bg-card px-3 text-sm text-muted-foreground shadow-sm shadow-primary/5 transition-all duration-200 hover:scale-110 hover:text-primary"
+                className="group relative inline-flex h-10 cursor-default select-none items-center rounded-xl border border-border bg-card px-3 text-sm text-muted-foreground shadow-sm shadow-primary/5 transition-all duration-200 hover:scale-110 hover:text-primary"
                 role="img"
                 title="More delivery apps"
               >
@@ -114,7 +114,6 @@ export function LandingHero() {
             </div>
           </div>
         </div>
-
         <LandingDashboardPreview />
       </div>
     </section>

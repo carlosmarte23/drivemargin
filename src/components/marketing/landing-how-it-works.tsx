@@ -33,21 +33,21 @@ const steps = [
 
 export function LandingHowItWorks() {
   return (
-    <section className="px-4 py-10 sm:px-6 lg:py-14">
-      <div className="mx-auto max-w-6xl rounded-4xl border border-border bg-card/40 p-6 sm:p-8 lg:p-10">
+    <section>
+      <div className="rounded-4xl border border-border bg-card/40 p-5 sm:p-6 lg:p-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             How it works
           </h2>
 
-          <p className="mt-4 text-muted-foreground lg:hidden">
+          <p className="mt-3 text-muted-foreground lg:hidden">
             A simple workflow for turning shift data into real profitability
             metrics.
           </p>
         </div>
 
         {/* Mobile / tablet accordion */}
-        <div className="mt-8 overflow-hidden rounded-3xl border border-border bg-card/60 lg:hidden">
+        <div className="mt-6 overflow-hidden rounded-3xl border border-border bg-card/60 lg:hidden">
           {steps.map((item) => (
             <details
               key={item.step}
@@ -75,7 +75,7 @@ export function LandingHowItWorks() {
         </div>
 
         {/* Desktop timeline */}
-        <div className="mt-10 hidden lg:flex lg:items-start lg:gap-6">
+        <div className="mt-8 hidden lg:flex lg:items-start lg:gap-6">
           {steps.map((item, index) => (
             <Fragment key={item.step}>
               <article className="flex min-w-0 flex-1 items-start gap-5">
