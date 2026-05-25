@@ -41,7 +41,11 @@ export function LandingHero() {
             </Button>
 
             <Button asChild size="lg" variant="outline">
-              <Link href="#">
+              <Link
+                href="https://github.com/carlosmarte23/drivemargin"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <span
                   aria-hidden="true"
                   className="size-4 bg-current"
