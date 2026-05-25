@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { BrandLogo } from "@/components/brand-logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { CurrentYear } from "@/components/current-year";
 import { Button } from "@/components/ui/button";
@@ -11,11 +12,11 @@ type PublicShellProps = {
 export function PublicShell({ children }: PublicShellProps) {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <header className="border-b border-border/70">
+      <header className="motion-safe:animate-fade-in-down motion-safe:animate-duration-700 border-b border-border/70">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div className="flex items-center justify-between">
-            <Link href="/" className="text-lg font-semibold tracking-tight">
-              DriveMargin
+            <Link href="/" aria-label="DriveMargin home">
+              <BrandLogo />
             </Link>
 
             <div className="sm:hidden">
@@ -24,12 +25,25 @@ export function PublicShell({ children }: PublicShellProps) {
           </div>
 
           <nav className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/demo">Try demo</Link>
+            <Button
+              variant="ghost"
+              size="sm"
+              type="button"
+              disabled
+              aria-label="Try demo, coming soon"
+              title="Demo coming soon"
+            >
+              Try demo
             </Button>
 
             <Button variant="ghost" size="sm" asChild>
-              <Link href="#">GitHub</Link>
+              <Link
+                href="https://github.com/carlosmarte23/drivemargin"
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub
+              </Link>
             </Button>
 
             <div className="hidden sm:block">
@@ -39,7 +53,13 @@ export function PublicShell({ children }: PublicShellProps) {
         </div>
       </header>
 
-      <main className="flex-1">{children}</main>
+      <main className="min-h-screen bg-background text-foreground">
+        <div className="px-4 py-10 sm:px-6 sm:py-12 lg:py-14">
+          <div className="mx-auto flex max-w-6xl flex-col gap-10 sm:gap-12 lg:gap-14">
+            {children}
+          </div>
+        </div>
+      </main>
 
       <footer className="border-t border-border/70">
         <div className="mx-auto flex min-h-14 max-w-6xl flex-col justify-center gap-2 px-4 py-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">

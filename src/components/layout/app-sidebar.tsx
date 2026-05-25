@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 
 import Link from "next/link";
+
+import { BrandLogo } from "@/components/brand-logo";
 import { Button } from "@/components/ui/button";
 
 type AppSidebarProps = {
@@ -58,9 +60,9 @@ export function AppSidebar({ basePath = "/demo" }: AppSidebarProps) {
       <div className="flex h-16 items-center border-b border-border/70 px-5">
         <Link
           href={getDashboardHref(basePath)}
-          className="text-lg font-semibold tracking-tight"
+          aria-label="DriveMargin dashboard"
         >
-          DriveMargin
+          <BrandLogo />
         </Link>
       </div>
 
