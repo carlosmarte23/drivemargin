@@ -5,13 +5,13 @@ import { ThemeToggle } from "@/components/theme-toggle";
 type AppShellProps = {
   children: React.ReactNode;
   basePath?: "/demo" | "/app";
-  workspaceLabel?: string;
+  pageLabel?: string;
 };
 
 export function AppShell({
   children,
   basePath = "/demo",
-  workspaceLabel = "Demo workspace",
+  pageLabel = "Dashboard",
 }: AppShellProps) {
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -21,10 +21,10 @@ export function AppShell({
         <header className="sticky top-0 z-40 border-b border-border/70 bg-background/90 backdrop-blur">
           <div className="flex h-16 items-center justify-between px-4 sm:px-6">
             <div className="flex items-center gap-3">
-              <MobileNav />
+              <MobileNav basePath={basePath} />
 
               <p className="text-sm font-medium text-muted-foreground">
-                {workspaceLabel}
+                {pageLabel}
               </p>
             </div>
 

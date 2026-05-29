@@ -2,8 +2,8 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { ArrowRight } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { LandingDashboardPreview } from "@/components/marketing/landing-dashboard-preview";
+import { Button } from "@/components/ui/button";
 
 const appIcons = [
   { name: "Spark", icon: "/icons/spark.svg", color: "#0071dc" },
@@ -35,13 +35,14 @@ export function LandingHero() {
           <div className="motion-safe:animate-fade-in-up motion-safe:animate-delay-200 motion-safe:animate-duration-700 mt-6 flex flex-col gap-3 sm:flex-row lg:mt-[clamp(1.25rem,3svh,1.75rem)]">
             <Button
               size="lg"
-              type="button"
-              disabled
-              aria-label="Try demo, coming soon"
-              title="Demo coming soon"
+              asChild
+              aria-label="Try the app demo"
+              title="App demo"
             >
-              Try demo
-              <ArrowRight className="size-4" />
+              <Link href="/demo">
+                Try demo
+                <ArrowRight className="size-4" />
+              </Link>
             </Button>
 
             <Button asChild size="lg" variant="outline">
