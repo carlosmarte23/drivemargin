@@ -1,7 +1,8 @@
-import { AppShell } from "@/components/layout/app-shell";
+import { Receipt } from "lucide-react";
+
 import { DemoBanner } from "@/components/demo/demo-banner";
 import { DemoPlaceholderCard } from "@/components/demo/demo-placeholder-card";
-import { Receipt } from "lucide-react";
+import { AppShell } from "@/components/layout/app-shell";
 
 export default function DemoExpensesPage() {
   return (

@@ -2,8 +2,8 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { ArrowRight } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { LandingDashboardPreview } from "@/components/marketing/landing-dashboard-preview";
+import { Button } from "@/components/ui/button";
 
 const appIcons = [
   { name: "Spark", icon: "/icons/spark.svg", color: "#0071dc" },

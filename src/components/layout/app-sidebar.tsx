@@ -2,18 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
+import { BrandLogo } from "@/components/brand-logo";
 import { getNavItems } from "@/components/layout/app-navigation";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type AppSidebarProps = {
   basePath?: "/demo" | "/app";
 };
-
-import { ArrowLeft } from "lucide-react";
-
-import { BrandLogo } from "@/components/brand-logo";
-import { Button } from "@/components/ui/button";
 
 export function AppSidebar({ basePath = "/demo" }: AppSidebarProps) {
   const pathname = usePathname();

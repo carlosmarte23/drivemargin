@@ -1,7 +1,8 @@
-import { AppShell } from "@/components/layout/app-shell";
+import { Settings } from "lucide-react";
+
 import { DemoBanner } from "@/components/demo/demo-banner";
 import { DemoPlaceholderCard } from "@/components/demo/demo-placeholder-card";
-import { Settings } from "lucide-react";
+import { AppShell } from "@/components/layout/app-shell";
 
 export default function DemoSettingsPage() {
   return (

@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { BrandLogo } from "@/components/brand-logo";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { CurrentYear } from "@/components/current-year";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 
 type PublicShellProps = {
