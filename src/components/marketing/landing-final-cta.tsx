@@ -73,13 +73,14 @@ export function LandingFinalCta() {
             <Button
               className="w-full sm:flex-1 lg:min-w-40"
               size="lg"
-              type="button"
-              disabled
-              aria-label="Try demo, coming soon"
-              title="Demo coming soon"
+              asChild
+              aria-label="Try the app demo"
+              title="App demo"
             >
-              Try demo
-              <ArrowRight className="size-4" />
+              <Link href="/demo">
+                Try demo
+                <ArrowRight className="size-4" />
+              </Link>
             </Button>
 
             <Button

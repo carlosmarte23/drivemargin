@@ -28,12 +28,11 @@ export function PublicShell({ children }: PublicShellProps) {
             <Button
               variant="ghost"
               size="sm"
-              type="button"
-              disabled
-              aria-label="Try demo, coming soon"
-              title="Demo coming soon"
+              asChild
+              aria-label="Try the app demo"
+              title="App demo"
             >
-              Try demo
+              <Link href="/demo">Try demo</Link>
             </Button>
 
             <Button variant="ghost" size="sm" asChild>
