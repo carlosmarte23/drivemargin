@@ -12,12 +12,20 @@ import type {
 
 import { calculateDashboardMetrics } from "./dashboardMetrics";
 
-const vehicle: Vehicle = {
-  id: "vehicle-1",
-  name: "Toyota Camry",
-  estimatedMpg: 25,
-  isDefault: true,
-};
+const vehicles: Vehicle[] = [
+  {
+    id: "vehicle-1",
+    name: "Toyota Camry",
+    estimatedMpg: 25,
+    isDefault: true,
+  },
+  {
+    id: "vehicle-2",
+    name: "Honda Civic",
+    estimatedMpg: 32,
+    isDefault: false,
+  },
+];
 
 const settings: UserSettings = {
   currency: "USD",
@@ -59,7 +67,7 @@ const sessions: WorkSession[] = [
   },
   {
     id: "session-2",
-    vehicleId: "vehicle-1",
+    vehicleId: "vehicle-2",
     startedAt: "2026-05-26T09:00:00.000Z",
     endedAt: "2026-05-26T12:00:00.000Z",
     date: "2026-05-26",
@@ -101,12 +109,12 @@ const fuelPurchases: FuelPurchase[] = [
     vehicleId: "vehicle-1",
     date: "2026-05-24",
     totalPaidCents: 4000,
-    pricePerGallonCents: 325,
-    gallons: 12.31,
+    pricePerGallonCents: 350,
+    gallons: 11.43,
   },
   {
     id: "fuel-2",
-    vehicleId: "vehicle-1",
+    vehicleId: "vehicle-2",
     date: "2026-05-27",
     totalPaidCents: 5250,
     pricePerGallonCents: 350,
@@ -137,22 +145,21 @@ describe("dashboard metrics calculations", () => {
       fuelPurchases,
       expenses,
       workApps,
-      vehicle,
+      vehicles,
       settings,
     });
 
     expect(metrics.totalGrossEarningsCents).toBe(25000);
     expect(metrics.totalHoursWorked).toBe(7);
     expect(metrics.totalMiles).toBe(140);
-    expect(metrics.totalEstimatedFuelCostCents).toBe(1960);
+    expect(metrics.totalEstimatedFuelCostCents).toBe(1776);
     expect(metrics.totalOtherExpensesCents).toBe(1200);
-    expect(metrics.totalNetEarningsCents).toBe(21840);
+    expect(metrics.totalNetEarningsCents).toBe(22024);
 
     expect(metrics.averageGrossCentsPerHour).toBe(3571);
-    expect(metrics.averageNetCentsPerHour).toBe(3120);
+    expect(metrics.averageNetCentsPerHour).toBe(3146);
     expect(metrics.averageGrossCentsPerMile).toBe(179);
-    expect(metrics.averageNetCentsPerMile).toBe(156);
-
+    expect(metrics.averageNetCentsPerMile).toBe(157);
     expect(metrics.estimatedMileageDeductionCents).toBe(9380);
   });
 
@@ -163,7 +170,7 @@ describe("dashboard metrics calculations", () => {
       fuelPurchases,
       expenses,
       workApps,
-      vehicle,
+      vehicles,
       settings,
     });
 
@@ -172,7 +179,7 @@ describe("dashboard metrics calculations", () => {
 
     // Net earnings should subtract estimated fuel cost and non-fuel expenses,
     // not actual fuel purchased.
-    expect(metrics.totalNetEarningsCents).toBe(21840);
+    expect(metrics.totalNetEarningsCents).toBe(22024);
     expect(metrics.totalNetEarningsCents).not.toBe(14550);
   });
 
@@ -183,7 +190,7 @@ describe("dashboard metrics calculations", () => {
       fuelPurchases,
       expenses,
       workApps,
-      vehicle,
+      vehicles,
       settings,
     });
 
@@ -201,7 +208,7 @@ describe("dashboard metrics calculations", () => {
       fuelPurchases,
       expenses,
       workApps,
-      vehicle,
+      vehicles,
       settings,
     });
 
@@ -219,7 +226,7 @@ describe("dashboard metrics calculations", () => {
       fuelPurchases: [],
       expenses: [],
       workApps,
-      vehicle,
+      vehicles,
       settings,
     });
 

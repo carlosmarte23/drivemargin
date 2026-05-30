@@ -19,7 +19,7 @@ interface CalculateDashboardMetricsInput {
   fuelPurchases: FuelPurchase[];
   expenses: Expense[];
   workApps: WorkApp[];
-  vehicle: Vehicle;
+  vehicles: Vehicle[];
   settings: UserSettings;
 }
 
@@ -59,21 +59,37 @@ export function calculateDashboardMetrics({
   fuelPurchases,
   expenses,
   workApps,
-  vehicle,
+  vehicles,
   settings,
 }: CalculateDashboardMetricsInput): DashboardMetrics {
-  const latestFuelPricePerGallonCents =
-    getLatestFuelPricePerGallonCents(fuelPurchases);
+  const sessionMetrics: SessionMetrics[] = sessions
+    .map((session) => {
+      const vehicle = vehicles.find((item) => {
+        return item.id === session.vehicleId;
+      });
 
-  const sessionMetrics: SessionMetrics[] = sessions.map((session) => {
-    return calculateSessionMetrics({
-      session,
-      appEarnings: sessionAppEarnings,
-      vehicle,
-      settings,
-      latestFuelPricePerGallonCents,
+      if (!vehicle) {
+        return null;
+      }
+
+      const sessionFuelPurchases = fuelPurchases.filter((fuelPurchase) => {
+        return fuelPurchase.vehicleId === session.vehicleId;
+      });
+
+      const latestFuelPricePerGallonCents =
+        getLatestFuelPricePerGallonCents(sessionFuelPurchases);
+
+      return calculateSessionMetrics({
+        session,
+        appEarnings: sessionAppEarnings,
+        vehicle,
+        settings,
+        latestFuelPricePerGallonCents,
+      });
+    })
+    .filter((metric): metric is SessionMetrics => {
+      return metric !== null;
     });
-  });
 
   const totalGrossEarningsCents = sumMoneyCents(
     sessionMetrics.map((metric) => metric.grossEarningsCents),
