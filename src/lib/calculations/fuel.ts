@@ -37,8 +37,10 @@ export function calculateEstimatedFuelCostCents({
   if (
     !Number.isFinite(estimatedMpg) ||
     !Number.isFinite(totalMiles) ||
+    !Number.isFinite(pricePerGallonCents) ||
     totalMiles <= 0 ||
-    estimatedMpg <= 0
+    estimatedMpg <= 0 ||
+    pricePerGallonCents <= 0
   ) {
     return 0;
   }

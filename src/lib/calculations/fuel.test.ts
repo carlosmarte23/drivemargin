@@ -119,3 +119,29 @@ describe("fuel calculations", () => {
     expect(getLatestFuelPricePerGallonCents([])).toBe(0);
   });
 });
+
+test("calculateEstimatedFuelCostCents returns 0 when price per gallon is invalid or not positive", () => {
+  expect(
+    calculateEstimatedFuelCostCents({
+      totalMiles: 80,
+      estimatedMpg: 25,
+      pricePerGallonCents: 0,
+    }),
+  ).toBe(0);
+
+  expect(
+    calculateEstimatedFuelCostCents({
+      totalMiles: 80,
+      estimatedMpg: 25,
+      pricePerGallonCents: -350,
+    }),
+  ).toBe(0);
+
+  expect(
+    calculateEstimatedFuelCostCents({
+      totalMiles: 80,
+      estimatedMpg: 25,
+      pricePerGallonCents: Number.NaN,
+    }),
+  ).toBe(0);
+});
