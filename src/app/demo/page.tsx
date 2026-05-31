@@ -2,9 +2,20 @@ import { Clock3, DollarSign, Route, Wallet } from "lucide-react";
 
 import { DemoBanner } from "@/components/demo/demo-banner";
 import { DemoMetricCard } from "@/components/demo/demo-metric-card";
+import { ReportPeriodNavigator } from "@/components/demo/report-period-navigator";
 import { AppShell } from "@/components/layout/app-shell";
 
-export default function DemoPage() {
+import {
+  formatReportPeriodLabel,
+  ReportPeriodInput,
+  resolveReportPeriod,
+} from "@/lib/reporting/reportPeriod";
+
+type DemoPageProps = {
+  searchParams: Promise<ReportPeriodInput>;
+};
+
+export default async function DemoPage({ searchParams }: DemoPageProps) {
   const demoMetricCards = [
     {
       title: "Gross earnings",
@@ -36,8 +47,19 @@ export default function DemoPage() {
     },
   ] as const;
 
+  const resolvedSearchParams = await searchParams;
+
+  const reportPeriod = resolveReportPeriod(resolvedSearchParams);
+  const periodLabel = formatReportPeriodLabel(reportPeriod);
+
   return (
-    <AppShell basePath="/demo" pageLabel="Demo Dashboard">
+    <AppShell
+      basePath="/demo"
+      pageLabel="Demo Dashboard"
+      headerContent={
+        <ReportPeriodNavigator period={reportPeriod} hrefBase="/demo" />
+      }
+    >
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
@@ -48,6 +70,10 @@ export default function DemoPage() {
         </div>
 
         <DemoBanner />
+
+        <section>
+          <p>{periodLabel}</p>
+        </section>
 
         <section aria-label="Dashboard metrics">
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

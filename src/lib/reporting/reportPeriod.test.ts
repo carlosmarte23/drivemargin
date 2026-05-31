@@ -5,6 +5,7 @@ import {
   getCurrentWeekPeriod,
   getNextWeekPeriod,
   getPreviousWeekPeriod,
+  isSameReportPeriod,
   resolveReportPeriod,
 } from "./reportPeriod";
 
@@ -243,6 +244,38 @@ describe("reportPeriod", () => {
       });
 
       expect(label).toBe("Dec 29, 2025 - Jan 4, 2026");
+    });
+  });
+
+  describe("isSameReportPeriod", () => {
+    it("returns true when both boundaries match", () => {
+      const isSamePeriod = isSameReportPeriod(
+        {
+          startDate: "2026-05-25",
+          endDate: "2026-05-31",
+        },
+        {
+          startDate: "2026-05-25",
+          endDate: "2026-05-31",
+        },
+      );
+
+      expect(isSamePeriod).toBe(true);
+    });
+
+    it("returns false when either boundary is different", () => {
+      const isSamePeriod = isSameReportPeriod(
+        {
+          startDate: "2026-05-25",
+          endDate: "2026-05-31",
+        },
+        {
+          startDate: "2026-06-01",
+          endDate: "2026-06-07",
+        },
+      );
+
+      expect(isSamePeriod).toBe(false);
     });
   });
 });

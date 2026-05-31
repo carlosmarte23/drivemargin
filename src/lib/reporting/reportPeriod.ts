@@ -98,6 +98,16 @@ export function formatReportPeriodLabel(period: ReportPeriod): string {
   return `${startMonthDay}, ${startYear} - ${endMonthDay}, ${endYear}`;
 }
 
+export function isSameReportPeriod(
+  firstPeriod: ReportPeriod,
+  secondPeriod: ReportPeriod,
+): boolean {
+  return (
+    firstPeriod.startDate === secondPeriod.startDate &&
+    firstPeriod.endDate === secondPeriod.endDate
+  );
+}
+
 const formatDate = (date: Date): string => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
