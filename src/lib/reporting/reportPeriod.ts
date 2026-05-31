@@ -1,3 +1,5 @@
+import { formatDate, parseDateString } from "@/lib/date";
+
 export type ReportPeriod = {
   startDate: string;
   endDate: string;
@@ -108,14 +110,6 @@ export function isSameReportPeriod(
   );
 }
 
-const formatDate = (date: Date): string => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-};
-
 const isValidDateString = (dateString: string): boolean => {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return false;
 
@@ -132,14 +126,6 @@ const isValidDateString = (dateString: string): boolean => {
     date.getMonth() === month - 1 &&
     date.getDate() === day
   );
-};
-
-const parseDateString = (dateString: string): Date => {
-  const year = Number(dateString.slice(0, 4));
-  const month = Number(dateString.slice(5, 7));
-  const day = Number(dateString.slice(8, 10));
-
-  return new Date(year, month - 1, day);
 };
 
 const formatMonthDay = (date: Date): string => {
