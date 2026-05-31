@@ -8,7 +8,8 @@ type DemoMetricCardProps = {
   value: string;
   description: string;
   icon: LucideIcon;
-  variant?: "primary" | "secondary" | "muted";
+  variant?: "primary" | "secondary" | "muted" | "cost";
+  density?: "default" | "compact";
   className?: string;
 };
 
@@ -25,6 +26,10 @@ const variantStyles = {
     accent: "before:bg-muted-foreground/40",
     icon: "bg-muted text-muted-foreground ring-border",
   },
+  cost: {
+    accent: "before:bg-red-500/80",
+    icon: "bg-red-500/10 text-red-500 ring-red-500/20 dark:text-red-400 dark:ring-red-400/20",
+  },
 };
 
 export function DemoMetricCard({
@@ -33,32 +38,40 @@ export function DemoMetricCard({
   description,
   icon: Icon,
   variant = "muted",
+  density = "default",
   className,
 }: DemoMetricCardProps) {
   const styles = variantStyles[variant];
+  const isCompact = density === "compact";
 
   return (
     <Card
+      size="sm"
       className={cn(
-        "relative overflow-hidden rounded-2xl border-border bg-card shadow-sm transition-colors hover:bg-accent/30",
+        "relative overflow-hidden rounded-xl border-border bg-card shadow-sm transition-colors hover:bg-accent/30",
         "before:absolute before:inset-y-0 before:left-0 before:w-1",
         styles.accent,
         className,
       )}
     >
-      <CardContent className="p-5 pl-6">
+      <CardContent className={cn("p-4 pl-5", isCompact && "py-3.5")}>
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-1">
             <p className="text-sm font-medium text-muted-foreground">{title}</p>
 
-            <p className="text-2xl font-semibold tracking-tight text-card-foreground sm:text-3xl">
+            <p
+              className={cn(
+                "text-2xl font-semibold tracking-tight text-card-foreground",
+                !isCompact && "xl:text-3xl",
+              )}
+            >
               {value}
             </p>
           </div>
 
           <div
             className={cn(
-              "flex size-10 shrink-0 items-center justify-center rounded-xl ring-1",
+              "flex size-9 shrink-0 items-center justify-center rounded-lg ring-1",
               styles.icon,
             )}
           >
@@ -66,7 +79,12 @@ export function DemoMetricCard({
           </div>
         </div>
 
-        <p className="mt-4 text-sm leading-6 text-muted-foreground">
+        <p
+          className={cn(
+            "mt-3 text-sm leading-5 text-muted-foreground",
+            isCompact && "mt-2",
+          )}
+        >
           {description}
         </p>
       </CardContent>

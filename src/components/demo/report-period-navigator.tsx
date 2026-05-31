@@ -64,12 +64,7 @@ export function ReportPeriodNavigator({
       </div>
 
       {isCurrentPeriod ? (
-        <Button
-          variant="outline"
-          size="sm"
-          className="h-9 px-3"
-          disabled
-        >
+        <Button variant="outline" size="sm" className="h-9 px-3" disabled>
           Current week
         </Button>
       ) : (
