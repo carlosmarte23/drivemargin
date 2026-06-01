@@ -11,7 +11,7 @@ export default function DemoFuelPage() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Fuel</h1>
 
-          <p className="mt-2 max-w-2xl text-muted-foreground">
+          <p className="text-muted-foreground mt-2 max-w-2xl">
             Track gas purchases and estimate fuel cost per mile.
           </p>
         </div>
