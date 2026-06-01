@@ -163,6 +163,49 @@ describe("dashboard metrics calculations", () => {
     expect(metrics.estimatedMileageDeductionCents).toBe(9380);
   });
 
+  test("calculateDashboardMetrics rounds fractional hour and mile totals", () => {
+    const metrics = calculateDashboardMetrics({
+      sessions: [
+        {
+          id: "session-fraction-1",
+          vehicleId: "vehicle-1",
+          startedAt: "2026-05-25T08:00:00.000Z",
+          endedAt: "2026-05-25T08:06:00.000Z",
+          date: "2026-05-25",
+          mileageEntryMode: "manual",
+          totalMiles: 0.1,
+        },
+        {
+          id: "session-fraction-2",
+          vehicleId: "vehicle-1",
+          startedAt: "2026-05-25T09:00:00.000Z",
+          endedAt: "2026-05-25T09:12:00.000Z",
+          date: "2026-05-25",
+          mileageEntryMode: "manual",
+          totalMiles: 0.2,
+        },
+        {
+          id: "session-fraction-3",
+          vehicleId: "vehicle-1",
+          startedAt: "2026-05-25T10:00:00.000Z",
+          endedAt: "2026-05-25T10:18:00.000Z",
+          date: "2026-05-25",
+          mileageEntryMode: "manual",
+          totalMiles: 0.3,
+        },
+      ],
+      sessionAppEarnings: [],
+      fuelPurchases: [],
+      expenses: [],
+      workApps,
+      vehicles,
+      settings,
+    });
+
+    expect(metrics.totalHoursWorked).toBe(0.6);
+    expect(metrics.totalMiles).toBe(0.6);
+  });
+
   test("calculateDashboardMetrics keeps fuel purchased separate from net earnings", () => {
     const metrics = calculateDashboardMetrics({
       sessions,
