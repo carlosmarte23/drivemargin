@@ -31,7 +31,7 @@ export function ReportPeriodNavigator({
   const isCurrentPeriod = isSameReportPeriod(period, currentPeriod);
 
   return (
-    <div className="flex w-full max-w-full flex-col items-center gap-2 sm:w-fit sm:flex-row">
+    <div className="flex w-full max-w-full flex-row items-center justify-center gap-2 sm:w-fit">
       <div className="flex max-w-full items-center rounded-lg border border-border bg-card shadow-sm">
         <Button variant="ghost" size="icon" asChild>
           <Link
