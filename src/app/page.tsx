@@ -1,11 +1,11 @@
-import { PublicShell } from "@/components/layout/public-shell";
-import { LandingHero } from "@/components/marketing/landing-hero";
-import { LandingProblem } from "@/components/marketing/landing-problem";
-import { LandingFeatures } from "@/components/marketing/landing-features";
-import { LandingHowItWorks } from "@/components/marketing/landing-how-it-works";
-import { LandingFinalCta } from "@/components/marketing/landing-final-cta";
-
 import type { Metadata } from "next";
+
+import { PublicShell } from "@/components/layout/public-shell";
+import { LandingFeatures } from "@/components/marketing/landing-features";
+import { LandingFinalCta } from "@/components/marketing/landing-final-cta";
+import { LandingHero } from "@/components/marketing/landing-hero";
+import { LandingHowItWorks } from "@/components/marketing/landing-how-it-works";
+import { LandingProblem } from "@/components/marketing/landing-problem";
 
 const pageTitle = "Real profit tracking for independent drivers";
 const pageDescription =

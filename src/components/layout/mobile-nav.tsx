@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
 import { ArrowLeft, Menu } from "lucide-react";
 
 import { BrandLogo } from "@/components/brand-logo";
@@ -13,8 +14,8 @@ import {
   SheetContent,
   SheetDescription,
   SheetHeader,
-  SheetTrigger,
   SheetTitle,
+  SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
@@ -48,7 +49,7 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
             <div className="flex flex-col gap-2 border-b p-4">
               <BrandLogo />
 
-              <p className="truncate text-xs text-muted-foreground">
+              <p className="text-muted-foreground truncate text-xs">
                 {isDemo ? "Demo workspace" : "Driver dashboard"}
               </p>
             </div>
@@ -89,10 +90,10 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
           })}
         </nav>
 
-        <div className="border-t border-border/70 p-3 mt-auto">
+        <div className="border-border/70 mt-auto border-t p-3">
           <Button
             variant="ghost"
-            className="w-full justify-start gap-2 text-muted-foreground"
+            className="text-muted-foreground w-full justify-start gap-2"
             asChild
           >
             <Link href="/">

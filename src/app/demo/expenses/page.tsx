@@ -11,7 +11,7 @@ export default function DemoExpensesPage() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Expenses</h1>
 
-          <p className="mt-2 max-w-2xl text-muted-foreground">
+          <p className="text-muted-foreground mt-2 max-w-2xl">
             Track non-fuel costs that affect your real delivery profit.
           </p>
         </div>

@@ -11,13 +11,13 @@ export function DemoBanner({ className }: DemoBannerProps) {
     <aside
       aria-label="Demo information"
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-sm",
-        "before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-secondary",
+        "border-border bg-card text-card-foreground relative overflow-hidden rounded-2xl border p-4 shadow-sm",
+        "before:bg-secondary before:absolute before:inset-y-0 before:left-0 before:w-1",
         className,
       )}
     >
       <div className="flex gap-3 pl-1">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-secondary/90 text-secondary-foreground">
+        <div className="bg-secondary/90 text-secondary-foreground flex size-9 shrink-0 items-center justify-center rounded-xl">
           <Info className="size-4" />
         </div>
 
@@ -25,7 +25,7 @@ export function DemoBanner({ className }: DemoBannerProps) {
           <div className="flex flex-wrap items-center gap-2">
             <p className="text-sm font-medium">Public demo</p>
 
-            <p className="max-w-3xl text-sm leading-6 text-muted-foreground">
+            <p className="text-muted-foreground max-w-3xl text-sm leading-6">
               You are viewing sample data. Changes in demo mode are temporary
               and will reset when the demo session ends.
             </p>

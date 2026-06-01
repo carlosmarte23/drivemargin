@@ -40,7 +40,7 @@ export function DemoMetricCard({
   return (
     <Card
       className={cn(
-        "relative overflow-hidden rounded-2xl border-border bg-card shadow-sm transition-colors hover:bg-accent/30",
+        "border-border bg-card hover:bg-accent/30 relative overflow-hidden rounded-2xl shadow-sm transition-colors",
         "before:absolute before:inset-y-0 before:left-0 before:w-1",
         styles.accent,
         className,
@@ -49,9 +49,9 @@ export function DemoMetricCard({
       <CardContent className="p-5 pl-6">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-1">
-            <p className="text-sm font-medium text-muted-foreground">{title}</p>
+            <p className="text-muted-foreground text-sm font-medium">{title}</p>
 
-            <p className="text-2xl font-semibold tracking-tight text-card-foreground sm:text-3xl">
+            <p className="text-card-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
               {value}
             </p>
           </div>
@@ -66,7 +66,7 @@ export function DemoMetricCard({
           </div>
         </div>
 
-        <p className="mt-4 text-sm leading-6 text-muted-foreground">
+        <p className="text-muted-foreground mt-4 text-sm leading-6">
           {description}
         </p>
       </CardContent>

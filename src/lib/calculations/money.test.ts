@@ -1,10 +1,10 @@
 import { describe, expect, test } from "vitest";
 
 import {
-  sumMoneyCents,
   divideMoneyCents,
   multiplyMoneyCents,
   roundToMoneyCents,
+  sumMoneyCents,
 } from "./money";
 
 describe("money calculations", () => {

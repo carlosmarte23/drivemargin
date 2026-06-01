@@ -11,7 +11,7 @@ export default function DemoSessionsPage() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Sessions</h1>
 
-          <p className="mt-2 max-w-2xl text-muted-foreground">
+          <p className="text-muted-foreground mt-2 max-w-2xl">
             Track multi-app work sessions and review profitability by shift.
           </p>
         </div>

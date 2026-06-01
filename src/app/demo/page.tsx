@@ -41,7 +41,7 @@ export default function DemoPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-          <p className="mt-2 max-w-2xl text-muted-foreground">
+          <p className="text-muted-foreground mt-2 max-w-2xl">
             Preview how DriveMargin tracks real profitability across multi-app
             delivery shifts.
           </p>

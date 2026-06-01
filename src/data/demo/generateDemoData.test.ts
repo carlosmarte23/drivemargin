@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { generateDemoData } from "./generateDemoData";
 
 const referenceDate = new Date("2026-05-29T12:00:00.000Z");
