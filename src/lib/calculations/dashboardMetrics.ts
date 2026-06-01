@@ -11,6 +11,7 @@ import type {
 
 import { getLatestFuelPricePerGallonCents } from "./fuel";
 import { divideMoneyCents, sumMoneyCents } from "./money";
+import { roundNumber } from "./number";
 import { calculateSessionMetrics, type SessionMetrics } from "./sessionMetrics";
 
 interface CalculateDashboardMetricsInput {
@@ -95,13 +96,17 @@ export function calculateDashboardMetrics({
     sessionMetrics.map((metric) => metric.grossEarningsCents),
   );
 
-  const totalHoursWorked = sessionMetrics.reduce((total, metric) => {
-    return total + metric.hoursWorked;
-  }, 0);
+  const totalHoursWorked = roundNumber(
+    sessionMetrics.reduce((total, metric) => {
+      return total + metric.hoursWorked;
+    }, 0),
+  );
 
-  const totalMiles = sessionMetrics.reduce((total, metric) => {
-    return total + metric.totalMiles;
-  }, 0);
+  const totalMiles = roundNumber(
+    sessionMetrics.reduce((total, metric) => {
+      return total + metric.totalMiles;
+    }, 0),
+  );
 
   const totalEstimatedFuelCostCents = sumMoneyCents(
     sessionMetrics.map((metric) => metric.estimatedFuelCostCents),

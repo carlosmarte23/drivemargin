@@ -169,3 +169,28 @@
     @apply h-full font-sans;
   }
 }
+
+.period-range-dialog {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.period-range-dialog[open] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.period-range-dialog::backdrop {
+  background: rgb(0 0 0 / 0.6);
+  backdrop-filter: blur(6px);
+}
+
+@starting-style {
+  .period-range-dialog[open] {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
