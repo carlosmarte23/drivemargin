@@ -3,7 +3,9 @@ import { Car } from "lucide-react";
 import { DemoBanner } from "@/components/demo/demo-banner";
 import { DemoMetricCard } from "@/components/demo/demo-metric-card";
 import { ReportPeriodNavigator } from "@/components/demo/report-period-navigator";
+import { RecentSessionsTable } from "@/components/demo/recent-sessions-table";
 import { AppShell } from "@/components/layout/app-shell";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { getDemoDashboardData } from "@/lib/demo/get-demo-dashboard-data";
 import { formatCurrencyFromCents } from "@/lib/formatters/money";
@@ -18,12 +20,15 @@ type DemoPageProps = {
 };
 
 export default async function DemoPage({ searchParams }: DemoPageProps) {
+  const basePath = "/demo";
+
   const resolvedSearchParams = await searchParams;
 
   const reportPeriod = resolveReportPeriod(resolvedSearchParams);
   const dashboardData = getDemoDashboardData(reportPeriod);
 
-  const { metrics, metricComparisons, irsMileageDeduction } = dashboardData;
+  const { metrics, metricComparisons, irsMileageDeduction, recentSessions } =
+    dashboardData;
 
   const topMetricCards = [
     {
@@ -94,7 +99,7 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
       basePath="/demo"
       pageLabel="Demo Dashboard"
       headerContent={
-        <ReportPeriodNavigator period={reportPeriod} hrefBase="/demo" />
+        <ReportPeriodNavigator period={reportPeriod} hrefBase={basePath} />
       }
     >
       <div className="space-y-5">
@@ -166,6 +171,12 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
             </div>
           </div>
         </section>
+
+        <RecentSessionsTable
+          sessions={recentSessions}
+          period={reportPeriod}
+          basePath={basePath}
+        />
       </div>
     </AppShell>
   );

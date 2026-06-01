@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
+  buildPeriodHref,
   formatReportPeriodLabel,
   getCurrentWeekPeriod,
   getNextWeekPeriod,
@@ -16,15 +17,6 @@ type ReportPeriodNavigatorProps = {
   period: ReportPeriod;
   hrefBase: string;
 };
-
-function buildPeriodHref(hrefBase: string, period: ReportPeriod): string {
-  const params = new URLSearchParams({
-    start: period.startDate,
-    end: period.endDate,
-  });
-
-  return `${hrefBase}?${params.toString()}`;
-}
 
 export function ReportPeriodNavigator({
   period,

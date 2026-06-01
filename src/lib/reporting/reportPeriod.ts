@@ -91,8 +91,6 @@ export function getNextWeekPeriod(period: ReportPeriod): ReportPeriod {
 }
 
 export function formatReportPeriodLabel(period: ReportPeriod): string {
-  // TODO: example "May 25 - May 31, 2026"
-
   const startDate = parseDateString(period.startDate);
   const endDate = parseDateString(period.endDate);
 
@@ -163,3 +161,15 @@ const formatMonthDay = (date: Date): string => {
     day: "numeric",
   }).format(date);
 };
+
+export function buildPeriodHref(
+  hrefBase: string,
+  period: ReportPeriod,
+): string {
+  const params = new URLSearchParams({
+    start: period.startDate,
+    end: period.endDate,
+  });
+
+  return `${hrefBase}?${params.toString()}`;
+}

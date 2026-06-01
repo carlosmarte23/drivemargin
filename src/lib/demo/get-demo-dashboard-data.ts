@@ -10,7 +10,7 @@ import { getPreviousWeekPeriod } from "@/lib/reporting/reportPeriod";
 import type { ReportPeriod } from "@/lib/reporting/reportPeriod";
 import type { DemoData } from "@/types/domain";
 
-interface RecentSession {
+export interface RecentSession {
   sessionId: string;
   date: string;
   startedAt: string;
