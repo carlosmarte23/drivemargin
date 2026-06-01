@@ -1,5 +1,14 @@
 import { formatDate, parseDateString } from "@/lib/date";
 
+const REPORT_PERIOD_TIME_ZONE = "America/New_York";
+
+const reportPeriodDateFormatter = new Intl.DateTimeFormat("en-US", {
+  timeZone: REPORT_PERIOD_TIME_ZONE,
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+
 export type ReportPeriod = {
   startDate: string;
   endDate: string;
@@ -13,17 +22,17 @@ export type ReportPeriodInput = {
 export function getCurrentWeekPeriod(
   referenceDate: Date = new Date(),
 ): ReportPeriod {
-  const date = new Date(referenceDate.getTime());
+  const date = getReportPeriodDate(referenceDate);
   const day = date.getDay();
 
   const diffToMonday = day === 0 ? 6 : day - 1;
   const startDate = new Date(date);
   startDate.setDate(date.getDate() - diffToMonday);
-  startDate.setHours(0, 0, 0, 0);
+  startDate.setHours(12, 0, 0, 0);
 
   const endDate = new Date(startDate);
   endDate.setDate(startDate.getDate() + 6);
-  endDate.setHours(23, 59, 59, 999);
+  endDate.setHours(12, 0, 0, 0);
 
   return {
     startDate: formatDate(startDate),
@@ -127,6 +136,26 @@ const isValidDateString = (dateString: string): boolean => {
     date.getDate() === day
   );
 };
+
+function getReportPeriodDate(referenceDate: Date): Date {
+  const dateParts = reportPeriodDateFormatter.formatToParts(referenceDate);
+  const year = Number(getDatePart(dateParts, "year"));
+  const month = Number(getDatePart(dateParts, "month"));
+  const day = Number(getDatePart(dateParts, "day"));
+
+  return new Date(year, month - 1, day, 12);
+}
+
+function getDatePart(
+  dateParts: Intl.DateTimeFormatPart[],
+  type: Intl.DateTimeFormatPartTypes,
+): string {
+  return (
+    dateParts.find((datePart) => {
+      return datePart.type === type;
+    })?.value ?? ""
+  );
+}
 
 const formatMonthDay = (date: Date): string => {
   return new Intl.DateTimeFormat("en-US", {

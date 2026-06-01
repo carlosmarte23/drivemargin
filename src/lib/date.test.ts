@@ -15,5 +15,6 @@ describe("date helpers", () => {
     expect(date.getFullYear()).toBe(2026);
     expect(date.getMonth()).toBe(4);
     expect(date.getDate()).toBe(29);
+    expect(date.getHours()).toBe(12);
   });
 });

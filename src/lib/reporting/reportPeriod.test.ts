@@ -44,6 +44,28 @@ describe("reportPeriod", () => {
       });
     });
 
+    it("uses the report timezone near the UTC week boundary", () => {
+      const referenceDate = new Date("2026-06-01T00:30:00.000Z");
+
+      const period = getCurrentWeekPeriod(referenceDate);
+
+      expect(period).toEqual({
+        startDate: "2026-05-25",
+        endDate: "2026-05-31",
+      });
+    });
+
+    it("moves to the next week after midnight in the report timezone", () => {
+      const referenceDate = new Date("2026-06-01T04:30:00.000Z");
+
+      const period = getCurrentWeekPeriod(referenceDate);
+
+      expect(period).toEqual({
+        startDate: "2026-06-01",
+        endDate: "2026-06-07",
+      });
+    });
+
     it("handles a week that crosses into the next month", () => {
       const referenceDate = new Date(2026, 5, 1, 12);
 

@@ -11,5 +11,5 @@ export function parseDateString(dateString: string): Date {
   const month = Number(dateString.slice(5, 7));
   const day = Number(dateString.slice(8, 10));
 
-  return new Date(year, month - 1, day);
+  return new Date(year, month - 1, day, 12);
 }
