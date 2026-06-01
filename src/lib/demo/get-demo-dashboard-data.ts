@@ -5,9 +5,10 @@ import {
   getLatestFuelPricePerGallonCents,
 } from "@/lib/calculations/index";
 import { formatDate, parseDateString } from "@/lib/date";
-import { getPreviousWeekPeriod } from "@/lib/reporting/reportPeriod";
-
-import type { ReportPeriod } from "@/lib/reporting/reportPeriod";
+import {
+  getPreviousWeekPeriod,
+  type ReportPeriod,
+} from "@/lib/reporting/reportPeriod";
 import type { DemoData } from "@/types/domain";
 
 export interface RecentSession {

@@ -52,7 +52,7 @@ export function DemoMetricCard({
     <Card
       size="sm"
       className={cn(
-        "relative overflow-hidden rounded-xl border-border bg-card shadow-sm transition-colors hover:bg-accent/30",
+        "border-border bg-card hover:bg-accent/30 relative overflow-hidden rounded-xl shadow-sm transition-colors",
         "before:absolute before:inset-y-0 before:left-0 before:w-1",
         styles.accent,
         className,
@@ -61,10 +61,10 @@ export function DemoMetricCard({
       <CardContent className={cn("p-4 pl-5", isCompact && "py-3.5")}>
         <div className="space-y-1">
           <div className="flex items-center gap-1.5">
-            <p className="text-sm font-medium text-muted-foreground">{title}</p>
+            <p className="text-muted-foreground text-sm font-medium">{title}</p>
             <span
               aria-hidden="true"
-              className="inline-flex size-3.5 shrink-0 items-center justify-center rounded-full text-muted-foreground"
+              className="text-muted-foreground inline-flex size-3.5 shrink-0 items-center justify-center rounded-full"
             >
               <Info className="size-3.5" />
             </span>
@@ -72,7 +72,7 @@ export function DemoMetricCard({
 
           <p
             className={cn(
-              "text-2xl font-semibold tracking-tight text-card-foreground",
+              "text-card-foreground text-2xl font-semibold tracking-tight",
               !isCompact && "xl:text-3xl",
             )}
           >
@@ -82,7 +82,7 @@ export function DemoMetricCard({
 
         <p
           className={cn(
-            "mt-3 text-sm leading-5 text-muted-foreground",
+            "text-muted-foreground mt-3 text-sm leading-5",
             isCompact && "mt-2",
           )}
         >
@@ -116,7 +116,7 @@ export function DemoMetricCard({
         ) : null}
 
         {comparison ? (
-          <p className="mt-2 text-xs text-muted-foreground">
+          <p className="text-muted-foreground mt-2 text-xs">
             vs previous period{" "}
             {comparison.percentChange === null ? (
               <span>No previous data</span>

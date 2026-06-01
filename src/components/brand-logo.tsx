@@ -15,7 +15,7 @@ export function BrandLogo({
     <span className={cn("inline-flex items-center gap-2", className)}>
       <span
         aria-hidden="true"
-        className={cn("size-7 bg-primary", iconClassName)}
+        className={cn("bg-primary size-7", iconClassName)}
         style={{
           WebkitMask: "url(/icons/brand-mark.svg) center / contain no-repeat",
           mask: "url(/icons/brand-mark.svg) center / contain no-repeat",

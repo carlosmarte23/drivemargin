@@ -16,17 +16,17 @@ export function AppShell({
   headerContent,
 }: AppShellProps) {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="bg-background text-foreground min-h-screen">
       <AppSidebar basePath={basePath} />
 
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-40 border-b border-border/70 bg-background/90 backdrop-blur">
+        <header className="border-border/70 bg-background/90 sticky top-0 z-40 border-b backdrop-blur">
           <div className="flex min-h-16 flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <MobileNav basePath={basePath} />
 
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="text-muted-foreground text-sm font-medium">
                   {pageLabel}
                 </p>
               </div>

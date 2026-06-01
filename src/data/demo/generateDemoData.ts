@@ -9,13 +9,12 @@ import type {
 import { demoSettings } from "./demoSettings";
 import { demoVehicles } from "./demoVehicles";
 import { demoWorkApps } from "./demoWorkApps";
-
+import { demoExpenseTemplates } from "./templates/demoExpenseTemplates";
+import { demoFuelPurchaseTemplates } from "./templates/demoFuelPurchaseTemplates";
 import {
   demoSessionAppEarningTemplates,
   demoSessionTemplates,
 } from "./templates/demoSessionTemplates";
-import { demoFuelPurchaseTemplates } from "./templates/demoFuelPurchaseTemplates";
-import { demoExpenseTemplates } from "./templates/demoExpenseTemplates";
 
 function getRelativeDate(referenceDate: Date, dayOffset: number): Date {
   const date = new Date(referenceDate);

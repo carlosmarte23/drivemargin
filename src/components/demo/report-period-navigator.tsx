@@ -32,7 +32,7 @@ export function ReportPeriodNavigator({
 
   return (
     <div className="flex w-full max-w-full flex-row items-center justify-center gap-2 sm:w-fit">
-      <div className="flex max-w-full items-center rounded-lg border border-border bg-card shadow-sm">
+      <div className="border-border bg-card flex max-w-full items-center rounded-lg border shadow-sm">
         <Button variant="ghost" size="icon" asChild>
           <Link
             href={buildPeriodHref(hrefBase, previousPeriod)}

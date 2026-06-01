@@ -85,17 +85,17 @@ export function RecentSessionsTable({
               <TableHead className="hidden md:table-cell">Time</TableHead>
               <TableHead>Apps</TableHead>
               <TableHead className="text-right">Miles</TableHead>
-              <TableHead className="hidden sm:table-cell text-right">
+              <TableHead className="hidden text-right sm:table-cell">
                 Hours
               </TableHead>
-              <TableHead className="hidden md:table-cell text-right">
+              <TableHead className="hidden text-right md:table-cell">
                 Gross
               </TableHead>
               <TableHead className="text-right">Net</TableHead>
-              <TableHead className="hidden lg:table-cell text-right">
+              <TableHead className="hidden text-right lg:table-cell">
                 Net / hour
               </TableHead>
-              <TableHead className="hidden lg:table-cell text-right">
+              <TableHead className="hidden text-right lg:table-cell">
                 Net / mile
               </TableHead>
             </TableRow>
@@ -128,12 +128,12 @@ export function RecentSessionsTable({
 
               return (
                 <TableRow key={session.sessionId}>
-                  <TableCell className="font-medium text-primary">
+                  <TableCell className="text-primary font-medium">
                     <span className="sm:hidden">{shortDate}</span>
                     <span className="hidden sm:inline">{date}</span>
                   </TableCell>
 
-                  <TableCell className="hidden md:table-cell text-muted-foreground">
+                  <TableCell className="text-muted-foreground hidden md:table-cell">
                     {timeRange}
                   </TableCell>
 
@@ -155,11 +155,11 @@ export function RecentSessionsTable({
                     {miles}
                   </TableCell>
 
-                  <TableCell className="hidden sm:table-cell text-right tabular-nums">
+                  <TableCell className="hidden text-right tabular-nums sm:table-cell">
                     {hours}
                   </TableCell>
 
-                  <TableCell className="hidden md:table-cell text-right tabular-nums text-muted-foreground">
+                  <TableCell className="text-muted-foreground hidden text-right tabular-nums md:table-cell">
                     {grossEarnings}
                   </TableCell>
 
@@ -167,11 +167,11 @@ export function RecentSessionsTable({
                     {netEarnings}
                   </TableCell>
 
-                  <TableCell className="hidden lg:table-cell text-right text-emerald-400 tabular-nums">
+                  <TableCell className="hidden text-right text-emerald-400 tabular-nums lg:table-cell">
                     {netEarningsPerHour}
                   </TableCell>
 
-                  <TableCell className="hidden lg:table-cell text-right text-emerald-400 tabular-nums">
+                  <TableCell className="hidden text-right text-emerald-400 tabular-nums lg:table-cell">
                     {netEarningsPerMile}
                   </TableCell>
                 </TableRow>

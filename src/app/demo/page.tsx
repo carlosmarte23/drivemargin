@@ -2,17 +2,16 @@ import { Car } from "lucide-react";
 
 import { DemoBanner } from "@/components/demo/demo-banner";
 import { DemoMetricCard } from "@/components/demo/demo-metric-card";
-import { ReportPeriodNavigator } from "@/components/demo/report-period-navigator";
 import { RecentSessionsTable } from "@/components/demo/recent-sessions-table";
+import { ReportPeriodNavigator } from "@/components/demo/report-period-navigator";
 import { AppShell } from "@/components/layout/app-shell";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { getDemoDashboardData } from "@/lib/demo/get-demo-dashboard-data";
 import { formatCurrencyFromCents } from "@/lib/formatters/money";
 import { formatHours, formatMiles } from "@/lib/formatters/number";
 import {
-  type ReportPeriodInput,
   resolveReportPeriod,
+  type ReportPeriodInput,
 } from "@/lib/reporting/reportPeriod";
 
 type DemoPageProps = {
@@ -105,7 +104,7 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
       <div className="space-y-5">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-          <p className="mt-2 max-w-2xl text-muted-foreground">
+          <p className="text-muted-foreground mt-2 max-w-2xl">
             Preview how DriveMargin tracks real profitability across multi-app
             delivery shifts.
           </p>
@@ -128,27 +127,27 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
             <div className="sm:col-span-2 xl:col-span-2">
               <Card
                 size="sm"
-                className="h-full min-h-40 rounded-xl border-secondary/30 bg-card shadow-sm"
+                className="border-secondary/30 bg-card h-full min-h-40 rounded-xl shadow-sm"
               >
                 <CardContent className="flex h-full p-4">
                   <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="flex size-16 shrink-0 items-center justify-center rounded-full bg-secondary/10 text-secondary ring-1 ring-secondary/35">
+                      <div className="bg-secondary/10 text-secondary ring-secondary/35 flex size-16 shrink-0 items-center justify-center rounded-full ring-1">
                         <Car className="size-8" />
                       </div>
 
                       <div>
-                        <p className="text-sm font-medium text-card-foreground">
+                        <p className="text-card-foreground text-sm font-medium">
                           IRS mileage deduction estimate
                         </p>
 
-                        <p className="mt-1 text-2xl font-semibold tracking-tight text-secondary">
+                        <p className="text-secondary mt-1 text-2xl font-semibold tracking-tight">
                           {formatCurrencyFromCents(
                             irsMileageDeduction.amountCents,
                           )}
                         </p>
 
-                        <p className="mt-1 text-sm text-muted-foreground">
+                        <p className="text-muted-foreground mt-1 text-sm">
                           {formatMiles(irsMileageDeduction.totalMiles)} x{" "}
                           {formatCurrencyFromCents(
                             irsMileageDeduction.rateCentsPerMile,
@@ -158,7 +157,7 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
                       </div>
                     </div>
 
-                    <div className="w-full rounded-lg border border-secondary/40 px-3 py-2 text-center text-sm font-medium text-secondary sm:w-fit">
+                    <div className="border-secondary/40 text-secondary w-full rounded-lg border px-3 py-2 text-center text-sm font-medium sm:w-fit">
                       Configured rate:{" "}
                       {formatCurrencyFromCents(
                         irsMileageDeduction.rateCentsPerMile,

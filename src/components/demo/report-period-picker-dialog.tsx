@@ -1,12 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+
 import {
-  type FormEvent,
-  type MouseEvent,
   useRef,
   useState,
   useTransition,
+  type FormEvent,
+  type MouseEvent,
 } from "react";
 
 import { CalendarDays, X } from "lucide-react";
@@ -84,7 +85,7 @@ export function ReportPeriodPickerDialog({
       <button
         type="button"
         onClick={openDialog}
-        className="min-w-0 cursor-pointer px-3 text-center text-sm font-medium text-foreground transition-colors hover:text-primary sm:min-w-44"
+        className="text-foreground hover:text-primary min-w-0 cursor-pointer px-3 text-center text-sm font-medium transition-colors sm:min-w-44"
       >
         {label}
       </button>
@@ -94,12 +95,12 @@ export function ReportPeriodPickerDialog({
         onClick={handleBackdropClick}
         aria-describedby="period-picker-description"
         aria-labelledby="period-picker-title"
-        className="period-range-dialog m-auto w-[min(430px,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-border bg-card p-0 text-card-foreground shadow-2xl"
+        className="period-range-dialog border-border bg-card text-card-foreground m-auto w-[min(430px,calc(100vw-2rem))] overflow-hidden rounded-2xl border p-0 shadow-2xl"
       >
         <form onSubmit={handleSubmit}>
-          <div className="flex items-start justify-between gap-4 border-b border-border/70 px-5 py-4">
+          <div className="border-border/70 flex items-start justify-between gap-4 border-b px-5 py-4">
             <div className="flex items-center gap-3">
-              <div className="flex size-10 items-center justify-center rounded-full border border-primary/25 bg-primary/10 text-primary">
+              <div className="border-primary/25 bg-primary/10 text-primary flex size-10 items-center justify-center rounded-full border">
                 <CalendarDays className="size-5" aria-hidden="true" />
               </div>
 
@@ -109,7 +110,7 @@ export function ReportPeriodPickerDialog({
                 </h2>
                 <p
                   id="period-picker-description"
-                  className="mt-1 text-sm text-muted-foreground"
+                  className="text-muted-foreground mt-1 text-sm"
                 >
                   Choose a custom date range.
                 </p>
@@ -167,13 +168,13 @@ export function ReportPeriodPickerDialog({
             </div>
 
             {error ? (
-              <p className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              <p className="border-destructive/30 bg-destructive/10 text-destructive rounded-lg border px-3 py-2 text-sm">
                 {error}
               </p>
             ) : null}
           </div>
 
-          <div className="flex flex-col-reverse gap-2 border-t border-border/70 bg-muted/20 px-5 py-4 sm:flex-row sm:justify-end">
+          <div className="border-border/70 bg-muted/20 flex flex-col-reverse gap-2 border-t px-5 py-4 sm:flex-row sm:justify-end">
             <Button
               type="button"
               variant="outline"
