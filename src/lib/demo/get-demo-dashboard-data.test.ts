@@ -18,18 +18,18 @@ describe("getDemoDashboardData", () => {
 
     const { metrics } = data;
 
-    expect(metrics.totalGrossEarningsCents).toBe(39835);
-    expect(metrics.totalNetEarningsCents).toBe(36685);
+    expect(metrics.totalGrossEarningsCents).toBe(43950);
+    expect(metrics.totalNetEarningsCents).toBe(40800);
     expect(metrics.totalHoursWorked).toBeCloseTo(19.5);
     expect(metrics.totalMiles).toBeCloseTo(234.9);
     expect(metrics.totalEstimatedFuelCostCents).toBe(902);
     expect(metrics.totalOtherExpensesCents).toBe(2248);
     expect(metrics.totalFuelPurchasedCents).toBe(3734);
     expect(metrics.totalSpendingCents).toBe(5982);
-    expect(metrics.averageGrossCentsPerHour).toBe(2043);
-    expect(metrics.averageNetCentsPerHour).toBe(1881);
-    expect(metrics.averageGrossCentsPerMile).toBe(170);
-    expect(metrics.averageNetCentsPerMile).toBe(156);
+    expect(metrics.averageGrossCentsPerHour).toBe(2254);
+    expect(metrics.averageNetCentsPerHour).toBe(2092);
+    expect(metrics.averageGrossCentsPerMile).toBe(187);
+    expect(metrics.averageNetCentsPerMile).toBe(174);
     expect(metrics.estimatedMileageDeductionCents).toBe(17619);
     expect(metrics.bestAppByGross).toEqual({
       workAppId: "demo-work-app-doordash",
@@ -39,7 +39,7 @@ describe("getDemoDashboardData", () => {
     expect(metrics.bestSession).toEqual({
       sessionId: "demo-session-014",
       date: "2026-05-27",
-      netEarningsCents: 13298,
+      netEarningsCents: 15023,
     });
   });
 
@@ -62,16 +62,16 @@ describe("getDemoDashboardData", () => {
     expect(data.previousMetrics.totalMiles).toBeCloseTo(205.6);
 
     expect(data.metricComparisons.totalGrossEarningsCents).toEqual({
-      currentValue: 39835,
+      currentValue: 43950,
       previousValue: 31075,
-      deltaValue: 8760,
-      percentChange: 28.2,
+      deltaValue: 12875,
+      percentChange: 41.4,
     });
     expect(data.metricComparisons.averageNetCentsPerHour).toEqual({
-      currentValue: 1881,
+      currentValue: 2092,
       previousValue: 1588,
-      deltaValue: 293,
-      percentChange: 18.5,
+      deltaValue: 504,
+      percentChange: 31.7,
     });
     expect(data.metricComparisons.totalEstimatedFuelCostCents).toEqual({
       currentValue: 902,
@@ -116,8 +116,8 @@ describe("getDemoDashboardData", () => {
       "2026-05-31",
     ]);
     expect(data.dailyMetrics[2].metrics).toMatchObject({
-      totalGrossEarningsCents: 14200,
-      totalNetEarningsCents: 13298,
+      totalGrossEarningsCents: 15925,
+      totalNetEarningsCents: 15023,
       totalEstimatedFuelCostCents: 902,
     });
     expect(data.dailyMetrics[5].metrics).toMatchObject({
@@ -147,20 +147,20 @@ describe("getDemoDashboardData", () => {
     expect(data.recentSessions[0]).toMatchObject({
       sessionId: "demo-session-016",
       date: "2026-05-29",
-      appShortNames: ["DD", "UE"],
-      grossEarningsCents: 8255,
-      netEarningsCents: 8255,
-      netCentsPerHour: 2416,
-      netCentsPerMile: 194,
+      appShortNames: ["DD", "UE", "IC", "S"],
+      grossEarningsCents: 10645,
+      netEarningsCents: 10645,
+      netCentsPerHour: 3116,
+      netCentsPerMile: 250,
     });
     expect(data.recentSessions[0].hoursWorked).toBeCloseTo(3.42, 2);
     expect(data.recentSessions[0].totalMiles).toBeCloseTo(42.5);
     expect(data.recentSessions[2]).toMatchObject({
       sessionId: "demo-session-014",
       date: "2026-05-27",
-      appShortNames: ["DD", "UE"],
-      grossEarningsCents: 14200,
-      netEarningsCents: 13298,
+      appShortNames: ["DD", "UE", "IC"],
+      grossEarningsCents: 15925,
+      netEarningsCents: 15023,
     });
   });
 

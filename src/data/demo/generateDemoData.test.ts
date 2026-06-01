@@ -88,6 +88,34 @@ describe("generateDemoData", () => {
     }
   });
 
+  it("includes recent multi-app sessions with three and four app earnings", () => {
+    const data = generateDemoData(referenceDate);
+
+    const earningsBySession = new Map<string, string[]>();
+
+    for (const earning of data.sessionAppEarnings) {
+      const app = data.workApps.find((item) => item.id === earning.workAppId);
+      const appShortNames = earningsBySession.get(earning.sessionId) ?? [];
+
+      earningsBySession.set(earning.sessionId, [
+        ...appShortNames,
+        app?.shortName ?? earning.workAppId,
+      ]);
+    }
+
+    expect(earningsBySession.get("demo-session-014")).toEqual([
+      "DD",
+      "UE",
+      "IC",
+    ]);
+    expect(earningsBySession.get("demo-session-016")).toEqual([
+      "DD",
+      "UE",
+      "IC",
+      "S",
+    ]);
+  });
+
   it("keeps fuel purchases separate from non-fuel expenses", () => {
     const data = generateDemoData(referenceDate);
 

@@ -13,4 +13,16 @@ export const demoWorkApps: WorkApp[] = [
     shortName: "UE",
     iconName: "uber-eats",
   },
+  {
+    id: "demo-work-app-instacart",
+    name: "Instacart",
+    shortName: "IC",
+    iconName: "instacart",
+  },
+  {
+    id: "demo-work-app-spark",
+    name: "Spark",
+    shortName: "S",
+    iconName: "spark",
+  },
 ];

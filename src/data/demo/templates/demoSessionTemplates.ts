@@ -304,6 +304,12 @@ export const demoSessionAppEarningTemplates: DemoSessionAppEarningTemplate[] = [
     amountCents: 4840,
   },
   {
+    id: "demo-session-earning-template-024",
+    sessionTemplateId: "demo-session-template-014",
+    workAppId: "demo-work-app-instacart",
+    amountCents: 1725,
+  },
+  {
     id: "demo-session-earning-template-021",
     sessionTemplateId: "demo-session-template-015",
     workAppId: "demo-work-app-doordash",
@@ -320,5 +326,17 @@ export const demoSessionAppEarningTemplates: DemoSessionAppEarningTemplate[] = [
     sessionTemplateId: "demo-session-template-016",
     workAppId: "demo-work-app-uber-eats",
     amountCents: 2895,
+  },
+  {
+    id: "demo-session-earning-template-025",
+    sessionTemplateId: "demo-session-template-016",
+    workAppId: "demo-work-app-instacart",
+    amountCents: 1410,
+  },
+  {
+    id: "demo-session-earning-template-026",
+    sessionTemplateId: "demo-session-template-016",
+    workAppId: "demo-work-app-spark",
+    amountCents: 980,
   },
 ];
