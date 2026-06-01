@@ -193,4 +193,14 @@ describe("getDemoDashboardData", () => {
     expect(data.dailyMetrics).toHaveLength(7);
     expect(data.recentSessions).toEqual([]);
   });
+
+  it("returns dashboard metrics and daily trend series for the selected period", () => {
+    const result = getDemoDashboardData({
+      startDate: "2026-05-25",
+      endDate: "2026-05-31",
+    });
+
+    expect(result.metrics).toBeDefined();
+    expect(result.dailyTrendSeries).toHaveLength(7);
+  });
 });

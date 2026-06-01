@@ -1,4 +1,5 @@
 import { generateDemoData } from "@/data/demo/generateDemoData";
+import { buildDailyDashboardTrendSeries } from "@/lib/calculations/dashboardTrendSeries";
 import {
   calculateDashboardMetrics,
   calculateSessionMetrics,
@@ -211,6 +212,17 @@ export function getDemoDashboardData(period: ReportPeriod) {
       return session !== null;
     });
 
+  const dailyTrendSeries = buildDailyDashboardTrendSeries({
+    period,
+    sessions: periodData.sessions,
+    sessionAppEarnings: periodData.sessionAppEarnings,
+    vehicles: data.vehicles,
+    settings: data.settings,
+    fuelPurchases: periodData.fuelPurchases,
+    expenses: periodData.expenses,
+    workApps: data.workApps,
+  });
+
   return {
     metrics,
     previousPeriod,
@@ -219,5 +231,6 @@ export function getDemoDashboardData(period: ReportPeriod) {
     irsMileageDeduction,
     dailyMetrics,
     recentSessions,
+    dailyTrendSeries,
   };
 }
