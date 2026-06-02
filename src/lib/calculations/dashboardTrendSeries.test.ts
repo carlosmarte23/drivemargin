@@ -248,6 +248,8 @@ describe("getDashboardTrendValues", () => {
         totalMiles: 20,
         netPerHourCents: 2500,
         netPerMileCents: 250,
+        fuelCost: 800,
+        otherExpenses: 1200,
       },
       {
         date: "2026-05-26",
@@ -257,6 +259,8 @@ describe("getDashboardTrendValues", () => {
         totalMiles: 30,
         netPerHourCents: 2400,
         netPerMileCents: 240,
+        fuelCost: 900,
+        otherExpenses: 450,
       },
     ];
 
@@ -274,5 +278,9 @@ describe("getDashboardTrendValues", () => {
 
     expect(getDashboardTrendValues(series, "totalMiles")).toEqual([20, 30]);
     expect(getDashboardTrendValues(series, "hoursWorked")).toEqual([2, 3]);
+    expect(getDashboardTrendValues(series, "fuelCost")).toEqual([800, 900]);
+    expect(getDashboardTrendValues(series, "otherExpenses")).toEqual([
+      1200, 450,
+    ]);
   });
 });

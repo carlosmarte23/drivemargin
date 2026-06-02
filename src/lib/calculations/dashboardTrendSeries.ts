@@ -21,6 +21,8 @@ export type DashboardTrendPoint = {
   totalMiles: number;
   netPerHourCents: MoneyCents;
   netPerMileCents: MoneyCents;
+  fuelCost: MoneyCents;
+  otherExpenses: MoneyCents;
 };
 
 export type DashboardTrendSeries = DashboardTrendPoint[];
@@ -31,7 +33,9 @@ export type DashboardTrendMetric =
   | "netPerHour"
   | "netPerMile"
   | "totalMiles"
-  | "hoursWorked";
+  | "hoursWorked"
+  | "fuelCost"
+  | "otherExpenses";
 
 type BuildDailyDashboardTrendSeriesParams = {
   period: ReportPeriod;
@@ -87,6 +91,10 @@ export function buildDailyDashboardTrendSeries({
       return daySessionIds.includes(earning.sessionId);
     });
 
+    const availableFuelPurchases = fuelPurchases.filter((purchase) => {
+      return purchase.date <= date;
+    });
+
     const dayFuelPurchases = fuelPurchases.filter((purchase) => {
       return purchase.date === date;
     });
@@ -99,6 +107,7 @@ export function buildDailyDashboardTrendSeries({
       sessions: daySessions,
       sessionAppEarnings: daySessionEarnings,
       fuelPurchases: dayFuelPurchases,
+      fuelPriceHistory: availableFuelPurchases,
       expenses: dayExpenses,
       vehicles,
       workApps,
@@ -113,6 +122,8 @@ export function buildDailyDashboardTrendSeries({
       totalMiles: dayMetrics.totalMiles,
       netPerHourCents: dayMetrics.averageNetCentsPerHour,
       netPerMileCents: dayMetrics.averageNetCentsPerMile,
+      fuelCost: dayMetrics.totalEstimatedFuelCostCents,
+      otherExpenses: dayMetrics.totalOtherExpensesCents,
     };
   });
 }
@@ -135,6 +146,10 @@ export function getDashboardTrendValues(
         return point.totalMiles;
       case "hoursWorked":
         return point.hoursWorked;
+      case "fuelCost":
+        return point.fuelCost;
+      case "otherExpenses":
+        return point.otherExpenses;
     }
   });
 }

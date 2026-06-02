@@ -59,11 +59,15 @@ function getPeriodData(data: DemoData, period: ReportPeriod) {
 
 function calculateMetricsForPeriod(data: DemoData, period: ReportPeriod) {
   const periodData = getPeriodData(data, period);
+  const fuelPriceHistory = data.fuelPurchases.filter((purchase) => {
+    return purchase.date <= period.endDate;
+  });
 
   return calculateDashboardMetrics({
     sessions: periodData.sessions,
     sessionAppEarnings: periodData.sessionAppEarnings,
     fuelPurchases: periodData.fuelPurchases,
+    fuelPriceHistory,
     expenses: periodData.expenses,
     workApps: data.workApps,
     vehicles: data.vehicles,
@@ -179,11 +183,12 @@ export function getDemoDashboardData(period: ReportPeriod) {
         return null;
       }
 
-      const sessionFuelPurchases = periodData.fuelPurchases.filter(
-        (fuelPurchase) => {
-          return fuelPurchase.vehicleId === session.vehicleId;
-        },
-      );
+      const sessionFuelPurchases = data.fuelPurchases.filter((fuelPurchase) => {
+        return (
+          fuelPurchase.vehicleId === session.vehicleId &&
+          fuelPurchase.date <= session.date
+        );
+      });
 
       const sessionMetrics = calculateSessionMetrics({
         session,
@@ -218,7 +223,7 @@ export function getDemoDashboardData(period: ReportPeriod) {
     sessionAppEarnings: periodData.sessionAppEarnings,
     vehicles: data.vehicles,
     settings: data.settings,
-    fuelPurchases: periodData.fuelPurchases,
+    fuelPurchases: data.fuelPurchases,
     expenses: periodData.expenses,
     workApps: data.workApps,
   });

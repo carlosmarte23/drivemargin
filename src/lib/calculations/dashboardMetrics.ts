@@ -18,6 +18,7 @@ interface CalculateDashboardMetricsInput {
   sessions: WorkSession[];
   sessionAppEarnings: SessionAppEarning[];
   fuelPurchases: FuelPurchase[];
+  fuelPriceHistory?: FuelPurchase[];
   expenses: Expense[];
   workApps: WorkApp[];
   vehicles: Vehicle[];
@@ -58,6 +59,7 @@ export function calculateDashboardMetrics({
   sessions,
   sessionAppEarnings,
   fuelPurchases,
+  fuelPriceHistory = fuelPurchases,
   expenses,
   workApps,
   vehicles,
@@ -73,7 +75,7 @@ export function calculateDashboardMetrics({
         return null;
       }
 
-      const sessionFuelPurchases = fuelPurchases.filter((fuelPurchase) => {
+      const sessionFuelPurchases = fuelPriceHistory.filter((fuelPurchase) => {
         return fuelPurchase.vehicleId === session.vehicleId;
       });
 

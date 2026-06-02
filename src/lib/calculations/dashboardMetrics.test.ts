@@ -226,6 +226,26 @@ describe("dashboard metrics calculations", () => {
     expect(metrics.totalNetEarningsCents).not.toBe(14550);
   });
 
+  test("calculateDashboardMetrics can use fuel price history without counting it as period spending", () => {
+    const metrics = calculateDashboardMetrics({
+      sessions: [sessions[0]!],
+      sessionAppEarnings: sessionAppEarnings.filter((earning) => {
+        return earning.sessionId === "session-1";
+      }),
+      fuelPurchases: [],
+      fuelPriceHistory: [fuelPurchases[0]!],
+      expenses: [],
+      workApps,
+      vehicles,
+      settings,
+    });
+
+    expect(metrics.totalEstimatedFuelCostCents).toBe(1120);
+    expect(metrics.totalFuelPurchasedCents).toBe(0);
+    expect(metrics.totalSpendingCents).toBe(0);
+    expect(metrics.totalNetEarningsCents).toBe(13880);
+  });
+
   test("calculateDashboardMetrics finds the best app by gross earnings", () => {
     const metrics = calculateDashboardMetrics({
       sessions,
