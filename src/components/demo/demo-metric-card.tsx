@@ -3,13 +3,17 @@ import { Info } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
+import type { MetricTrendChartPoint } from "@/lib/charts/dashboardChartData";
+
+import { DashboardSparkline } from "./dashboard-sparkline";
+
 type DemoMetricCardProps = {
   title: string;
   value: string;
   description: string;
   variant?: "primary" | "secondary" | "muted" | "cost";
   density?: "default" | "compact";
-  showSparklineSlot?: boolean;
+  sparklineData?: MetricTrendChartPoint[];
   comparison?: {
     percentChange: number | null;
   };
@@ -41,7 +45,7 @@ export function DemoMetricCard({
   description,
   variant = "muted",
   density = "default",
-  showSparklineSlot = false,
+  sparklineData,
   comparison,
   className,
 }: DemoMetricCardProps) {
@@ -58,62 +62,65 @@ export function DemoMetricCard({
         className,
       )}
     >
-      <CardContent className={cn("p-4 pl-5", isCompact && "py-3.5")}>
-        <div className="space-y-1">
-          <div className="flex items-center gap-1.5">
-            <p className="text-muted-foreground text-sm font-medium">{title}</p>
-            <span
-              aria-hidden="true"
-              className="text-muted-foreground inline-flex size-3.5 shrink-0 items-center justify-center rounded-full"
-            >
-              <Info className="size-3.5" />
-            </span>
-          </div>
-
-          <p
-            className={cn(
-              "text-card-foreground text-2xl font-semibold tracking-tight",
-              !isCompact && "xl:text-3xl",
-            )}
-          >
-            {value}
-          </p>
-        </div>
-
-        <p
+      <CardContent
+        className={cn(
+          "px-6 py-5 group-data-[size=sm]/card:px-6",
+          isCompact && "px-5 py-4 group-data-[size=sm]/card:px-5",
+        )}
+      >
+        <div
           className={cn(
-            "text-muted-foreground mt-3 text-sm leading-5",
-            isCompact && "mt-2",
+            "grid gap-3",
+            sparklineData &&
+              "sm:grid-cols-[minmax(0,44%)_minmax(7rem,1fr)] sm:items-end",
           )}
         >
-          {description}
-        </p>
+          <div>
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5">
+                <p className="text-muted-foreground text-sm font-medium">
+                  {title}
+                </p>
+                <span
+                  aria-hidden="true"
+                  className="text-muted-foreground inline-flex size-3.5 shrink-0 items-center justify-center rounded-full"
+                >
+                  <Info className="size-3.5" />
+                </span>
+              </div>
 
-        {showSparklineSlot ? (
-          <div
-            className={cn(
-              "mt-3 h-9 w-full overflow-hidden rounded-md text-current",
-              styles.sparkline,
-            )}
-            aria-hidden="true"
-          >
-            <svg
-              viewBox="0 0 160 36"
-              className="size-full"
-              preserveAspectRatio="none"
+              <p
+                className={cn(
+                  "text-card-foreground text-2xl font-semibold tracking-tight",
+                  !isCompact && "xl:text-3xl",
+                )}
+              >
+                {value}
+              </p>
+            </div>
+
+            <p
+              className={cn(
+                "text-muted-foreground mt-3 text-sm leading-5",
+                isCompact && "mt-2",
+              )}
             >
-              <path
-                d="M0 28 L12 26 L20 30 L31 20 L42 25 L54 17 L66 22 L78 15 L90 19 L104 10 L116 13 L130 7 L144 11 L160 4"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2.5"
-                opacity="0.9"
-              />
-            </svg>
+              {description}
+            </p>
           </div>
-        ) : null}
+
+          {sparklineData ? (
+            <div
+              className={cn(
+                "h-12 w-full overflow-hidden rounded-md text-current sm:h-14",
+                styles.sparkline,
+              )}
+              aria-hidden="true"
+            >
+              <DashboardSparkline data={sparklineData} />
+            </div>
+          ) : null}
+        </div>
 
         {comparison ? (
           <p className="text-muted-foreground mt-2 text-xs">

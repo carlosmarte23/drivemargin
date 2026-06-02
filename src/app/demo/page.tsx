@@ -6,6 +6,8 @@ import { RecentSessionsTable } from "@/components/demo/recent-sessions-table";
 import { ReportPeriodNavigator } from "@/components/demo/report-period-navigator";
 import { AppShell } from "@/components/layout/app-shell";
 import { Card, CardContent } from "@/components/ui/card";
+
+import { buildMetricTrendChartData } from "@/lib/charts/dashboardChartData";
 import { getDemoDashboardData } from "@/lib/demo/get-demo-dashboard-data";
 import { formatCurrencyFromCents } from "@/lib/formatters/money";
 import { formatHours, formatMiles } from "@/lib/formatters/number";
@@ -26,8 +28,13 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
   const reportPeriod = resolveReportPeriod(resolvedSearchParams);
   const dashboardData = getDemoDashboardData(reportPeriod);
 
-  const { metrics, metricComparisons, irsMileageDeduction, recentSessions } =
-    dashboardData;
+  const {
+    metrics,
+    metricComparisons,
+    irsMileageDeduction,
+    recentSessions,
+    dailyTrendSeries,
+  } = dashboardData;
 
   const topMetricCards = [
     {
@@ -35,42 +42,48 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
       value: formatCurrencyFromCents(metrics.totalNetEarningsCents),
       description: "After fuel & expenses",
       variant: "primary",
-      showSparklineSlot: true,
+      sparklineData: buildMetricTrendChartData(dailyTrendSeries, "netEarnings"),
     },
     {
       title: "Gross earnings",
       value: formatCurrencyFromCents(metrics.totalGrossEarningsCents),
       description: "Before expenses",
       variant: "muted",
-      showSparklineSlot: true,
+      sparklineData: buildMetricTrendChartData(
+        dailyTrendSeries,
+        "grossEarnings",
+      ),
     },
     {
       title: "Hours worked",
       value: formatHours(metrics.totalHoursWorked),
       description: "Total this period",
       variant: "muted",
-      showSparklineSlot: true,
+      sparklineData: buildMetricTrendChartData(dailyTrendSeries, "hoursWorked"),
     },
     {
       title: "Miles driven",
       value: formatMiles(metrics.totalMiles),
       description: "Total this period",
       variant: "secondary",
-      showSparklineSlot: true,
+      sparklineData: buildMetricTrendChartData(dailyTrendSeries, "totalMiles"),
     },
     {
       title: "Estimated fuel cost",
       value: formatCurrencyFromCents(metrics.totalEstimatedFuelCostCents),
-      description: "Based on MPG + fuel price",
+      description: "MPG + fuel price",
       variant: "cost",
-      showSparklineSlot: true,
+      sparklineData: buildMetricTrendChartData(dailyTrendSeries, "fuelCost"),
     },
     {
       title: "Expenses",
       value: formatCurrencyFromCents(metrics.totalOtherExpensesCents),
       description: "Other expenses",
       variant: "cost",
-      showSparklineSlot: true,
+      sparklineData: buildMetricTrendChartData(
+        dailyTrendSeries,
+        "otherExpenses",
+      ),
     },
   ] as const;
 
