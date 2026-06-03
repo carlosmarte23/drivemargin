@@ -1,12 +1,19 @@
 import { generateDemoData } from "@/data/demo/generateDemoData";
+import { buildDailyDashboardTrendSeries } from "@/lib/calculations/dashboardTrendSeries";
 import {
   calculateDashboardMetrics,
   calculateSessionMetrics,
   getLatestFuelPricePerGallonCents,
 } from "@/lib/calculations/index";
+import {
+  buildEarningsByAppChartData,
+  buildEarningsOverTimeChartData,
+  buildGrossVsExpensesChartData,
+} from "@/lib/charts/dashboardChartData";
 import { formatDate, parseDateString } from "@/lib/date";
 import {
-  getPreviousWeekPeriod,
+  formatReportPeriodLabel,
+  getPreviousReportPeriod,
   type ReportPeriod,
 } from "@/lib/reporting/reportPeriod";
 import type { DemoData } from "@/types/domain";
@@ -58,11 +65,15 @@ function getPeriodData(data: DemoData, period: ReportPeriod) {
 
 function calculateMetricsForPeriod(data: DemoData, period: ReportPeriod) {
   const periodData = getPeriodData(data, period);
+  const fuelPriceHistory = data.fuelPurchases.filter((purchase) => {
+    return purchase.date <= period.endDate;
+  });
 
   return calculateDashboardMetrics({
     sessions: periodData.sessions,
     sessionAppEarnings: periodData.sessionAppEarnings,
     fuelPurchases: periodData.fuelPurchases,
+    fuelPriceHistory,
     expenses: periodData.expenses,
     workApps: data.workApps,
     vehicles: data.vehicles,
@@ -102,7 +113,7 @@ export function getDemoDashboardData(period: ReportPeriod) {
   const data = generateDemoData();
   const metrics = calculateMetricsForPeriod(data, period);
 
-  const previousPeriod = getPreviousWeekPeriod(period);
+  const previousPeriod = getPreviousReportPeriod(period);
   const previousMetrics = calculateMetricsForPeriod(data, previousPeriod);
 
   const metricComparisons = {
@@ -178,11 +189,12 @@ export function getDemoDashboardData(period: ReportPeriod) {
         return null;
       }
 
-      const sessionFuelPurchases = periodData.fuelPurchases.filter(
-        (fuelPurchase) => {
-          return fuelPurchase.vehicleId === session.vehicleId;
-        },
-      );
+      const sessionFuelPurchases = data.fuelPurchases.filter((fuelPurchase) => {
+        return (
+          fuelPurchase.vehicleId === session.vehicleId &&
+          fuelPurchase.date <= session.date
+        );
+      });
 
       const sessionMetrics = calculateSessionMetrics({
         session,
@@ -211,6 +223,44 @@ export function getDemoDashboardData(period: ReportPeriod) {
       return session !== null;
     });
 
+  const dailyTrendSeries = buildDailyDashboardTrendSeries({
+    period,
+    sessions: periodData.sessions,
+    sessionAppEarnings: periodData.sessionAppEarnings,
+    vehicles: data.vehicles,
+    settings: data.settings,
+    fuelPurchases: data.fuelPurchases,
+    expenses: periodData.expenses,
+    workApps: data.workApps,
+  });
+
+  const previousPeriodData = getPeriodData(data, previousPeriod);
+  const previousDailyTrendSeries = buildDailyDashboardTrendSeries({
+    period: previousPeriod,
+    sessions: previousPeriodData.sessions,
+    sessionAppEarnings: previousPeriodData.sessionAppEarnings,
+    vehicles: data.vehicles,
+    settings: data.settings,
+    fuelPurchases: data.fuelPurchases,
+    expenses: previousPeriodData.expenses,
+    workApps: data.workApps,
+  });
+
+  const charts = {
+    earningsOverTime: buildEarningsOverTimeChartData(
+      dailyTrendSeries,
+      previousDailyTrendSeries,
+    ),
+    grossVsExpenses: buildGrossVsExpensesChartData(
+      metrics,
+      formatReportPeriodLabel(period),
+    ),
+    earningsByApp: buildEarningsByAppChartData({
+      sessionAppEarnings: periodData.sessionAppEarnings,
+      workApps: data.workApps,
+    }),
+  };
+
   return {
     metrics,
     previousPeriod,
@@ -219,5 +269,7 @@ export function getDemoDashboardData(period: ReportPeriod) {
     irsMileageDeduction,
     dailyMetrics,
     recentSessions,
+    dailyTrendSeries,
+    charts,
   };
 }

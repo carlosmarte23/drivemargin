@@ -19,17 +19,17 @@ describe("getDemoDashboardData", () => {
     const { metrics } = data;
 
     expect(metrics.totalGrossEarningsCents).toBe(43950);
-    expect(metrics.totalNetEarningsCents).toBe(40800);
+    expect(metrics.totalNetEarningsCents).toBe(38557);
     expect(metrics.totalHoursWorked).toBeCloseTo(19.5);
     expect(metrics.totalMiles).toBeCloseTo(234.9);
-    expect(metrics.totalEstimatedFuelCostCents).toBe(902);
+    expect(metrics.totalEstimatedFuelCostCents).toBe(3145);
     expect(metrics.totalOtherExpensesCents).toBe(2248);
     expect(metrics.totalFuelPurchasedCents).toBe(3734);
     expect(metrics.totalSpendingCents).toBe(5982);
     expect(metrics.averageGrossCentsPerHour).toBe(2254);
-    expect(metrics.averageNetCentsPerHour).toBe(2092);
+    expect(metrics.averageNetCentsPerHour).toBe(1977);
     expect(metrics.averageGrossCentsPerMile).toBe(187);
-    expect(metrics.averageNetCentsPerMile).toBe(174);
+    expect(metrics.averageNetCentsPerMile).toBe(164);
     expect(metrics.estimatedMileageDeductionCents).toBe(17619);
     expect(metrics.bestAppByGross).toEqual({
       workAppId: "demo-work-app-doordash",
@@ -57,7 +57,7 @@ describe("getDemoDashboardData", () => {
       endDate: "2026-05-24",
     });
     expect(data.previousMetrics.totalGrossEarningsCents).toBe(31075);
-    expect(data.previousMetrics.totalNetEarningsCents).toBe(26875);
+    expect(data.previousMetrics.totalNetEarningsCents).toBe(26199);
     expect(data.previousMetrics.totalHoursWorked).toBeCloseTo(16.92);
     expect(data.previousMetrics.totalMiles).toBeCloseTo(205.6);
 
@@ -68,16 +68,16 @@ describe("getDemoDashboardData", () => {
       percentChange: 41.4,
     });
     expect(data.metricComparisons.averageNetCentsPerHour).toEqual({
-      currentValue: 2092,
-      previousValue: 1588,
-      deltaValue: 504,
-      percentChange: 31.7,
+      currentValue: 1977,
+      previousValue: 1548,
+      deltaValue: 429,
+      percentChange: 27.7,
     });
     expect(data.metricComparisons.totalEstimatedFuelCostCents).toEqual({
-      currentValue: 902,
-      previousValue: 2090,
-      deltaValue: -1188,
-      percentChange: -56.8,
+      currentValue: 3145,
+      previousValue: 2766,
+      deltaValue: 379,
+      percentChange: 13.7,
     });
   });
 
@@ -149,9 +149,9 @@ describe("getDemoDashboardData", () => {
       date: "2026-05-29",
       appShortNames: ["DD", "UE", "IC", "S"],
       grossEarningsCents: 10645,
-      netEarningsCents: 10645,
-      netCentsPerHour: 3116,
-      netCentsPerMile: 250,
+      netEarningsCents: 10042,
+      netCentsPerHour: 2939,
+      netCentsPerMile: 236,
     });
     expect(data.recentSessions[0].hoursWorked).toBeCloseTo(3.42, 2);
     expect(data.recentSessions[0].totalMiles).toBeCloseTo(42.5);
@@ -162,6 +162,16 @@ describe("getDemoDashboardData", () => {
       grossEarningsCents: 15925,
       netEarningsCents: 15023,
     });
+
+    expect(data.charts.earningsOverTime.length).toBeGreaterThan(0);
+    expect(data.charts.grossVsExpenses).toEqual([
+      {
+        label: "May 25 - May 31, 2026",
+        gross: 439.5,
+        expenses: 53.93,
+      },
+    ]);
+    expect(data.charts.earningsByApp.length).toBeGreaterThan(0);
   });
 
   it("returns empty metrics when the period has no demo records", () => {
@@ -192,5 +202,15 @@ describe("getDemoDashboardData", () => {
     expect(metrics.bestSession).toBeNull();
     expect(data.dailyMetrics).toHaveLength(7);
     expect(data.recentSessions).toEqual([]);
+  });
+
+  it("returns dashboard metrics and daily trend series for the selected period", () => {
+    const result = getDemoDashboardData({
+      startDate: "2026-05-25",
+      endDate: "2026-05-31",
+    });
+
+    expect(result.metrics).toBeDefined();
+    expect(result.dailyTrendSeries).toHaveLength(7);
   });
 });

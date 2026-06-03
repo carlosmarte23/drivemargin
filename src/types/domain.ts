@@ -34,6 +34,7 @@ export interface WorkApp {
   name: string;
   shortName?: string;
   iconName?: string;
+  color?: string;
 }
 
 export interface SessionAppEarning {

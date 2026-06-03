@@ -20,20 +20,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { RecentSession } from "@/lib/demo/get-demo-dashboard-data";
 import { formatCurrencyFromCents } from "@/lib/formatters/money";
 import { formatHours, formatMiles } from "@/lib/formatters/number";
 import {
   buildPeriodHref,
   formatReportPeriodLabel,
+  type ReportPeriod,
 } from "@/lib/reporting/reportPeriod";
+import type { DashboardRecentSession } from "@/types/dashboard";
 
-type AppBasePath = "/demo" | "/app";
-
-type RecentSessionsTableProps = {
-  sessions: RecentSession[];
-  period: { startDate: string; endDate: string };
-  basePath: AppBasePath;
+type DashboardRecentSessionsProps = {
+  sessions: DashboardRecentSession[];
+  period: ReportPeriod;
+  basePath: "/demo" | "/app";
 };
 
 function formatSessionDate(date: string) {
@@ -60,11 +59,11 @@ function formatSessionTimeRange(startedAt: string, endedAt: string) {
   return `${formatter.format(new Date(startedAt))} - ${formatter.format(new Date(endedAt))}`;
 }
 
-export function RecentSessionsTable({
+export function DashboardRecentSessions({
   sessions,
   period,
   basePath,
-}: RecentSessionsTableProps) {
+}: DashboardRecentSessionsProps) {
   const periodLabel = formatReportPeriodLabel(period);
   const sessionsHref = buildPeriodHref(`${basePath}/sessions`, period);
 
@@ -128,12 +127,12 @@ export function RecentSessionsTable({
 
               return (
                 <TableRow key={session.sessionId}>
-                  <TableCell className="text-primary font-medium">
+                  <TableCell className="font-medium text-primary">
                     <span className="sm:hidden">{shortDate}</span>
                     <span className="hidden sm:inline">{date}</span>
                   </TableCell>
 
-                  <TableCell className="text-muted-foreground hidden md:table-cell">
+                  <TableCell className="hidden text-muted-foreground md:table-cell">
                     {timeRange}
                   </TableCell>
 
@@ -159,7 +158,7 @@ export function RecentSessionsTable({
                     {hours}
                   </TableCell>
 
-                  <TableCell className="text-muted-foreground hidden text-right tabular-nums md:table-cell">
+                  <TableCell className="hidden text-right text-muted-foreground tabular-nums md:table-cell">
                     {grossEarnings}
                   </TableCell>
 

@@ -77,6 +77,24 @@ export function getPreviousWeekPeriod(period: ReportPeriod): ReportPeriod {
   };
 }
 
+export function getPreviousReportPeriod(period: ReportPeriod): ReportPeriod {
+  const startDate = parseDateString(period.startDate);
+  const endDate = parseDateString(period.endDate);
+  const periodLengthInDays =
+    Math.round((endDate.getTime() - startDate.getTime()) / 86_400_000) + 1;
+
+  const previousEndDate = new Date(startDate);
+  previousEndDate.setDate(startDate.getDate() - 1);
+
+  const previousStartDate = new Date(previousEndDate);
+  previousStartDate.setDate(previousEndDate.getDate() - periodLengthInDays + 1);
+
+  return {
+    startDate: formatDate(previousStartDate),
+    endDate: formatDate(previousEndDate),
+  };
+}
+
 export function getNextWeekPeriod(period: ReportPeriod): ReportPeriod {
   const startDate = parseDateString(period.startDate);
   const endDate = parseDateString(period.endDate);
