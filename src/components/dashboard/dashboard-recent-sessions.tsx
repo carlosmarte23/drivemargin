@@ -20,18 +20,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
 import { formatCurrencyFromCents } from "@/lib/formatters/money";
 import { formatHours, formatMiles } from "@/lib/formatters/number";
 import {
   buildPeriodHref,
   formatReportPeriodLabel,
+  type ReportPeriod,
 } from "@/lib/reporting/reportPeriod";
-
 import type { DashboardRecentSession } from "@/types/dashboard";
-import type { ReportPeriod } from "@/lib/reporting/reportPeriod";
 
-type RecentSessionsTableProps = {
+type DashboardRecentSessionsProps = {
   sessions: DashboardRecentSession[];
   period: ReportPeriod;
   basePath: "/demo" | "/app";
@@ -61,11 +59,11 @@ function formatSessionTimeRange(startedAt: string, endedAt: string) {
   return `${formatter.format(new Date(startedAt))} - ${formatter.format(new Date(endedAt))}`;
 }
 
-export function RecentSessionsTable({
+export function DashboardRecentSessions({
   sessions,
   period,
   basePath,
-}: RecentSessionsTableProps) {
+}: DashboardRecentSessionsProps) {
   const periodLabel = formatReportPeriodLabel(period);
   const sessionsHref = buildPeriodHref(`${basePath}/sessions`, period);
 
