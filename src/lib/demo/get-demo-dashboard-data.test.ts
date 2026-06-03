@@ -162,6 +162,16 @@ describe("getDemoDashboardData", () => {
       grossEarningsCents: 15925,
       netEarningsCents: 15023,
     });
+
+    expect(data.charts.earningsOverTime.length).toBeGreaterThan(0);
+    expect(data.charts.grossVsExpenses).toEqual([
+      {
+        label: "May 25 - May 31, 2026",
+        gross: 439.5,
+        expenses: 53.93,
+      },
+    ]);
+    expect(data.charts.earningsByApp.length).toBeGreaterThan(0);
   });
 
   it("returns empty metrics when the period has no demo records", () => {

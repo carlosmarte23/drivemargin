@@ -4,6 +4,7 @@ import {
   formatReportPeriodLabel,
   getCurrentWeekPeriod,
   getNextWeekPeriod,
+  getPreviousReportPeriod,
   getPreviousWeekPeriod,
   isSameReportPeriod,
   resolveReportPeriod,
@@ -210,6 +211,32 @@ describe("reportPeriod", () => {
       expect(period).toEqual({
         startDate: "2026-05-25",
         endDate: "2026-05-31",
+      });
+    });
+  });
+
+  describe("getPreviousReportPeriod", () => {
+    it("returns the previous period with the same number of days", () => {
+      const period = getPreviousReportPeriod({
+        startDate: "2026-05-25",
+        endDate: "2026-05-26",
+      });
+
+      expect(period).toEqual({
+        startDate: "2026-05-23",
+        endDate: "2026-05-24",
+      });
+    });
+
+    it("matches the previous week for a seven day week period", () => {
+      const period = getPreviousReportPeriod({
+        startDate: "2026-05-25",
+        endDate: "2026-05-31",
+      });
+
+      expect(period).toEqual({
+        startDate: "2026-05-18",
+        endDate: "2026-05-24",
       });
     });
   });

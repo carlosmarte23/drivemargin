@@ -5,9 +5,15 @@ import {
   calculateSessionMetrics,
   getLatestFuelPricePerGallonCents,
 } from "@/lib/calculations/index";
+import {
+  buildEarningsByAppChartData,
+  buildEarningsOverTimeChartData,
+  buildGrossVsExpensesChartData,
+} from "@/lib/charts/dashboardChartData";
 import { formatDate, parseDateString } from "@/lib/date";
 import {
-  getPreviousWeekPeriod,
+  formatReportPeriodLabel,
+  getPreviousReportPeriod,
   type ReportPeriod,
 } from "@/lib/reporting/reportPeriod";
 import type { DemoData } from "@/types/domain";
@@ -107,7 +113,7 @@ export function getDemoDashboardData(period: ReportPeriod) {
   const data = generateDemoData();
   const metrics = calculateMetricsForPeriod(data, period);
 
-  const previousPeriod = getPreviousWeekPeriod(period);
+  const previousPeriod = getPreviousReportPeriod(period);
   const previousMetrics = calculateMetricsForPeriod(data, previousPeriod);
 
   const metricComparisons = {
@@ -228,6 +234,33 @@ export function getDemoDashboardData(period: ReportPeriod) {
     workApps: data.workApps,
   });
 
+  const previousPeriodData = getPeriodData(data, previousPeriod);
+  const previousDailyTrendSeries = buildDailyDashboardTrendSeries({
+    period: previousPeriod,
+    sessions: previousPeriodData.sessions,
+    sessionAppEarnings: previousPeriodData.sessionAppEarnings,
+    vehicles: data.vehicles,
+    settings: data.settings,
+    fuelPurchases: data.fuelPurchases,
+    expenses: previousPeriodData.expenses,
+    workApps: data.workApps,
+  });
+
+  const charts = {
+    earningsOverTime: buildEarningsOverTimeChartData(
+      dailyTrendSeries,
+      previousDailyTrendSeries,
+    ),
+    grossVsExpenses: buildGrossVsExpensesChartData(
+      metrics,
+      formatReportPeriodLabel(period),
+    ),
+    earningsByApp: buildEarningsByAppChartData({
+      sessionAppEarnings: periodData.sessionAppEarnings,
+      workApps: data.workApps,
+    }),
+  };
+
   return {
     metrics,
     previousPeriod,
@@ -237,5 +270,6 @@ export function getDemoDashboardData(period: ReportPeriod) {
     dailyMetrics,
     recentSessions,
     dailyTrendSeries,
+    charts,
   };
 }
