@@ -2,7 +2,7 @@
 
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
-import { DashboardChartCard } from "@/components/demo/dashboard-chart-card";
+import { DashboardChartCard } from "@/components/dashboard/dashboard-chart-card";
 import {
   ChartContainer,
   ChartTooltip,

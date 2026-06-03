@@ -20,7 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { RecentSession } from "@/lib/demo/get-demo-dashboard-data";
+
 import { formatCurrencyFromCents } from "@/lib/formatters/money";
 import { formatHours, formatMiles } from "@/lib/formatters/number";
 import {
@@ -28,12 +28,13 @@ import {
   formatReportPeriodLabel,
 } from "@/lib/reporting/reportPeriod";
 
-type AppBasePath = "/demo" | "/app";
+import type { DashboardRecentSession } from "@/types/dashboard";
+import type { ReportPeriod } from "@/lib/reporting/reportPeriod";
 
 type RecentSessionsTableProps = {
-  sessions: RecentSession[];
-  period: { startDate: string; endDate: string };
-  basePath: AppBasePath;
+  sessions: DashboardRecentSession[];
+  period: ReportPeriod;
+  basePath: "/demo" | "/app";
 };
 
 function formatSessionDate(date: string) {
@@ -128,12 +129,12 @@ export function RecentSessionsTable({
 
               return (
                 <TableRow key={session.sessionId}>
-                  <TableCell className="text-primary font-medium">
+                  <TableCell className="font-medium text-primary">
                     <span className="sm:hidden">{shortDate}</span>
                     <span className="hidden sm:inline">{date}</span>
                   </TableCell>
 
-                  <TableCell className="text-muted-foreground hidden md:table-cell">
+                  <TableCell className="hidden text-muted-foreground md:table-cell">
                     {timeRange}
                   </TableCell>
 
@@ -159,7 +160,7 @@ export function RecentSessionsTable({
                     {hours}
                   </TableCell>
 
-                  <TableCell className="text-muted-foreground hidden text-right tabular-nums md:table-cell">
+                  <TableCell className="hidden text-right text-muted-foreground tabular-nums md:table-cell">
                     {grossEarnings}
                   </TableCell>
 

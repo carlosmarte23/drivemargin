@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 
 import type { MetricTrendChartPoint } from "@/lib/charts/dashboardChartData";
 
-import { DashboardSparkline } from "./dashboard-sparkline";
+import { MetricSparkline } from "./metric-sparkline";
 
-type DemoMetricCardProps = {
+type MetricCardProps = {
   title: string;
   value: string;
   description: string;
@@ -39,7 +39,7 @@ const variantStyles = {
   },
 };
 
-export function DemoMetricCard({
+export function MetricCard({
   title,
   value,
   description,
@@ -48,7 +48,7 @@ export function DemoMetricCard({
   sparklineData,
   comparison,
   className,
-}: DemoMetricCardProps) {
+}: MetricCardProps) {
   const styles = variantStyles[variant];
   const isCompact = density === "compact";
 
@@ -56,7 +56,7 @@ export function DemoMetricCard({
     <Card
       size="sm"
       className={cn(
-        "border-border bg-card hover:bg-accent/30 relative overflow-hidden rounded-xl shadow-sm transition-colors",
+        "relative overflow-hidden rounded-xl border-border bg-card shadow-sm transition-colors hover:bg-accent/30",
         "before:absolute before:inset-y-0 before:left-0 before:w-1",
         styles.accent,
         className,
@@ -78,12 +78,12 @@ export function DemoMetricCard({
           <div>
             <div className="space-y-1">
               <div className="flex items-center gap-1.5">
-                <p className="text-muted-foreground text-sm font-medium">
+                <p className="text-sm font-medium text-muted-foreground">
                   {title}
                 </p>
                 <span
                   aria-hidden="true"
-                  className="text-muted-foreground inline-flex size-3.5 shrink-0 items-center justify-center rounded-full"
+                  className="inline-flex size-3.5 shrink-0 items-center justify-center rounded-full text-muted-foreground"
                 >
                   <Info className="size-3.5" />
                 </span>
@@ -91,7 +91,7 @@ export function DemoMetricCard({
 
               <p
                 className={cn(
-                  "text-card-foreground text-2xl font-semibold tracking-tight",
+                  "text-2xl font-semibold tracking-tight text-card-foreground",
                   !isCompact && "xl:text-3xl",
                 )}
               >
@@ -101,7 +101,7 @@ export function DemoMetricCard({
 
             <p
               className={cn(
-                "text-muted-foreground mt-3 text-sm leading-5",
+                "mt-3 text-sm leading-5 text-muted-foreground",
                 isCompact && "mt-2",
               )}
             >
@@ -117,13 +117,13 @@ export function DemoMetricCard({
               )}
               aria-hidden="true"
             >
-              <DashboardSparkline data={sparklineData} />
+              <MetricSparkline data={sparklineData} />
             </div>
           ) : null}
         </div>
 
         {comparison ? (
-          <p className="text-muted-foreground mt-2 text-xs">
+          <p className="mt-2 text-xs text-muted-foreground">
             vs previous period{" "}
             {comparison.percentChange === null ? (
               <span>No previous data</span>

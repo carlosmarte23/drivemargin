@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { ReportPeriodPickerDialog } from "@/components/demo/report-period-picker-dialog";
+import { ReportPeriodPickerDialog } from "@/components/report-period/report-period-picker-dialog";
 import { Button } from "@/components/ui/button";
 import {
   buildPeriodHref,

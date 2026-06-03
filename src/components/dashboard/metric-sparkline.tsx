@@ -4,7 +4,7 @@ import { Line, LineChart } from "recharts";
 
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 
-type DashboardSparklineProps = {
+type MetricSparklineProps = {
   data: {
     date: string;
     label: string;
@@ -20,7 +20,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function DashboardSparkline({ data }: DashboardSparklineProps) {
+export function MetricSparkline({ data }: MetricSparklineProps) {
   return (
     <ChartContainer
       config={chartConfig}
