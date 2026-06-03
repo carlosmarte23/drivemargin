@@ -32,11 +32,12 @@ export function ReportPeriodNavigator({
 
   return (
     <div className="flex w-full max-w-full flex-row items-center justify-center gap-2 sm:w-fit">
-      <div className="border-border bg-card flex max-w-full items-center rounded-lg border shadow-sm">
+      <div className="flex max-w-full items-center rounded-lg border border-border bg-card shadow-sm">
         <Button variant="ghost" size="icon" asChild>
           <Link
             href={buildPeriodHref(hrefBase, previousPeriod)}
             aria-label="Previous period"
+            scroll={false}
           >
             <ChevronLeft className="size-5" />
           </Link>
@@ -52,6 +53,7 @@ export function ReportPeriodNavigator({
           <Link
             href={buildPeriodHref(hrefBase, nextPeriod)}
             aria-label="Next period"
+            scroll={false}
           >
             <ChevronRight className="size-5" />
           </Link>
@@ -64,7 +66,7 @@ export function ReportPeriodNavigator({
         </Button>
       ) : (
         <Button variant="outline" size="sm" className="h-9 px-3" asChild>
-          <Link href={buildPeriodHref(hrefBase, currentPeriod)}>
+          <Link href={buildPeriodHref(hrefBase, currentPeriod)} scroll={false}>
             Current week
           </Link>
         </Button>
