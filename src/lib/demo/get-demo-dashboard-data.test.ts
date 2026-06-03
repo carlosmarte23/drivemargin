@@ -57,7 +57,7 @@ describe("getDemoDashboardData", () => {
       endDate: "2026-05-24",
     });
     expect(data.previousMetrics.totalGrossEarningsCents).toBe(31075);
-    expect(data.previousMetrics.totalNetEarningsCents).toBe(26199);
+    expect(data.previousMetrics.totalNetEarningsCents).toBe(26161);
     expect(data.previousMetrics.totalHoursWorked).toBeCloseTo(16.92);
     expect(data.previousMetrics.totalMiles).toBeCloseTo(205.6);
 
@@ -69,15 +69,15 @@ describe("getDemoDashboardData", () => {
     });
     expect(data.metricComparisons.averageNetCentsPerHour).toEqual({
       currentValue: 1977,
-      previousValue: 1548,
-      deltaValue: 429,
-      percentChange: 27.7,
+      previousValue: 1546,
+      deltaValue: 431,
+      percentChange: 27.9,
     });
     expect(data.metricComparisons.totalEstimatedFuelCostCents).toEqual({
       currentValue: 3145,
-      previousValue: 2766,
-      deltaValue: 379,
-      percentChange: 13.7,
+      previousValue: 2804,
+      deltaValue: 341,
+      percentChange: 12.2,
     });
   });
 

@@ -115,7 +115,7 @@ const fuelPurchases: FuelPurchase[] = [
   {
     id: "fuel-2",
     vehicleId: "vehicle-2",
-    date: "2026-05-27",
+    date: "2026-05-26",
     totalPaidCents: 5250,
     pricePerGallonCents: 350,
     gallons: 15,
@@ -244,6 +244,62 @@ describe("dashboard metrics calculations", () => {
     expect(metrics.totalFuelPurchasedCents).toBe(0);
     expect(metrics.totalSpendingCents).toBe(0);
     expect(metrics.totalNetEarningsCents).toBe(13880);
+  });
+
+  test("calculateDashboardMetrics estimates fuel cost from latest previous fuel purchase", () => {
+    const metrics = calculateDashboardMetrics({
+      sessions: [sessions[0]!],
+      sessionAppEarnings: sessionAppEarnings.filter((earning) => {
+        return earning.sessionId === "session-1";
+      }),
+      fuelPurchases: [],
+      fuelPriceHistory: [
+        {
+          id: "fuel-history-1",
+          vehicleId: "vehicle-1",
+          date: "2026-05-20",
+          totalPaidCents: 4000,
+          pricePerGallonCents: 350,
+          gallons: 11.43,
+        },
+      ],
+      expenses: [],
+      workApps,
+      vehicles,
+      settings,
+    });
+
+    expect(metrics.totalGrossEarningsCents).toBe(15000);
+    expect(metrics.totalEstimatedFuelCostCents).toBe(1120);
+    expect(metrics.totalNetEarningsCents).toBe(13880);
+    expect(metrics.totalFuelPurchasedCents).toBe(0);
+  });
+
+  test("calculateDashboardMetrics does not use future fuel purchases for past sessions", () => {
+    const metrics = calculateDashboardMetrics({
+      sessions: [sessions[0]!],
+      sessionAppEarnings: sessionAppEarnings.filter((earning) => {
+        return earning.sessionId === "session-1";
+      }),
+      fuelPurchases: [],
+      fuelPriceHistory: [
+        {
+          id: "future-fuel",
+          vehicleId: "vehicle-1",
+          date: "2026-05-26",
+          totalPaidCents: 4000,
+          pricePerGallonCents: 350,
+          gallons: 11.43,
+        },
+      ],
+      expenses: [],
+      workApps,
+      vehicles,
+      settings,
+    });
+
+    expect(metrics.totalEstimatedFuelCostCents).toBe(0);
+    expect(metrics.totalNetEarningsCents).toBe(15000);
   });
 
   test("calculateDashboardMetrics finds the best app by gross earnings", () => {
