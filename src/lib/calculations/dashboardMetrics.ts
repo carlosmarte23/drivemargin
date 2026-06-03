@@ -76,7 +76,10 @@ export function calculateDashboardMetrics({
       }
 
       const sessionFuelPurchases = fuelPriceHistory.filter((fuelPurchase) => {
-        return fuelPurchase.vehicleId === session.vehicleId;
+        return (
+          fuelPurchase.vehicleId === session.vehicleId &&
+          fuelPurchase.date <= session.date
+        );
       });
 
       const latestFuelPricePerGallonCents =
