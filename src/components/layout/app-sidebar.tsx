@@ -23,11 +23,11 @@ export function AppSidebar({ basePath = "/demo" }: AppSidebarProps) {
   const footerLabel = isDemo ? "Back to site" : "Back to public site";
 
   return (
-    <aside className="border-border/70 bg-card fixed inset-y-0 left-0 hidden w-64 border-r lg:flex lg:flex-col">
+    <aside className="fixed inset-y-0 left-0 hidden w-64 border-r border-border/70 bg-card lg:flex lg:flex-col">
       <div className="flex flex-col gap-2 border-b p-4">
         <BrandLogo />
 
-        <p className="text-muted-foreground truncate text-xs">
+        <p className="truncate text-xs text-muted-foreground">
           {isDemo ? "Demo workspace" : "Driver dashboard"}
         </p>
       </div>
@@ -60,10 +60,10 @@ export function AppSidebar({ basePath = "/demo" }: AppSidebarProps) {
         })}
       </nav>
 
-      <div className="border-border/70 border-t p-3">
+      <div className="border-t border-border/70 p-3">
         <Button
           variant="ghost"
-          className="text-muted-foreground w-full justify-start gap-2"
+          className="w-full justify-start gap-2 text-muted-foreground"
           asChild
         >
           <Link href="/">

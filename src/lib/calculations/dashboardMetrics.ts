@@ -197,9 +197,10 @@ function getBestAppByGross({
   }
 
   let bestApp: BestAppByGross | null = null;
+  const workAppById = new Map(workApps.map((workApp) => [workApp.id, workApp]));
 
   for (const [workAppId, grossEarningsCents] of earningsByApp.entries()) {
-    const workApp = workApps.find((app) => app.id === workAppId);
+    const workApp = workAppById.get(workAppId);
 
     const candidate: BestAppByGross = {
       workAppId,

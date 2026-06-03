@@ -18,16 +18,16 @@ export function DemoPlaceholderCard({
 }: DemoPlaceholderCardProps) {
   return (
     <Card
-      className={cn("border-border bg-card rounded-2xl shadow-sm", className)}
+      className={cn("rounded-2xl border-border bg-card shadow-sm", className)}
     >
       <CardContent className="flex min-h-64 flex-col items-center justify-center p-8 text-center">
-        <div className="bg-muted text-muted-foreground ring-border mb-4 flex size-12 items-center justify-center rounded-2xl ring-1">
+        <div className="mb-4 flex size-12 items-center justify-center rounded-2xl bg-muted text-muted-foreground ring-1 ring-border">
           <Icon className="size-5" />
         </div>
 
         <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
 
-        <p className="text-muted-foreground mt-2 max-w-md text-sm leading-6">
+        <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
           {description}
         </p>
       </CardContent>

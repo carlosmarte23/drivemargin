@@ -9,6 +9,11 @@ const reportPeriodDateFormatter = new Intl.DateTimeFormat("en-US", {
   day: "2-digit",
 });
 
+const reportPeriodMonthDayFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+});
+
 export type ReportPeriod = {
   startDate: string;
   endDate: string;
@@ -198,10 +203,7 @@ function getDatePart(
 }
 
 const formatMonthDay = (date: Date): string => {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-  }).format(date);
+  return reportPeriodMonthDayFormatter.format(date);
 };
 
 export function buildPeriodHref(

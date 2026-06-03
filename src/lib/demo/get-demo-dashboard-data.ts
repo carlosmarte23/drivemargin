@@ -18,7 +18,7 @@ import {
 } from "@/lib/reporting/reportPeriod";
 import type { DemoData } from "@/types/domain";
 
-export interface RecentSession {
+interface RecentSession {
   sessionId: string;
   date: string;
   startedAt: string;

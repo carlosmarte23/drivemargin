@@ -1,9 +1,8 @@
 import { Info } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-
 import type { MetricTrendChartPoint } from "@/lib/charts/dashboardChartData";
+import { cn } from "@/lib/utils";
 
 import { MetricSparkline } from "./metric-sparkline";
 

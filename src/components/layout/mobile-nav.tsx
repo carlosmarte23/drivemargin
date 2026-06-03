@@ -49,7 +49,7 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
             <div className="flex flex-col gap-2 border-b p-4">
               <BrandLogo />
 
-              <p className="text-muted-foreground truncate text-xs">
+              <p className="truncate text-xs text-muted-foreground">
                 {isDemo ? "Demo workspace" : "Driver dashboard"}
               </p>
             </div>
@@ -90,10 +90,10 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
           })}
         </nav>
 
-        <div className="border-border/70 mt-auto border-t p-3">
+        <div className="mt-auto border-t border-border/70 p-3">
           <Button
             variant="ghost"
-            className="text-muted-foreground w-full justify-start gap-2"
+            className="w-full justify-start gap-2 text-muted-foreground"
             asChild
           >
             <Link href="/">
