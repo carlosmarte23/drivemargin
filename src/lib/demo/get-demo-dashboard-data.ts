@@ -109,8 +109,7 @@ function getDatesInPeriod(period: ReportPeriod): string[] {
   return dates;
 }
 
-export function getDemoDashboardData(period: ReportPeriod) {
-  const data = generateDemoData();
+export function buildDemoDashboardData(data: DemoData, period: ReportPeriod) {
   const metrics = calculateMetricsForPeriod(data, period);
 
   const previousPeriod = getPreviousReportPeriod(period);
@@ -272,4 +271,8 @@ export function getDemoDashboardData(period: ReportPeriod) {
     dailyTrendSeries,
     charts,
   };
+}
+
+export function getDemoDashboardData(period: ReportPeriod) {
+  return buildDemoDashboardData(generateDemoData(), period);
 }
