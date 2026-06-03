@@ -2,7 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import { generateDemoData } from "@/data/demo/generateDemoData";
 
-import { demoDataSchema, storedDemoDataSchema } from "./demo-data-schema";
+import {
+  DEMO_DATA_STORAGE_VERSION,
+  demoDataSchema,
+  storedDemoDataSchema,
+} from "./demo-data-schema";
 
 describe("demo data schema", () => {
   it("accepts generated demo data", () => {
@@ -31,7 +35,7 @@ describe("demo data schema", () => {
     const data = generateDemoData(new Date("2026-05-29T12:00:00.000Z"));
 
     const result = storedDemoDataSchema.safeParse({
-      version: 1,
+      version: DEMO_DATA_STORAGE_VERSION,
       savedAt: "2026-05-29T12:00:00.000Z",
       data,
     });
@@ -56,7 +60,7 @@ describe("demo data schema", () => {
 
     const parsedValue: unknown = JSON.parse(
       JSON.stringify({
-        version: 1,
+        version: DEMO_DATA_STORAGE_VERSION,
         savedAt: "2026-05-29T12:00:00.000Z",
         data,
       }),

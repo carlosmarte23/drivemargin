@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import type { DemoData } from "@/types/domain";
 
-export const DEMO_DATA_STORAGE_VERSION = 1;
+export const DEMO_DATA_STORAGE_VERSION = "1.0.0";
 
 const entityIdSchema = z.string().min(1);
 const moneyCentsSchema = z.number().int().nonnegative();

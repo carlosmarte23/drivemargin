@@ -1,12 +1,7 @@
-import { Dashboard } from "@/components/dashboard/dashboard";
-
 import { DemoBanner } from "@/components/demo/demo-banner";
-
-import { ReportPeriodNavigator } from "@/components/report-period/report-period-navigator";
+import { DemoDashboard } from "@/components/demo/demo-dashboard";
 import { AppShell } from "@/components/layout/app-shell";
-
-import { getDemoDashboardData } from "@/lib/demo/get-demo-dashboard-data";
-
+import { ReportPeriodNavigator } from "@/components/report-period/report-period-navigator";
 import {
   resolveReportPeriod,
   type ReportPeriodInput,
@@ -20,9 +15,7 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
   const basePath = "/demo";
 
   const resolvedSearchParams = await searchParams;
-
   const reportPeriod = resolveReportPeriod(resolvedSearchParams);
-  const dashboardData = getDemoDashboardData(reportPeriod);
 
   return (
     <AppShell
@@ -43,11 +36,7 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
 
         <DemoBanner />
 
-        <Dashboard
-          dashboardData={dashboardData}
-          period={reportPeriod}
-          basePath={basePath}
-        />
+        <DemoDashboard period={reportPeriod} basePath={basePath} />
       </div>
     </AppShell>
   );
