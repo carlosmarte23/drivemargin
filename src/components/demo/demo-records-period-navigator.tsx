@@ -1,29 +1,38 @@
 "use client";
 
-import { useEffect } from "react";
-
 import { useRouter } from "next/navigation";
+
+import { useEffect } from "react";
 
 import { useDemoData } from "@/components/demo/demo-data-provider";
 import { ReportPeriodNavigator } from "@/components/report-period/report-period-navigator";
-import { resolveDemoSessionsPeriod } from "@/lib/demo/demo-sessions-period";
+import { resolveRecordsPeriod } from "@/lib/reporting/recordsPeriod";
 import {
   buildAllDataHref,
   type ReportPeriodInput,
 } from "@/lib/reporting/reportPeriod";
+import type { DemoData } from "@/types/domain";
 
-type DemoSessionsPeriodNavigatorProps = {
+type DemoRecordResource = "sessions" | "fuel" | "expenses";
+
+type DemoRecordsPeriodNavigatorProps = {
   hrefBase: string;
   query: ReportPeriodInput;
+  resource: DemoRecordResource;
 };
 
-export function DemoSessionsPeriodNavigator({
+export function DemoRecordsPeriodNavigator({
   hrefBase,
   query,
-}: DemoSessionsPeriodNavigatorProps) {
+  resource,
+}: DemoRecordsPeriodNavigatorProps) {
   const router = useRouter();
   const { demoData } = useDemoData();
-  const resolvedPeriod = resolveDemoSessionsPeriod(demoData, query);
+
+  const resolvedPeriod = resolveRecordsPeriod({
+    dates: getDemoRecordDates(demoData, resource),
+    input: query,
+  });
 
   useEffect(() => {
     if (!resolvedPeriod.needsCanonicalAllDataUrl) {
@@ -42,4 +51,16 @@ export function DemoSessionsPeriodNavigator({
       mode={resolvedPeriod.mode}
     />
   );
+}
+
+function getDemoRecordDates(data: DemoData, resource: DemoRecordResource) {
+  if (resource === "fuel") {
+    return data.fuelPurchases.map((purchase) => purchase.date);
+  }
+
+  if (resource === "expenses") {
+    return data.expenses.map((expense) => expense.date);
+  }
+
+  return data.sessions.map((session) => session.date);
 }

@@ -1,5 +1,5 @@
 import { DemoBanner } from "@/components/demo/demo-banner";
-import { DemoSessionsPeriodNavigator } from "@/components/demo/demo-sessions-period-navigator";
+import { DemoRecordsPeriodNavigator } from "@/components/demo/demo-records-period-navigator";
 import { DemoSessionsTableSection } from "@/components/demo/demo-sessions-table-section";
 import { AppShell } from "@/components/layout/app-shell";
 import type { ReportPeriodInput } from "@/lib/reporting/reportPeriod";
@@ -20,9 +20,10 @@ export default async function DemoSessionsPage({
       basePath="/demo"
       pageLabel="Sessions"
       headerContent={
-        <DemoSessionsPeriodNavigator
+        <DemoRecordsPeriodNavigator
           hrefBase={basePath}
           query={resolvedSearchParams}
+          resource="sessions"
         />
       }
     >
