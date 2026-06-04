@@ -5,7 +5,7 @@ import {
   DemoSessionsTableCard,
   type DemoSessionsTableRow,
 } from "@/components/demo/demo-sessions-table-card";
-import { resolveDemoSessionsPeriod } from "@/lib/demo/demo-sessions-period";
+import { resolveDemoRecordsPeriod } from "@/lib/demo/demo-records-period";
 import {
   formatReportPeriodLabel,
   type ReportPeriodInput,
@@ -19,7 +19,7 @@ export function DemoSessionsTableSection({
   query,
 }: DemoSessionsTableSectionProps) {
   const { demoData } = useDemoData();
-  const resolvedPeriod = resolveDemoSessionsPeriod(demoData, query);
+  const resolvedPeriod = resolveDemoRecordsPeriod(demoData, "sessions", query);
   const { period } = resolvedPeriod;
 
   const rows = demoData.sessions
@@ -84,7 +84,7 @@ function calculateHoursWorked(startedAt: string, endedAt: string) {
 }
 
 function formatDemoSessionsPeriodLabel(
-  resolvedPeriod: ReturnType<typeof resolveDemoSessionsPeriod>,
+  resolvedPeriod: ReturnType<typeof resolveDemoRecordsPeriod>,
 ): string {
   const formattedPeriod = formatReportPeriodLabel(resolvedPeriod.period);
 

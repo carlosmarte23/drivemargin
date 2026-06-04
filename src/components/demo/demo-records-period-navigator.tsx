@@ -11,7 +11,7 @@ import {
   buildAllDataHref,
   type ReportPeriodInput,
 } from "@/lib/reporting/reportPeriod";
-import type { DemoData } from "@/types/domain";
+import { getDemoRecordDates } from "@/lib/demo/demo-records-period";
 
 type DemoRecordResource = "sessions" | "fuel" | "expenses";
 
@@ -51,16 +51,4 @@ export function DemoRecordsPeriodNavigator({
       mode={resolvedPeriod.mode}
     />
   );
-}
-
-function getDemoRecordDates(data: DemoData, resource: DemoRecordResource) {
-  if (resource === "fuel") {
-    return data.fuelPurchases.map((purchase) => purchase.date);
-  }
-
-  if (resource === "expenses") {
-    return data.expenses.map((expense) => expense.date);
-  }
-
-  return data.sessions.map((session) => session.date);
 }
