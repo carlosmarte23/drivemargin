@@ -16,13 +16,14 @@ import {
 import { formatSessionDate, formatSessionShortDate } from "@/lib/date";
 import { formatCurrencyFromCents } from "@/lib/formatters/money";
 import { formatMiles } from "@/lib/formatters/number";
+import type { MoneyCents } from "@/types/domain";
 
 export type DemoFuelTableRow = {
   id: string;
   vehicleName: string;
   date: string;
-  totalPaidCents: number;
-  pricePerGallonCents: number;
+  totalPaidCents: MoneyCents;
+  pricePerGallonCents: MoneyCents;
   gallons: number;
   stationName?: string;
   odometer?: number;
