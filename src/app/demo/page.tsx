@@ -4,6 +4,7 @@ import { AppShell } from "@/components/layout/app-shell";
 import { ReportPeriodNavigator } from "@/components/report-period/report-period-navigator";
 import {
   resolveReportPeriod,
+  resolveReportPeriodQuery,
   type ReportPeriodInput,
 } from "@/lib/reporting/reportPeriod";
 
@@ -16,13 +17,26 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
 
   const resolvedSearchParams = await searchParams;
   const reportPeriod = resolveReportPeriod(resolvedSearchParams);
+  const reportPeriodQuery = resolveReportPeriodQuery(resolvedSearchParams);
+  const hasPeriodQuery = Boolean(
+    resolvedSearchParams.period ||
+      resolvedSearchParams.start ||
+      resolvedSearchParams.end,
+  );
 
   return (
     <AppShell
       basePath="/demo"
       pageLabel="Demo Dashboard"
       headerContent={
-        <ReportPeriodNavigator period={reportPeriod} hrefBase={basePath} />
+        <ReportPeriodNavigator
+          period={reportPeriod}
+          hrefBase={basePath}
+          defaultHref={basePath}
+          isDefaultPeriod={
+            reportPeriodQuery.mode === "default" && !hasPeriodQuery
+          }
+        />
       }
     >
       <div className="space-y-5">

@@ -15,9 +15,15 @@ export type ReportPeriod = {
 };
 
 export type ReportPeriodInput = {
+  period?: string;
   start?: string;
   end?: string;
 };
+
+export type ReportPeriodQuery =
+  | { mode: "all" }
+  | { mode: "range"; period: ReportPeriod }
+  | { mode: "default" };
 
 export function getCurrentWeekPeriod(
   referenceDate: Date = new Date(),
@@ -92,6 +98,24 @@ export function getPreviousReportPeriod(period: ReportPeriod): ReportPeriod {
   return {
     startDate: formatDate(previousStartDate),
     endDate: formatDate(previousEndDate),
+  };
+}
+
+export function getNextReportPeriod(period: ReportPeriod): ReportPeriod {
+  const startDate = parseDateString(period.startDate);
+  const endDate = parseDateString(period.endDate);
+  const periodLengthInDays =
+    Math.round((endDate.getTime() - startDate.getTime()) / 86_400_000) + 1;
+
+  const nextStartDate = new Date(endDate);
+  nextStartDate.setDate(endDate.getDate() + 1);
+
+  const nextEndDate = new Date(nextStartDate);
+  nextEndDate.setDate(nextStartDate.getDate() + periodLengthInDays - 1);
+
+  return {
+    startDate: formatDate(nextStartDate),
+    endDate: formatDate(nextEndDate),
   };
 }
 
@@ -190,4 +214,49 @@ export function buildPeriodHref(
   });
 
   return `${hrefBase}?${params.toString()}`;
+}
+
+export function buildAllDataHref(hrefBase: string): string {
+  const params = new URLSearchParams({
+    period: "all",
+  });
+
+  return `${hrefBase}?${params.toString()}`;
+}
+
+export function resolveReportPeriodQuery(
+  input: ReportPeriodInput,
+): ReportPeriodQuery {
+  if (input.period === "all") {
+    return { mode: "all" };
+  }
+
+  const { start, end } = input;
+
+  if (
+    !start ||
+    !end ||
+    !isValidDateString(start) ||
+    !isValidDateString(end) ||
+    start > end
+  ) {
+    return { mode: "default" };
+  }
+
+  return {
+    mode: "range",
+    period: {
+      startDate: start,
+      endDate: end,
+    },
+  };
+}
+
+export function hasReportPeriodInput(input: ReportPeriodInput): boolean {
+  return (
+    typeof input.start === "string" &&
+    input.start.length > 0 &&
+    typeof input.end === "string" &&
+    input.end.length > 0
+  );
 }

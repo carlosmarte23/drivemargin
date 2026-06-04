@@ -14,8 +14,10 @@ import { CalendarDays, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { parseDateString } from "@/lib/date";
 import {
   buildPeriodHref,
+  formatReportPeriodLabel,
   type ReportPeriod,
 } from "@/lib/reporting/reportPeriod";
 
@@ -31,6 +33,30 @@ function handleBackdropClick(event: MouseEvent<HTMLDialogElement>) {
   }
 }
 
+function getSelectedRangePreview(startDate: string, endDate: string) {
+  if (!isDateInputValue(startDate) || !isDateInputValue(endDate)) {
+    return null;
+  }
+
+  if (startDate > endDate) {
+    return null;
+  }
+
+  const start = parseDateString(startDate);
+  const end = parseDateString(endDate);
+  const dayCount =
+    Math.round((end.getTime() - start.getTime()) / 86_400_000) + 1;
+
+  return {
+    dayCount,
+    label: formatReportPeriodLabel({ startDate, endDate }),
+  };
+}
+
+function isDateInputValue(value: string) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value);
+}
+
 export function ReportPeriodPickerDialog({
   period,
   hrefBase,
@@ -44,6 +70,7 @@ export function ReportPeriodPickerDialog({
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
+  const selectedRangePreview = getSelectedRangePreview(startDate, endDate);
 
   function openDialog() {
     setStartDate(period.startDate);
@@ -140,6 +167,7 @@ export function ReportPeriodPickerDialog({
                 id="period-start-date"
                 type="date"
                 value={startDate}
+                max={endDate || undefined}
                 autoFocus
                 onChange={(event) => {
                   setStartDate(event.target.value);
@@ -158,6 +186,7 @@ export function ReportPeriodPickerDialog({
                 id="period-end-date"
                 type="date"
                 value={endDate}
+                min={startDate || undefined}
                 onChange={(event) => {
                   setEndDate(event.target.value);
                   setError("");
@@ -166,6 +195,19 @@ export function ReportPeriodPickerDialog({
                 className="h-10 dark:[color-scheme:dark]"
               />
             </div>
+
+            {selectedRangePreview ? (
+              <p className="border-border bg-muted/20 text-muted-foreground rounded-lg border px-3 py-2 text-sm">
+                Selected range:{" "}
+                <span className="font-medium text-foreground">
+                  {selectedRangePreview.label}
+                </span>
+                <span className="ml-2">
+                  {selectedRangePreview.dayCount}{" "}
+                  {selectedRangePreview.dayCount === 1 ? "day" : "days"}
+                </span>
+              </p>
+            ) : null}
 
             {error ? (
               <p className="border-destructive/30 bg-destructive/10 text-destructive rounded-lg border px-3 py-2 text-sm">
