@@ -10,7 +10,7 @@ import {
   isSameReportPeriod,
   resolveReportPeriod,
   hasReportPeriodInput,
-} from "./reportPeriod";
+} from "@/lib/reporting/reportPeriod";
 
 describe("reportPeriod", () => {
   describe("getCurrentWeekPeriod", () => {
