@@ -1,6 +1,9 @@
 "use client";
 
+import { useState } from "react";
+
 import { useDemoData } from "@/components/demo/demo-data-provider";
+import { DemoSessionFormSheet } from "@/components/demo/demo-session-form-sheet";
 import {
   DemoSessionsTableCard,
   type DemoSessionsTableRow,
@@ -21,6 +24,8 @@ export function DemoSessionsTableSection({
   const { demoData } = useDemoData();
   const resolvedPeriod = resolveDemoRecordsPeriod(demoData, "sessions", query);
   const { period } = resolvedPeriod;
+
+  const [editingSessionId, setEditingSessionId] = useState<string | null>(null);
 
   const rows = demoData.sessions
     .filter((session) => {
@@ -69,10 +74,24 @@ export function DemoSessionsTableSection({
     });
 
   return (
-    <DemoSessionsTableCard
-      rows={rows}
-      periodLabel={formatDemoSessionsPeriodLabel(resolvedPeriod)}
-    />
+    <>
+      <DemoSessionsTableCard
+        rows={rows}
+        periodLabel={formatDemoSessionsPeriodLabel(resolvedPeriod)}
+        onEditSession={setEditingSessionId}
+      />
+
+      <DemoSessionFormSheet
+        mode="edit"
+        sessionId={editingSessionId}
+        open={editingSessionId !== null}
+        onOpenChange={(open) => {
+          if (!open) {
+            setEditingSessionId(null);
+          }
+        }}
+      />
+    </>
   );
 }
 

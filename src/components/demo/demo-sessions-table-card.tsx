@@ -1,4 +1,7 @@
+import { Pencil } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -38,11 +41,13 @@ export type DemoSessionsTableRow = {
 type DemoSessionsTableCardProps = {
   rows: DemoSessionsTableRow[];
   periodLabel: string;
+  onEditSession: (sessionId: string) => void;
 };
 
 export function DemoSessionsTableCard({
   rows,
   periodLabel,
+  onEditSession,
 }: DemoSessionsTableCardProps) {
   return (
     <Card className="gap-0">
@@ -60,13 +65,16 @@ export function DemoSessionsTableCard({
               <TableHead>Date</TableHead>
               <TableHead className="hidden md:table-cell">Time</TableHead>
               <TableHead>Apps</TableHead>
-              <TableHead className="hidden lg:table-cell">Vehicle</TableHead>
-              <TableHead className="text-right">Miles</TableHead>
+              <TableHead className="hidden xl:table-cell">Vehicle</TableHead>
+              <TableHead className="hidden text-right sm:table-cell">
+                Miles
+              </TableHead>
               <TableHead className="hidden text-right sm:table-cell">
                 Hours
               </TableHead>
               <TableHead className="text-right">Gross</TableHead>
-              <TableHead className="hidden md:table-cell">Notes</TableHead>
+              <TableHead className="hidden 2xl:table-cell">Notes</TableHead>
+              <TableHead className="w-12 text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -74,7 +82,7 @@ export function DemoSessionsTableCard({
             {rows.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={8}
+                  colSpan={9}
                   className="h-24 text-center text-muted-foreground"
                 >
                   No sessions recorded for this period yet.
@@ -100,29 +108,39 @@ export function DemoSessionsTableCard({
                       {timeRange}
                     </TableCell>
 
-                    <TableCell>
-                      <div className="flex flex-wrap gap-1">
+                    <TableCell className="max-w-32">
+                      <div className="flex items-center gap-1 overflow-hidden">
                         {session.appShortNames.length > 0 ? (
-                          session.appShortNames.map((appShortName) => (
-                            <Badge
-                              key={appShortName}
-                              variant="secondary"
-                              className="px-1.5"
-                            >
-                              {appShortName}
-                            </Badge>
-                          ))
+                          <>
+                            {session.appShortNames
+                              .slice(0, 3)
+                              .map((appShortName) => (
+                                <Badge
+                                  key={appShortName}
+                                  variant="secondary"
+                                  className="px-1.5"
+                                >
+                                  {appShortName}
+                                </Badge>
+                              ))}
+
+                            {session.appShortNames.length > 3 ? (
+                              <Badge variant="secondary" className="px-1.5">
+                                +{session.appShortNames.length - 3}
+                              </Badge>
+                            ) : null}
+                          </>
                         ) : (
                           <span className="text-muted-foreground">-</span>
                         )}
                       </div>
                     </TableCell>
 
-                    <TableCell className="hidden text-muted-foreground lg:table-cell">
+                    <TableCell className="hidden text-muted-foreground xl:table-cell">
                       {session.vehicleName}
                     </TableCell>
 
-                    <TableCell className="text-right tabular-nums">
+                    <TableCell className="hidden text-right tabular-nums sm:table-cell">
                       {formatMiles(session.totalMiles)}
                     </TableCell>
 
@@ -134,8 +152,21 @@ export function DemoSessionsTableCard({
                       {formatCurrencyFromCents(session.grossEarningsCents)}
                     </TableCell>
 
-                    <TableCell className="hidden max-w-64 truncate text-muted-foreground md:table-cell">
+                    <TableCell className="hidden max-w-64 truncate text-muted-foreground 2xl:table-cell">
                       {session.notes ?? "-"}
+                    </TableCell>
+
+                    <TableCell className="w-12 text-right">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        aria-label={`Edit session ${date}`}
+                        className="hover:text-primary"
+                        onClick={() => onEditSession(session.id)}
+                      >
+                        <Pencil className="size-4" />
+                      </Button>
                     </TableCell>
                   </TableRow>
                 );
