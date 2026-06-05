@@ -1,4 +1,4 @@
-export function formatDate(date: Date): string {
+export function formatDateToString(date: Date): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
@@ -19,6 +19,14 @@ export function formatSessionShortDate(date: string): string {
     month: "short",
     day: "numeric",
   }).format(new Date(`${date}T00:00:00`));
+}
+
+export function formatTimeToString(dateTime: string): string {
+  const date = new Date(dateTime);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${hours}:${minutes}`;
 }
 
 export function formatSessionTimeRange(

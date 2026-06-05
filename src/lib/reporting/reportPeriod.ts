@@ -1,4 +1,4 @@
-import { formatDate, parseDateString } from "@/lib/date";
+import { formatDateToString, parseDateString } from "@/lib/date";
 
 const REPORT_PERIOD_TIME_ZONE = "America/New_York";
 
@@ -41,8 +41,8 @@ export function getCurrentWeekPeriod(
   endDate.setHours(12, 0, 0, 0);
 
   return {
-    startDate: formatDate(startDate),
-    endDate: formatDate(endDate),
+    startDate: formatDateToString(startDate),
+    endDate: formatDateToString(endDate),
   };
 }
 
@@ -78,8 +78,8 @@ export function getPreviousWeekPeriod(period: ReportPeriod): ReportPeriod {
   endDate.setDate(endDate.getDate() - 7);
 
   return {
-    startDate: formatDate(startDate),
-    endDate: formatDate(endDate),
+    startDate: formatDateToString(startDate),
+    endDate: formatDateToString(endDate),
   };
 }
 
@@ -96,8 +96,8 @@ export function getPreviousReportPeriod(period: ReportPeriod): ReportPeriod {
   previousStartDate.setDate(previousEndDate.getDate() - periodLengthInDays + 1);
 
   return {
-    startDate: formatDate(previousStartDate),
-    endDate: formatDate(previousEndDate),
+    startDate: formatDateToString(previousStartDate),
+    endDate: formatDateToString(previousEndDate),
   };
 }
 
@@ -114,8 +114,8 @@ export function getNextReportPeriod(period: ReportPeriod): ReportPeriod {
   nextEndDate.setDate(nextStartDate.getDate() + periodLengthInDays - 1);
 
   return {
-    startDate: formatDate(nextStartDate),
-    endDate: formatDate(nextEndDate),
+    startDate: formatDateToString(nextStartDate),
+    endDate: formatDateToString(nextEndDate),
   };
 }
 
@@ -127,8 +127,8 @@ export function getNextWeekPeriod(period: ReportPeriod): ReportPeriod {
   endDate.setDate(endDate.getDate() + 7);
 
   return {
-    startDate: formatDate(startDate),
-    endDate: formatDate(endDate),
+    startDate: formatDateToString(startDate),
+    endDate: formatDateToString(endDate),
   };
 }
 

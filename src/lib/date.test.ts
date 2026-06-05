@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  formatDate,
+  formatDateToString,
   formatSessionDate,
   formatSessionShortDate,
   formatSessionTimeRange,
@@ -14,7 +14,7 @@ describe("date helpers", () => {
   it("formats a date as an ISO date string", () => {
     const date = new Date(2026, 4, 29, 12);
 
-    expect(formatDate(date)).toBe("2026-05-29");
+    expect(formatDateToString(date)).toBe("2026-05-29");
   });
 
   it("parses an ISO date string as a local date", () => {

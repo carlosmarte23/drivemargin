@@ -10,7 +10,7 @@ import {
   buildEarningsOverTimeChartData,
   buildGrossVsExpensesChartData,
 } from "@/lib/charts/dashboardChartData";
-import { formatDate, parseDateString } from "@/lib/date";
+import { formatDateToString, parseDateString } from "@/lib/date";
 import {
   formatReportPeriodLabel,
   getPreviousReportPeriod,
@@ -102,7 +102,7 @@ function getDatesInPeriod(period: ReportPeriod): string[] {
   const end = parseDateString(period.endDate);
 
   while (current <= end) {
-    dates.push(formatDate(current));
+    dates.push(formatDateToString(current));
     current.setDate(current.getDate() + 1);
   }
 
