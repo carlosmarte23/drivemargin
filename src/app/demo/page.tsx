@@ -1,5 +1,5 @@
+import { DemoDashboard } from "@/components/demo/dashboard/demo-dashboard";
 import { DemoBanner } from "@/components/demo/demo-banner";
-import { DemoDashboard } from "@/components/demo/demo-dashboard";
 import { AppShell } from "@/components/layout/app-shell";
 import { ReportPeriodNavigator } from "@/components/report-period/report-period-navigator";
 import {
@@ -20,8 +20,8 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
   const reportPeriodQuery = resolveReportPeriodQuery(resolvedSearchParams);
   const hasPeriodQuery = Boolean(
     resolvedSearchParams.period ||
-      resolvedSearchParams.start ||
-      resolvedSearchParams.end,
+    resolvedSearchParams.start ||
+    resolvedSearchParams.end,
   );
 
   return (

@@ -3,12 +3,15 @@
 import { useState } from "react";
 
 import { useDemoData } from "@/components/demo/demo-data-provider";
-import { DemoSessionFormSheet } from "@/components/demo/demo-session-form-sheet";
+import { DemoDeleteConfirmationDialog } from "@/components/demo/demo-delete-confirmation-dialog";
+import { DemoSessionFormSheet } from "@/components/demo/sessions/demo-session-form-sheet";
 import {
   DemoSessionsTableCard,
   type DemoSessionsTableRow,
-} from "@/components/demo/demo-sessions-table-card";
+} from "@/components/demo/sessions/demo-sessions-table-card";
+import { ViewSessionNotesDialog } from "@/components/demo/sessions/view-session-notes-dialog";
 import { resolveDemoRecordsPeriod } from "@/lib/demo/demo-records-period";
+import { deleteDemoSession } from "@/lib/demo/demo-session-mutations";
 import {
   formatReportPeriodLabel,
   type ReportPeriodInput,
@@ -21,11 +24,36 @@ type DemoSessionsTableSectionProps = {
 export function DemoSessionsTableSection({
   query,
 }: DemoSessionsTableSectionProps) {
-  const { demoData } = useDemoData();
+  const { demoData, setDemoData } = useDemoData();
   const resolvedPeriod = resolveDemoRecordsPeriod(demoData, "sessions", query);
   const { period } = resolvedPeriod;
 
   const [editingSessionId, setEditingSessionId] = useState<string | null>(null);
+  const [deletingSessionId, setDeletingSessionId] = useState<string | null>(
+    null,
+  );
+  const [viewingNotesSessionId, setViewingNotesSessionId] = useState<
+    string | null
+  >(null);
+
+  function calculateHoursWorked(startedAt: string, endedAt: string) {
+    const startedAtTime = new Date(startedAt).getTime();
+    const endedAtTime = new Date(endedAt).getTime();
+
+    return Math.max((endedAtTime - startedAtTime) / 3_600_000, 0);
+  }
+
+  function formatDemoSessionsPeriodLabel(
+    resolvedPeriod: ReturnType<typeof resolveDemoRecordsPeriod>,
+  ): string {
+    const formattedPeriod = formatReportPeriodLabel(resolvedPeriod.period);
+
+    if (resolvedPeriod.mode === "all") {
+      return `all demo sessions (${formattedPeriod})`;
+    }
+
+    return `this period (${formattedPeriod})`;
+  }
 
   const rows = demoData.sessions
     .filter((session) => {
@@ -72,6 +100,9 @@ export function DemoSessionsTableSection({
     .sort((firstSession, secondSession) => {
       return secondSession.startedAt.localeCompare(firstSession.startedAt);
     });
+  const notesSession = rows.find((session) => {
+    return session.id === viewingNotesSessionId;
+  });
 
   return (
     <>
@@ -79,6 +110,36 @@ export function DemoSessionsTableSection({
         rows={rows}
         periodLabel={formatDemoSessionsPeriodLabel(resolvedPeriod)}
         onEditSession={setEditingSessionId}
+        onDeleteSession={setDeletingSessionId}
+        onViewSessionNotes={setViewingNotesSessionId}
+      />
+
+      <ViewSessionNotesDialog
+        notes={notesSession?.notes}
+        open={viewingNotesSessionId !== null}
+        onOpenChange={(open) => {
+          if (!open) {
+            setViewingNotesSessionId(null);
+          }
+        }}
+      />
+
+      <DemoDeleteConfirmationDialog
+        entityId={deletingSessionId}
+        open={deletingSessionId !== null}
+        title="Delete session?"
+        description="This will remove the work session and its app earnings."
+        onConfirmDelete={(sessionId) => {
+          setDemoData((currentData) => {
+            return deleteDemoSession(currentData, sessionId);
+          });
+          setDeletingSessionId(null);
+        }}
+        onOpenChange={(open) => {
+          if (!open) {
+            setDeletingSessionId(null);
+          }
+        }}
       />
 
       <DemoSessionFormSheet
@@ -93,23 +154,4 @@ export function DemoSessionsTableSection({
       />
     </>
   );
-}
-
-function calculateHoursWorked(startedAt: string, endedAt: string) {
-  const startedAtTime = new Date(startedAt).getTime();
-  const endedAtTime = new Date(endedAt).getTime();
-
-  return Math.max((endedAtTime - startedAtTime) / 3_600_000, 0);
-}
-
-function formatDemoSessionsPeriodLabel(
-  resolvedPeriod: ReturnType<typeof resolveDemoRecordsPeriod>,
-): string {
-  const formattedPeriod = formatReportPeriodLabel(resolvedPeriod.period);
-
-  if (resolvedPeriod.mode === "all") {
-    return `all demo sessions (${formattedPeriod})`;
-  }
-
-  return `this period (${formattedPeriod})`;
 }

@@ -1,4 +1,4 @@
-import { Pencil } from "lucide-react";
+import { Pencil, StickyNote, Trash2 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -42,12 +42,16 @@ type DemoSessionsTableCardProps = {
   rows: DemoSessionsTableRow[];
   periodLabel: string;
   onEditSession: (sessionId: string) => void;
+  onDeleteSession: (sessionId: string) => void;
+  onViewSessionNotes: (sessionId: string) => void;
 };
 
 export function DemoSessionsTableCard({
   rows,
   periodLabel,
   onEditSession,
+  onDeleteSession,
+  onViewSessionNotes,
 }: DemoSessionsTableCardProps) {
   return (
     <Card className="gap-0">
@@ -156,17 +160,43 @@ export function DemoSessionsTableCard({
                       {session.notes ?? "-"}
                     </TableCell>
 
-                    <TableCell className="w-12 text-right">
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        aria-label={`Edit session ${date}`}
-                        className="hover:text-primary"
-                        onClick={() => onEditSession(session.id)}
-                      >
-                        <Pencil className="size-4" />
-                      </Button>
+                    <TableCell className="w-28">
+                      <div className="flex justify-end gap-1">
+                        {session.notes?.trim() ? (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            aria-label={`View notes for session ${date}`}
+                            className="hover:bg-primary/10 hover:text-primary"
+                            onClick={() => onViewSessionNotes(session.id)}
+                          >
+                            <StickyNote className="size-4" />
+                          </Button>
+                        ) : null}
+
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          aria-label={`Edit session ${date}`}
+                          className="hover:bg-primary/10 hover:text-primary"
+                          onClick={() => onEditSession(session.id)}
+                        >
+                          <Pencil className="size-4" />
+                        </Button>
+
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          aria-label={`Delete session ${date}`}
+                          className="hover:bg-destructive/10 hover:text-destructive"
+                          onClick={() => onDeleteSession(session.id)}
+                        >
+                          <Trash2 className="size-4" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 );

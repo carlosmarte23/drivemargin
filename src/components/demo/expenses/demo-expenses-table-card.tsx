@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/table";
 import { formatSessionDate, formatSessionShortDate } from "@/lib/date";
 import { formatCurrencyFromCents } from "@/lib/formatters/money";
-
 import type { MoneyCents } from "@/types/domain";
 
 export type DemoExpensesTableRow = {

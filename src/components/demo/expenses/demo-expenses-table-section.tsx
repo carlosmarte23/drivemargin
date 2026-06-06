@@ -4,14 +4,13 @@ import { useDemoData } from "@/components/demo/demo-data-provider";
 import {
   DemoExpensesTableCard,
   type DemoExpensesTableRow,
-} from "@/components/demo/demo-expenses-table-card";
+} from "@/components/demo/expenses/demo-expenses-table-card";
 import { resolveDemoRecordsPeriod } from "@/lib/demo/demo-records-period";
+import { formatExpenseCategoryLabel } from "@/lib/formatters/expense-category";
 import {
   formatReportPeriodLabel,
   type ReportPeriodInput,
 } from "@/lib/reporting/reportPeriod";
-
-import { formatExpenseCategoryLabel } from "@/lib/formatters/expense-category";
 
 type DemoExpensesTableSectionProps = {
   query: ReportPeriodInput;

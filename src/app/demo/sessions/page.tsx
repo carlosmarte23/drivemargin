@@ -1,6 +1,6 @@
 import { DemoBanner } from "@/components/demo/demo-banner";
 import { DemoRecordsPeriodNavigator } from "@/components/demo/demo-records-period-navigator";
-import { DemoSessionsTableSection } from "@/components/demo/demo-sessions-table-section";
+import { DemoSessionsTableSection } from "@/components/demo/sessions/demo-sessions-table-section";
 import { AppShell } from "@/components/layout/app-shell";
 import type { ReportPeriodInput } from "@/lib/reporting/reportPeriod";
 

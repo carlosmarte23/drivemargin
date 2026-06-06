@@ -4,7 +4,7 @@ import { useDemoData } from "@/components/demo/demo-data-provider";
 import {
   DemoFuelTableCard,
   type DemoFuelTableRow,
-} from "@/components/demo/demo-fuel-table-card";
+} from "@/components/demo/fuel/demo-fuel-table-card";
 import { resolveDemoRecordsPeriod } from "@/lib/demo/demo-records-period";
 import {
   formatReportPeriodLabel,
