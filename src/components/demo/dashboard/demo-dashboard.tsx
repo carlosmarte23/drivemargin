@@ -4,6 +4,7 @@ import { useMemo } from "react";
 
 import { Dashboard } from "@/components/dashboard/dashboard";
 import { useDemoData } from "@/components/demo/demo-data-provider";
+import { DemoSessionCreateAction } from "@/components/demo/sessions/demo-session-create-action";
 import { buildDemoDashboardData } from "@/lib/demo/get-demo-dashboard-data";
 import type { ReportPeriod } from "@/lib/reporting/reportPeriod";
 
@@ -20,10 +21,14 @@ export function DemoDashboard({ period, basePath }: DemoDashboardProps) {
   }, [demoData, period]);
 
   return (
-    <Dashboard
-      dashboardData={dashboardData}
-      period={period}
-      basePath={basePath}
-    />
+    <>
+      <Dashboard
+        dashboardData={dashboardData}
+        period={period}
+        basePath={basePath}
+      />
+
+      <DemoSessionCreateAction />
+    </>
   );
 }
