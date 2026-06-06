@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { useDemoData } from "@/components/demo/demo-data-provider";
 import { DemoDeleteConfirmationDialog } from "@/components/demo/demo-delete-confirmation-dialog";
+import { DemoFloatingActionButton } from "@/components/demo/demo-floating-action-button";
 import { DemoSessionFormSheet } from "@/components/demo/sessions/demo-session-form-sheet";
 import {
   DemoSessionsTableCard,
@@ -28,6 +29,7 @@ export function DemoSessionsTableSection({
   const resolvedPeriod = resolveDemoRecordsPeriod(demoData, "sessions", query);
   const { period } = resolvedPeriod;
 
+  const [isCreatingSession, setIsCreatingSession] = useState(false);
   const [editingSessionId, setEditingSessionId] = useState<string | null>(null);
   const [deletingSessionId, setDeletingSessionId] = useState<string | null>(
     null,
@@ -100,6 +102,7 @@ export function DemoSessionsTableSection({
     .sort((firstSession, secondSession) => {
       return secondSession.startedAt.localeCompare(firstSession.startedAt);
     });
+
   const notesSession = rows.find((session) => {
     return session.id === viewingNotesSessionId;
   });
@@ -112,6 +115,12 @@ export function DemoSessionsTableSection({
         onEditSession={setEditingSessionId}
         onDeleteSession={setDeletingSessionId}
         onViewSessionNotes={setViewingNotesSessionId}
+      />
+
+      <DemoSessionFormSheet
+        mode="create"
+        open={isCreatingSession}
+        onOpenChange={setIsCreatingSession}
       />
 
       <ViewSessionNotesDialog
@@ -151,6 +160,11 @@ export function DemoSessionsTableSection({
             setEditingSessionId(null);
           }
         }}
+      />
+
+      <DemoFloatingActionButton
+        label="Add session"
+        onClick={() => setIsCreatingSession(true)}
       />
     </>
   );

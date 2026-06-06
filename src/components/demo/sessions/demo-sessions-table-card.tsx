@@ -18,6 +18,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+
+import {
   formatSessionDate,
   formatSessionShortDate,
   formatSessionTimeRange,
@@ -162,40 +169,57 @@ export function DemoSessionsTableCard({
 
                     <TableCell className="w-28">
                       <div className="flex justify-end gap-1">
-                        {session.notes?.trim() ? (
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            aria-label={`View notes for session ${date}`}
-                            className="hover:bg-primary/10 hover:text-primary"
-                            onClick={() => onViewSessionNotes(session.id)}
-                          >
-                            <StickyNote className="size-4" />
-                          </Button>
-                        ) : null}
+                        <TooltipProvider delayDuration={100}>
+                          {session.notes?.trim() ? (
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="icon"
+                                  aria-label={`View notes for session ${date}`}
+                                  className="hover:bg-primary/10 hover:text-primary"
+                                  onClick={() => onViewSessionNotes(session.id)}
+                                >
+                                  <StickyNote className="size-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>View notes</TooltipContent>
+                            </Tooltip>
+                          ) : null}
 
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          aria-label={`Edit session ${date}`}
-                          className="hover:bg-primary/10 hover:text-primary"
-                          onClick={() => onEditSession(session.id)}
-                        >
-                          <Pencil className="size-4" />
-                        </Button>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                aria-label={`Edit session ${date}`}
+                                className="hover:bg-primary/10 hover:text-primary"
+                                onClick={() => onEditSession(session.id)}
+                              >
+                                <Pencil className="size-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Edit session</TooltipContent>
+                          </Tooltip>
 
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          aria-label={`Delete session ${date}`}
-                          className="hover:bg-destructive/10 hover:text-destructive"
-                          onClick={() => onDeleteSession(session.id)}
-                        >
-                          <Trash2 className="size-4" />
-                        </Button>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                aria-label={`Delete session ${date}`}
+                                className="hover:bg-destructive/10 hover:text-destructive"
+                                onClick={() => onDeleteSession(session.id)}
+                              >
+                                <Trash2 className="size-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Delete session</TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       </div>
                     </TableCell>
                   </TableRow>
