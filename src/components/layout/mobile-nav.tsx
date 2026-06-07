@@ -6,7 +6,12 @@ import { usePathname } from "next/navigation";
 import { ArrowLeft, Menu } from "lucide-react";
 
 import { BrandLogo } from "@/components/brand-logo";
-import { getNavItems } from "@/components/layout/app-navigation";
+import {
+  getNavItems,
+  getReturnToSiteLabel,
+  getWorkspaceLabel,
+  isNavItemActive,
+} from "@/components/layout/app-navigation";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -26,9 +31,8 @@ type MobileNavProps = {
 export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
   const pathname = usePathname();
   const navItems = getNavItems(basePath);
-
-  const isDemo = basePath === "/demo";
-  const footerLabel = isDemo ? "Back to site" : "Back to public site";
+  const workspaceLabel = getWorkspaceLabel(basePath);
+  const footerLabel = getReturnToSiteLabel(basePath);
 
   return (
     <Sheet>
@@ -50,7 +54,7 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
               <BrandLogo />
 
               <p className="truncate text-xs text-muted-foreground">
-                {isDemo ? "Demo workspace" : "Driver dashboard"}
+                {workspaceLabel}
               </p>
             </div>
           </SheetTitle>
@@ -64,11 +68,7 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
           {navItems.map((item) => {
             const Icon = item.icon;
 
-            const isActive =
-              item.href === "/demo"
-                ? pathname === "/demo"
-                : pathname === item.href ||
-                  pathname.startsWith(`${item.href}/`);
+            const isActive = isNavItemActive(pathname, item.href);
 
             return (
               <SheetClose
