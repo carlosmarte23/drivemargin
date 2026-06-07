@@ -4,7 +4,6 @@ import type {
   EntityId,
   MileageEntryMode,
   MoneyCents,
-  WorkSession,
 } from "@/types/domain";
 
 export type DemoSessionEarningFormValue = {
