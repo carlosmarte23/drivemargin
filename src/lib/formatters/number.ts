@@ -1,16 +1,15 @@
-export function formatDecimalNumber(
-  value: number,
-  maximumFractionDigits: number = 1,
-): string {
-  return new Intl.NumberFormat("en-US", {
-    maximumFractionDigits,
-  }).format(value);
+const decimalNumberFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 1,
+});
+
+function formatDecimalNumber(value: number): string {
+  return decimalNumberFormatter.format(value);
 }
 
 export function formatHours(value: number): string {
-  return `${formatDecimalNumber(value, 1)}h`;
+  return `${formatDecimalNumber(value)}h`;
 }
 
 export function formatMiles(value: number): string {
-  return `${formatDecimalNumber(value, 1)}mi`;
+  return `${formatDecimalNumber(value)}mi`;
 }

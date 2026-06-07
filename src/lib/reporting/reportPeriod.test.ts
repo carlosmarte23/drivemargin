@@ -7,9 +7,9 @@ import {
   getNextWeekPeriod,
   getPreviousReportPeriod,
   getPreviousWeekPeriod,
+  hasReportPeriodInput,
   isSameReportPeriod,
   resolveReportPeriod,
-  hasReportPeriodInput,
 } from "@/lib/reporting/reportPeriod";
 
 describe("reportPeriod", () => {

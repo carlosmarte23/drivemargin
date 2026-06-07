@@ -6,12 +6,12 @@ import { useEffect } from "react";
 
 import { useDemoData } from "@/components/demo/demo-data-provider";
 import { ReportPeriodNavigator } from "@/components/report-period/report-period-navigator";
+import { getDemoRecordDates } from "@/lib/demo/demo-records-period";
 import { resolveRecordsPeriod } from "@/lib/reporting/recordsPeriod";
 import {
   buildAllDataHref,
   type ReportPeriodInput,
 } from "@/lib/reporting/reportPeriod";
-import { getDemoRecordDates } from "@/lib/demo/demo-records-period";
 
 type DemoRecordResource = "sessions" | "fuel" | "expenses";
 

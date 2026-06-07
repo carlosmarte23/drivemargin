@@ -6,7 +6,12 @@ import { usePathname } from "next/navigation";
 import { ArrowLeft, Menu } from "lucide-react";
 
 import { BrandLogo } from "@/components/brand-logo";
-import { getNavItems } from "@/components/layout/app-navigation";
+import {
+  getNavItems,
+  getReturnToSiteLabel,
+  getWorkspaceLabel,
+  isNavItemActive,
+} from "@/components/layout/app-navigation";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -26,9 +31,8 @@ type MobileNavProps = {
 export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
   const pathname = usePathname();
   const navItems = getNavItems(basePath);
-
-  const isDemo = basePath === "/demo";
-  const footerLabel = isDemo ? "Back to site" : "Back to public site";
+  const workspaceLabel = getWorkspaceLabel(basePath);
+  const footerLabel = getReturnToSiteLabel(basePath);
 
   return (
     <Sheet>
@@ -49,8 +53,8 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
             <div className="flex flex-col gap-2 border-b p-4">
               <BrandLogo />
 
-              <p className="text-muted-foreground truncate text-xs">
-                {isDemo ? "Demo workspace" : "Driver dashboard"}
+              <p className="truncate text-xs text-muted-foreground">
+                {workspaceLabel}
               </p>
             </div>
           </SheetTitle>
@@ -64,11 +68,7 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
           {navItems.map((item) => {
             const Icon = item.icon;
 
-            const isActive =
-              item.href === "/demo"
-                ? pathname === "/demo"
-                : pathname === item.href ||
-                  pathname.startsWith(`${item.href}/`);
+            const isActive = isNavItemActive(pathname, item.href);
 
             return (
               <SheetClose
@@ -90,10 +90,10 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
           })}
         </nav>
 
-        <div className="border-border/70 mt-auto border-t p-3">
+        <div className="mt-auto border-t border-border/70 p-3">
           <Button
             variant="ghost"
-            className="text-muted-foreground w-full justify-start gap-2"
+            className="w-full justify-start gap-2 text-muted-foreground"
             asChild
           >
             <Link href="/">

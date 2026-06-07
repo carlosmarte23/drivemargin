@@ -11,8 +11,8 @@ type PublicShellProps = {
 
 export function PublicShell({ children }: PublicShellProps) {
   return (
-    <div className="bg-background text-foreground flex min-h-screen flex-col">
-      <header className="motion-safe:animate-fade-in-down motion-safe:animate-duration-700 border-border/70 border-b">
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
+      <header className="border-b border-border/70 motion-safe:animate-fade-in-down motion-safe:animate-duration-700">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div className="flex items-center justify-between">
             <Link href="/" aria-label="DriveMargin home">
@@ -52,7 +52,7 @@ export function PublicShell({ children }: PublicShellProps) {
         </div>
       </header>
 
-      <main className="bg-background text-foreground min-h-screen">
+      <main className="min-h-screen bg-background text-foreground">
         <div className="px-4 py-10 sm:px-6 sm:py-12 lg:py-14">
           <div className="mx-auto flex max-w-6xl flex-col gap-10 sm:gap-12 lg:gap-14">
             {children}
