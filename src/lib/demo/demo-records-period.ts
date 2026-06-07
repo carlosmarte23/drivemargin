@@ -1,7 +1,6 @@
-import type { DemoData } from "@/types/domain";
-
 import { resolveRecordsPeriod } from "@/lib/reporting/recordsPeriod";
 import type { ReportPeriodInput } from "@/lib/reporting/reportPeriod";
+import type { DemoData } from "@/types/domain";
 
 export type DemoRecordResource = "sessions" | "fuel" | "expenses";
 

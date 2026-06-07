@@ -66,12 +66,7 @@ export function ReportPeriodNavigator({
         />
 
         {isAllData ? (
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label="Next period"
-            disabled
-          >
+          <Button variant="ghost" size="icon" aria-label="Next period" disabled>
             <ChevronRight className="size-5" />
           </Button>
         ) : (
