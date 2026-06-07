@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+
 import {
   ArrowRight,
   BarChart3,
@@ -5,7 +7,6 @@ import {
   ClipboardList,
   Coins,
 } from "lucide-react";
-import { Fragment } from "react";
 
 const steps = [
   {
@@ -40,27 +41,27 @@ const revealRanges = [
 export function LandingHowItWorks() {
   return (
     <section className="motion-safe:timeline-view motion-safe:animate-fade-in-up motion-safe:animate-range-[entry_0%_cover_38%]">
-      <div className="rounded-4xl border border-border bg-card/40 p-5 sm:p-6 lg:p-8">
+      <div className="border-border bg-card/40 rounded-4xl border p-5 sm:p-6 lg:p-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             How it works
           </h2>
 
-          <p className="mt-3 text-muted-foreground lg:hidden">
+          <p className="text-muted-foreground mt-3 lg:hidden">
             A simple workflow for turning shift data into real profitability
             metrics.
           </p>
         </div>
 
         {/* Mobile / tablet accordion */}
-        <div className="motion-safe:timeline-view motion-safe:animate-fade-in-up motion-safe:animate-range-[entry_0%_cover_28%] mt-6 overflow-hidden rounded-3xl border border-border bg-card/60 lg:hidden">
+        <div className="motion-safe:timeline-view motion-safe:animate-fade-in-up motion-safe:animate-range-[entry_0%_cover_28%] border-border bg-card/60 mt-6 overflow-hidden rounded-3xl border lg:hidden">
           {steps.map((item) => (
             <details
               key={item.step}
-              className="group border-b border-border last:border-b-0"
+              className="group border-border border-b last:border-b-0"
             >
               <summary className="flex cursor-pointer list-none items-center gap-4 px-4 py-4 [&::-webkit-details-marker]:hidden">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+                <span className="bg-primary text-primary-foreground flex size-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold">
                   {item.step}
                 </span>
 
@@ -68,11 +69,11 @@ export function LandingHowItWorks() {
                   {item.title}
                 </span>
 
-                <ChevronDown className="size-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" />
+                <ChevronDown className="text-muted-foreground size-5 shrink-0 transition-transform group-open:rotate-180" />
               </summary>
 
               <div className="px-4 pb-4 pl-18">
-                <p className="text-sm leading-6 text-muted-foreground">
+                <p className="text-muted-foreground text-sm leading-6">
                   {item.description}
                 </p>
               </div>
@@ -88,11 +89,11 @@ export function LandingHowItWorks() {
                 className={`motion-safe:timeline-view motion-safe:animate-fade-in-up ${revealRanges[index]} flex min-w-0 flex-1 items-start gap-5`}
               >
                 <div className="relative shrink-0">
-                  <span className="absolute -top-4 -left-4 z-10 flex size-10 items-center justify-center rounded-full bg-primary text-base font-semibold text-primary-foreground shadow-lg shadow-primary/20">
+                  <span className="bg-primary text-primary-foreground shadow-primary/20 absolute -top-4 -left-4 z-10 flex size-10 items-center justify-center rounded-full text-base font-semibold shadow-lg">
                     {item.step}
                   </span>
 
-                  <div className="flex size-20 items-center justify-center rounded-3xl border border-primary/30 bg-primary/10 text-primary shadow-lg shadow-primary/10">
+                  <div className="border-primary/30 bg-primary/10 text-primary shadow-primary/10 flex size-20 items-center justify-center rounded-3xl border shadow-lg">
                     <item.icon className="size-9" />
                   </div>
                 </div>
@@ -102,7 +103,7 @@ export function LandingHowItWorks() {
                     {item.title}
                   </h3>
 
-                  <p className="mt-2 max-w-52 text-sm leading-6 text-muted-foreground">
+                  <p className="text-muted-foreground mt-2 max-w-52 text-sm leading-6">
                     {item.description}
                   </p>
                 </div>
@@ -111,9 +112,9 @@ export function LandingHowItWorks() {
               {index < steps.length - 1 ? (
                 <div
                   aria-hidden="true"
-                  className="mt-8 flex w-16 shrink-0 items-center text-primary/40 xl:w-20"
+                  className="text-primary/40 mt-8 flex w-16 shrink-0 items-center xl:w-20"
                 >
-                  <span className="h-px flex-1 border-t border-dashed border-primary/30" />
+                  <span className="border-primary/30 h-px flex-1 border-t border-dashed" />
                   <ArrowRight className="-ml-1 size-4" />
                 </div>
               ) : null}

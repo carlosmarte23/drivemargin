@@ -1,34 +1,53 @@
 # DriveMargin
 
-DriveMargin is a fullstack profitability dashboard for multi-app delivery workers.
+DriveMargin is a profitability dashboard for multi-app delivery workers.
 
 The app helps users track work sessions, split earnings by platform, estimate fuel costs, log non-fuel expenses, and understand real profit per hour and per mile.
 
 ## Status
 
-Early development.
+Public demo release.
 
-Current milestone:
+Current release: `0.4.0`
 
-- Project scaffold
-- UI foundation
-- Public demo prototype
-- Calculation engine
+DriveMargin `0.4.0` is a frontend public demo release with sample data,
+dashboard reporting, editable demo records, and temporary sessionStorage
+persistence. The fullstack backend is planned for `1.0`.
+
+Included in this release:
+
+- Public landing page
+- Public demo workspace
+- Demo dashboard metrics and charts
+- Report period navigation
+- Work sessions CRUD
+- Fuel purchases CRUD
+- Non-fuel expenses CRUD
+- Demo settings form
+- Temporary demo data reset
+- Calculation engine and tests
 
 ## Tech stack
+
+Current `0.4.0` stack:
 
 - Next.js
 - TypeScript
 - Tailwind CSS
 - shadcn/ui
+- next-themes
+- Sonner
+- Recharts
+- Zod
+- Vitest
+- Vercel
+
+Planned `1.0` backend stack:
+
 - Supabase Auth
 - Supabase Postgres
 - Drizzle ORM
 - React Hook Form
-- Zod
-- Recharts
-- Vitest
-- Vercel
 
 ## Core idea
 
@@ -49,19 +68,28 @@ Work session
 -> Net earnings
 ```
 
-## MVP goals
+## Public Demo
 
-- Public landing page
-- Public demo with sample data
-- Authentication
-- Onboarding
-- Work sessions CRUD
-- Fuel purchases CRUD
-- Expenses CRUD
-- Dashboard metrics
-- Rule-based insights
-- Responsive design
-- Development
+The public demo uses generated sample data and stores user edits in browser
+sessionStorage. Demo changes are temporary and can be reset from the demo
+banner.
+
+Available demo areas:
+
+- Dashboard
+- Sessions
+- Fuel
+- Expenses
+- Settings
+
+## Planned Phases
+
+Next planned phases:
+
+- `0.5`: Full app polish, responsive review, demo guided tour, and public demo
+  presentation updates.
+- `1.0`: Authentication, onboarding, real database persistence, authenticated
+  app workspace, and production CRUD backed by user data.
 
 ## Install dependencies:
 

@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { BrandLogo } from "@/components/brand-logo";
+import { Footer } from "@/components/layout/footer";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { CurrentYear } from "@/components/current-year";
 import { Button } from "@/components/ui/button";
 
 type PublicShellProps = {
@@ -11,8 +11,8 @@ type PublicShellProps = {
 
 export function PublicShell({ children }: PublicShellProps) {
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <header className="motion-safe:animate-fade-in-down motion-safe:animate-duration-700 border-b border-border/70">
+    <div className="bg-background text-foreground flex min-h-screen flex-col">
+      <header className="motion-safe:animate-fade-in-down motion-safe:animate-duration-700 border-border/70 border-b">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div className="flex items-center justify-between">
             <Link href="/" aria-label="DriveMargin home">
@@ -28,12 +28,11 @@ export function PublicShell({ children }: PublicShellProps) {
             <Button
               variant="ghost"
               size="sm"
-              type="button"
-              disabled
-              aria-label="Try demo, coming soon"
-              title="Demo coming soon"
+              asChild
+              aria-label="Try the app demo"
+              title="App demo"
             >
-              Try demo
+              <Link href="/demo">Try demo</Link>
             </Button>
 
             <Button variant="ghost" size="sm" asChild>
@@ -53,7 +52,7 @@ export function PublicShell({ children }: PublicShellProps) {
         </div>
       </header>
 
-      <main className="min-h-screen bg-background text-foreground">
+      <main className="bg-background text-foreground min-h-screen">
         <div className="px-4 py-10 sm:px-6 sm:py-12 lg:py-14">
           <div className="mx-auto flex max-w-6xl flex-col gap-10 sm:gap-12 lg:gap-14">
             {children}
@@ -61,17 +60,7 @@ export function PublicShell({ children }: PublicShellProps) {
         </div>
       </main>
 
-      <footer className="border-t border-border/70">
-        <div className="mx-auto flex min-h-14 max-w-6xl flex-col justify-center gap-2 px-4 py-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p>
-            &copy; <CurrentYear /> DriveMargin. All rights reserved.
-          </p>
-
-          <p className="text-sm">
-            A portfolio project currently in active development.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

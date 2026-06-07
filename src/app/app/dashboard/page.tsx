@@ -2,7 +2,7 @@ import { AppShell } from "@/components/layout/app-shell";
 
 export default function AppDashboardPage() {
   return (
-    <AppShell basePath="/app" workspaceLabel="Protected app placeholder">
+    <AppShell basePath="/app" pageLabel="Protected app placeholder">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
 
