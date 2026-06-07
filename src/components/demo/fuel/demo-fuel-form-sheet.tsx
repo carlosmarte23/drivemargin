@@ -2,10 +2,9 @@
 
 import { useState, type FormEvent, type MouseEvent } from "react";
 
-import { Trash2 } from "lucide-react";
-
 import { useDemoData } from "@/components/demo/demo-data-provider";
-import { Button } from "@/components/ui/button";
+import { DemoFieldError } from "@/components/demo/demo-field-error";
+import { DemoFormSheetFooter } from "@/components/demo/demo-form-sheet-footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -19,7 +18,6 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
@@ -173,7 +171,7 @@ function DemoFuelFormContent({
                 updateValue("date", event.target.value);
               }}
             />
-            <FieldError message={errors.date} />
+            <DemoFieldError message={errors.date} />
           </div>
 
           <div className="space-y-2">
@@ -195,7 +193,7 @@ function DemoFuelFormContent({
                 ))}
               </SelectContent>
             </Select>
-            <FieldError message={errors.vehicleId} />
+            <DemoFieldError message={errors.vehicleId} />
           </div>
 
           <div className="space-y-2">
@@ -211,7 +209,7 @@ function DemoFuelFormContent({
                 updateValue("totalPaid", event.target.value);
               }}
             />
-            <FieldError message={errors.totalPaid} />
+            <DemoFieldError message={errors.totalPaid} />
           </div>
 
           <div className="space-y-2">
@@ -227,7 +225,7 @@ function DemoFuelFormContent({
                 updateValue("gallons", event.target.value);
               }}
             />
-            <FieldError message={errors.gallons} />
+            <DemoFieldError message={errors.gallons} />
           </div>
 
           <div className="space-y-2">
@@ -243,7 +241,7 @@ function DemoFuelFormContent({
                 updateValue("odometer", event.target.value);
               }}
             />
-            <FieldError message={errors.odometer} />
+            <DemoFieldError message={errors.odometer} />
           </div>
         </div>
 
@@ -272,39 +270,17 @@ function DemoFuelFormContent({
         </div>
       </div>
 
-      <SheetFooter className="gap-2 border-t px-6 py-4 sm:flex-row sm:items-center sm:justify-end sm:gap-3">
-        {mode === "edit" && (
-          <Button
-            type="button"
-            variant={isConfirmingDelete ? "destructive" : "outline"}
-            data-delete-fuel-button
-            onClick={handleDelete}
-          >
-            <Trash2 aria-hidden="true" className="size-4" />
-            {isConfirmingDelete ? "Confirm delete" : "Delete fuel purchase"}
-          </Button>
-        )}
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => {
-            onOpenChange(false);
-          }}
-        >
-          Cancel
-        </Button>
-        <Button type="submit">
-          {mode === "create" ? "Add fuel purchase" : "Save changes"}
-        </Button>
-      </SheetFooter>
+      <DemoFormSheetFooter
+        mode={mode}
+        submitLabel={mode === "create" ? "Add fuel purchase" : "Save changes"}
+        deleteLabel="Delete fuel purchase"
+        isConfirmingDelete={isConfirmingDelete}
+        deleteButtonDataAttribute="data-delete-fuel-button"
+        onCancel={() => {
+          onOpenChange(false);
+        }}
+        onDelete={handleDelete}
+      />
     </form>
   );
-}
-
-function FieldError({ message }: { message?: string }) {
-  if (!message) {
-    return null;
-  }
-
-  return <p className="text-sm text-destructive">{message}</p>;
 }

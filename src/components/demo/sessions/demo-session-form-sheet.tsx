@@ -5,6 +5,8 @@ import { useState, type FormEvent, type MouseEvent } from "react";
 import { Trash2 } from "lucide-react";
 
 import { useDemoData } from "@/components/demo/demo-data-provider";
+import { DemoFieldError } from "@/components/demo/demo-field-error";
+import { DemoFormSheetFooter } from "@/components/demo/demo-form-sheet-footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,7 +21,6 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
@@ -214,7 +215,7 @@ function DemoSessionFormContent({
                 updateValue("date", event.target.value);
               }}
             />
-            <FieldError message={errors.date} />
+            <DemoFieldError message={errors.date} />
           </div>
 
           <div className="space-y-2">
@@ -236,7 +237,7 @@ function DemoSessionFormContent({
                 ))}
               </SelectContent>
             </Select>
-            <FieldError message={errors.vehicleId} />
+            <DemoFieldError message={errors.vehicleId} />
           </div>
 
           <div className="space-y-2">
@@ -249,7 +250,7 @@ function DemoSessionFormContent({
                 updateValue("startTime", event.target.value);
               }}
             />
-            <FieldError message={errors.startTime} />
+            <DemoFieldError message={errors.startTime} />
           </div>
 
           <div className="space-y-2">
@@ -262,7 +263,7 @@ function DemoSessionFormContent({
                 updateValue("endTime", event.target.value);
               }}
             />
-            <FieldError message={errors.endTime} />
+            <DemoFieldError message={errors.endTime} />
           </div>
         </div>
 
@@ -306,7 +307,7 @@ function DemoSessionFormContent({
                   updateValue("totalMiles", event.target.value);
                 }}
               />
-              <FieldError message={errors.totalMiles} />
+              <DemoFieldError message={errors.totalMiles} />
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
@@ -322,7 +323,7 @@ function DemoSessionFormContent({
                     updateValue("startOdometer", event.target.value);
                   }}
                 />
-                <FieldError message={errors.startOdometer} />
+                <DemoFieldError message={errors.startOdometer} />
               </div>
 
               <div className="space-y-2">
@@ -337,7 +338,7 @@ function DemoSessionFormContent({
                     updateValue("endOdometer", event.target.value);
                   }}
                 />
-                <FieldError message={errors.endOdometer} />
+                <DemoFieldError message={errors.endOdometer} />
               </div>
             </div>
           )}
@@ -408,7 +409,7 @@ function DemoSessionFormContent({
             ))}
           </div>
 
-          <FieldError message={errors.appEarnings} />
+          <DemoFieldError message={errors.appEarnings} />
         </div>
 
         <div className="space-y-2 rounded-lg border border-border/70 p-4">
@@ -424,41 +425,18 @@ function DemoSessionFormContent({
         </div>
       </div>
 
-      <SheetFooter className="gap-2 border-t px-6 py-4 sm:flex-row sm:items-center sm:justify-end sm:gap-3">
-        {mode === "edit" ? (
-          <Button
-            type="button"
-            variant={isConfirmingDelete ? "destructive" : "outline"}
-            data-delete-session-button
-            className="sm:mr-auto"
-            onClick={handleDelete}
-          >
-            <Trash2 className="size-4" />
-            {isConfirmingDelete ? "Confirm delete" : "Delete session"}
-          </Button>
-        ) : null}
-
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => {
-            onOpenChange(false);
-          }}
-        >
-          Cancel
-        </Button>
-        <Button type="submit">
-          {mode === "create" ? "Add session" : "Save changes"}
-        </Button>
-      </SheetFooter>
+      <DemoFormSheetFooter
+        mode={mode}
+        submitLabel={mode === "create" ? "Add session" : "Save changes"}
+        deleteLabel="Delete session"
+        isConfirmingDelete={isConfirmingDelete}
+        deleteButtonClassName="sm:mr-auto"
+        deleteButtonDataAttribute="data-delete-session-button"
+        onCancel={() => {
+          onOpenChange(false);
+        }}
+        onDelete={handleDelete}
+      />
     </form>
   );
-}
-
-function FieldError({ message }: { message?: string }) {
-  if (!message) {
-    return null;
-  }
-
-  return <p className="text-sm text-destructive">{message}</p>;
 }

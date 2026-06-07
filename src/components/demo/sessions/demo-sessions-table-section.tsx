@@ -11,6 +11,7 @@ import {
   type DemoSessionsTableRow,
 } from "@/components/demo/sessions/demo-sessions-table-card";
 import { ViewSessionNotesDialog } from "@/components/demo/sessions/view-session-notes-dialog";
+import { useDemoRecordActions } from "@/components/demo/use-demo-record-actions";
 import { resolveDemoRecordsPeriod } from "@/lib/demo/demo-records-period";
 import { deleteDemoSession } from "@/lib/demo/demo-session-mutations";
 import {
@@ -29,10 +30,14 @@ export function DemoSessionsTableSection({
   const resolvedPeriod = resolveDemoRecordsPeriod(demoData, "sessions", query);
   const { period } = resolvedPeriod;
 
-  const [editingSessionId, setEditingSessionId] = useState<string | null>(null);
-  const [deletingSessionId, setDeletingSessionId] = useState<string | null>(
-    null,
-  );
+  const {
+    editingRecordId: editingSessionId,
+    deletingRecordId: deletingSessionId,
+    startEditingRecord: startEditingSession,
+    startDeletingRecord: startDeletingSession,
+    closeEditingRecord: closeEditingSession,
+    closeDeletingRecord: closeDeletingSession,
+  } = useDemoRecordActions();
   const [viewingNotesSessionId, setViewingNotesSessionId] = useState<
     string | null
   >(null);
@@ -111,8 +116,8 @@ export function DemoSessionsTableSection({
       <DemoSessionsTableCard
         rows={rows}
         periodLabel={formatDemoSessionsPeriodLabel(resolvedPeriod)}
-        onEditSession={setEditingSessionId}
-        onDeleteSession={setDeletingSessionId}
+        onEditSession={startEditingSession}
+        onDeleteSession={startDeletingSession}
         onViewSessionNotes={setViewingNotesSessionId}
       />
 
@@ -137,11 +142,11 @@ export function DemoSessionsTableSection({
           setDemoData((currentData) => {
             return deleteDemoSession(currentData, sessionId);
           });
-          setDeletingSessionId(null);
+          closeDeletingSession();
         }}
         onOpenChange={(open) => {
           if (!open) {
-            setDeletingSessionId(null);
+            closeDeletingSession();
           }
         }}
       />
@@ -152,7 +157,7 @@ export function DemoSessionsTableSection({
         open={editingSessionId !== null}
         onOpenChange={(open) => {
           if (!open) {
-            setEditingSessionId(null);
+            closeEditingSession();
           }
         }}
       />

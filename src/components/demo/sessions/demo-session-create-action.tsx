@@ -1,25 +1,17 @@
-"use client";
-
-import { useState } from "react";
-
-import { DemoFloatingActionButton } from "@/components/demo/demo-floating-action-button";
+import { DemoRecordCreateAction } from "@/components/demo/demo-record-create-action";
 import { DemoSessionFormSheet } from "@/components/demo/sessions/demo-session-form-sheet";
 
 export function DemoSessionCreateAction() {
-  const [isCreatingSession, setIsCreatingSession] = useState(false);
-
   return (
-    <>
-      <DemoFloatingActionButton
-        label="Add session"
-        onClick={() => setIsCreatingSession(true)}
-      />
-
-      <DemoSessionFormSheet
-        mode="create"
-        open={isCreatingSession}
-        onOpenChange={setIsCreatingSession}
-      />
-    </>
+    <DemoRecordCreateAction
+      label="Add session"
+      renderSheet={({ open, onOpenChange }) => (
+        <DemoSessionFormSheet
+          mode="create"
+          open={open}
+          onOpenChange={onOpenChange}
+        />
+      )}
+    />
   );
 }

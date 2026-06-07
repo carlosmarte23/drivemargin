@@ -1,22 +1,20 @@
 "use client";
 
-import { useState } from "react";
-
 import { useDemoData } from "@/components/demo/demo-data-provider";
+import { DemoDeleteConfirmationDialog } from "@/components/demo/demo-delete-confirmation-dialog";
 import { DemoFuelCreateAction } from "@/components/demo/fuel/demo-fuel-create-action";
+import { DemoFuelFormSheet } from "@/components/demo/fuel/demo-fuel-form-sheet";
 import {
   DemoFuelTableCard,
   type DemoFuelTableRow,
 } from "@/components/demo/fuel/demo-fuel-table-card";
+import { useDemoRecordActions } from "@/components/demo/use-demo-record-actions";
 import { deleteDemoFuelPurchase } from "@/lib/demo/demo-fuel-mutations";
 import { resolveDemoRecordsPeriod } from "@/lib/demo/demo-records-period";
 import {
   formatReportPeriodLabel,
   type ReportPeriodInput,
 } from "@/lib/reporting/reportPeriod";
-
-import { DemoDeleteConfirmationDialog } from "../demo-delete-confirmation-dialog";
-import { DemoFuelFormSheet } from "./demo-fuel-form-sheet";
 
 type DemoFuelTableSectionProps = {
   query: ReportPeriodInput;
@@ -28,12 +26,14 @@ export function DemoFuelTableSection({ query }: DemoFuelTableSectionProps) {
 
   const fuelPurchases = demoData.fuelPurchases;
 
-  const [editingFuelPurchaseId, setEditingFuelPurchaseId] = useState<
-    string | null
-  >(null);
-  const [deletingFuelPurchaseId, setDeletingFuelPurchaseId] = useState<
-    string | null
-  >(null);
+  const {
+    editingRecordId: editingFuelPurchaseId,
+    deletingRecordId: deletingFuelPurchaseId,
+    startEditingRecord: startEditingFuelPurchase,
+    startDeletingRecord: startDeletingFuelPurchase,
+    closeEditingRecord: closeEditingFuelPurchase,
+    closeDeletingRecord: closeDeletingFuelPurchase,
+  } = useDemoRecordActions();
 
   const rows = fuelPurchases
     .filter((purchase) => {
@@ -65,8 +65,8 @@ export function DemoFuelTableSection({ query }: DemoFuelTableSectionProps) {
       <DemoFuelTableCard
         rows={rows}
         periodLabel={formatReportPeriodLabel(period)}
-        onEditFuelPurchase={setEditingFuelPurchaseId}
-        onDeleteFuelPurchase={setDeletingFuelPurchaseId}
+        onEditFuelPurchase={startEditingFuelPurchase}
+        onDeleteFuelPurchase={startDeletingFuelPurchase}
       />
 
       <DemoFuelCreateAction />
@@ -78,14 +78,14 @@ export function DemoFuelTableSection({ query }: DemoFuelTableSectionProps) {
         description="Are you sure you want to delete this fuel purchase?"
         onOpenChange={(open) => {
           if (!open) {
-            setDeletingFuelPurchaseId(null);
+            closeDeletingFuelPurchase();
           }
         }}
         onConfirmDelete={(fuelPurchaseId) => {
           setDemoData((currentData) => {
             return deleteDemoFuelPurchase(currentData, fuelPurchaseId);
           });
-          setDeletingFuelPurchaseId(null);
+          closeDeletingFuelPurchase();
         }}
       />
 
@@ -95,7 +95,7 @@ export function DemoFuelTableSection({ query }: DemoFuelTableSectionProps) {
         open={editingFuelPurchaseId !== null}
         onOpenChange={(open) => {
           if (!open) {
-            setEditingFuelPurchaseId(null);
+            closeEditingFuelPurchase();
           }
         }}
       />
