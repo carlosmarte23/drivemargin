@@ -3,12 +3,14 @@ import { describe, expect, it } from "vitest";
 import {
   formatReportPeriodLabel,
   getCurrentWeekPeriod,
+  getNextReportPeriod,
   getNextWeekPeriod,
   getPreviousReportPeriod,
   getPreviousWeekPeriod,
   isSameReportPeriod,
   resolveReportPeriod,
-} from "./reportPeriod";
+  hasReportPeriodInput,
+} from "@/lib/reporting/reportPeriod";
 
 describe("reportPeriod", () => {
   describe("getCurrentWeekPeriod", () => {
@@ -241,6 +243,32 @@ describe("reportPeriod", () => {
     });
   });
 
+  describe("getNextReportPeriod", () => {
+    it("returns the next period with the same number of days", () => {
+      const period = getNextReportPeriod({
+        startDate: "2026-05-25",
+        endDate: "2026-05-26",
+      });
+
+      expect(period).toEqual({
+        startDate: "2026-05-27",
+        endDate: "2026-05-28",
+      });
+    });
+
+    it("matches the next week for a seven day week period", () => {
+      const period = getNextReportPeriod({
+        startDate: "2026-05-25",
+        endDate: "2026-05-31",
+      });
+
+      expect(period).toEqual({
+        startDate: "2026-06-01",
+        endDate: "2026-06-07",
+      });
+    });
+  });
+
   describe("getNextWeekPeriod", () => {
     it("returns the next Monday to Sunday period", () => {
       const period = getNextWeekPeriod({
@@ -325,6 +353,31 @@ describe("reportPeriod", () => {
       );
 
       expect(isSamePeriod).toBe(false);
+    });
+  });
+
+  describe("hasReportPeriodInput", () => {
+    it("detects when report period input was provided", () => {
+      expect(
+        hasReportPeriodInput({
+          start: "2026-05-01",
+          end: "2026-05-29",
+        }),
+      ).toBe(true);
+
+      expect(hasReportPeriodInput({})).toBe(false);
+
+      expect(
+        hasReportPeriodInput({
+          start: "2026-05-01",
+        }),
+      ).toBe(false);
+
+      expect(
+        hasReportPeriodInput({
+          end: "2026-05-29",
+        }),
+      ).toBe(false);
     });
   });
 });

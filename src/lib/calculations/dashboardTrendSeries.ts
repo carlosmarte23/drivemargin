@@ -1,5 +1,5 @@
 import { calculateDashboardMetrics } from "@/lib/calculations/dashboardMetrics";
-import { formatDate, parseDateString } from "@/lib/date";
+import { formatDateToString, parseDateString } from "@/lib/date";
 import type { ReportPeriod } from "@/lib/reporting/reportPeriod";
 import type {
   Expense,
@@ -58,7 +58,7 @@ function getDatesBetween(
   const end = parseDateString(endDate);
 
   while (current <= end) {
-    dates.push(formatDate(current));
+    dates.push(formatDateToString(current));
     current.setDate(current.getDate() + 1);
   }
 

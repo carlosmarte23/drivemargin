@@ -20,6 +20,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  formatSessionDate,
+  formatSessionShortDate,
+  formatSessionTimeRange,
+} from "@/lib/date";
 import { formatCurrencyFromCents } from "@/lib/formatters/money";
 import { formatHours, formatMiles } from "@/lib/formatters/number";
 import {
@@ -34,30 +39,6 @@ type DashboardRecentSessionsProps = {
   period: ReportPeriod;
   basePath: "/demo" | "/app";
 };
-
-function formatSessionDate(date: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(new Date(`${date}T00:00:00`));
-}
-
-function formatSessionShortDate(date: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-  }).format(new Date(`${date}T00:00:00`));
-}
-
-function formatSessionTimeRange(startedAt: string, endedAt: string) {
-  const formatter = new Intl.DateTimeFormat("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-
-  return `${formatter.format(new Date(startedAt))} - ${formatter.format(new Date(endedAt))}`;
-}
 
 export function DashboardRecentSessions({
   sessions,

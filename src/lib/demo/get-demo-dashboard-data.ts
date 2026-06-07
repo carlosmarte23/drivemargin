@@ -10,7 +10,7 @@ import {
   buildEarningsOverTimeChartData,
   buildGrossVsExpensesChartData,
 } from "@/lib/charts/dashboardChartData";
-import { formatDate, parseDateString } from "@/lib/date";
+import { formatDateToString, parseDateString } from "@/lib/date";
 import {
   formatReportPeriodLabel,
   getPreviousReportPeriod,
@@ -102,15 +102,14 @@ function getDatesInPeriod(period: ReportPeriod): string[] {
   const end = parseDateString(period.endDate);
 
   while (current <= end) {
-    dates.push(formatDate(current));
+    dates.push(formatDateToString(current));
     current.setDate(current.getDate() + 1);
   }
 
   return dates;
 }
 
-export function getDemoDashboardData(period: ReportPeriod) {
-  const data = generateDemoData();
+export function buildDemoDashboardData(data: DemoData, period: ReportPeriod) {
   const metrics = calculateMetricsForPeriod(data, period);
 
   const previousPeriod = getPreviousReportPeriod(period);
@@ -272,4 +271,8 @@ export function getDemoDashboardData(period: ReportPeriod) {
     dailyTrendSeries,
     charts,
   };
+}
+
+export function getDemoDashboardData(period: ReportPeriod) {
+  return buildDemoDashboardData(generateDemoData(), period);
 }

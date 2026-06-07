@@ -1,14 +1,10 @@
-import { Dashboard } from "@/components/dashboard/dashboard";
-
+import { DemoDashboard } from "@/components/demo/dashboard/demo-dashboard";
 import { DemoBanner } from "@/components/demo/demo-banner";
-
-import { ReportPeriodNavigator } from "@/components/report-period/report-period-navigator";
 import { AppShell } from "@/components/layout/app-shell";
-
-import { getDemoDashboardData } from "@/lib/demo/get-demo-dashboard-data";
-
+import { ReportPeriodNavigator } from "@/components/report-period/report-period-navigator";
 import {
   resolveReportPeriod,
+  resolveReportPeriodQuery,
   type ReportPeriodInput,
 } from "@/lib/reporting/reportPeriod";
 
@@ -20,16 +16,27 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
   const basePath = "/demo";
 
   const resolvedSearchParams = await searchParams;
-
   const reportPeriod = resolveReportPeriod(resolvedSearchParams);
-  const dashboardData = getDemoDashboardData(reportPeriod);
+  const reportPeriodQuery = resolveReportPeriodQuery(resolvedSearchParams);
+  const hasPeriodQuery = Boolean(
+    resolvedSearchParams.period ||
+    resolvedSearchParams.start ||
+    resolvedSearchParams.end,
+  );
 
   return (
     <AppShell
       basePath="/demo"
       pageLabel="Demo Dashboard"
       headerContent={
-        <ReportPeriodNavigator period={reportPeriod} hrefBase={basePath} />
+        <ReportPeriodNavigator
+          period={reportPeriod}
+          hrefBase={basePath}
+          defaultHref={basePath}
+          isDefaultPeriod={
+            reportPeriodQuery.mode === "default" && !hasPeriodQuery
+          }
+        />
       }
     >
       <div className="space-y-5">
@@ -43,11 +50,7 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
 
         <DemoBanner />
 
-        <Dashboard
-          dashboardData={dashboardData}
-          period={reportPeriod}
-          basePath={basePath}
-        />
+        <DemoDashboard period={reportPeriod} basePath={basePath} />
       </div>
     </AppShell>
   );

@@ -1,4 +1,4 @@
-import { formatDate, parseDateString } from "@/lib/date";
+import { formatDateToString, parseDateString } from "@/lib/date";
 
 const REPORT_PERIOD_TIME_ZONE = "America/New_York";
 
@@ -15,9 +15,15 @@ export type ReportPeriod = {
 };
 
 export type ReportPeriodInput = {
+  period?: string;
   start?: string;
   end?: string;
 };
+
+export type ReportPeriodQuery =
+  | { mode: "all" }
+  | { mode: "range"; period: ReportPeriod }
+  | { mode: "default" };
 
 export function getCurrentWeekPeriod(
   referenceDate: Date = new Date(),
@@ -35,8 +41,8 @@ export function getCurrentWeekPeriod(
   endDate.setHours(12, 0, 0, 0);
 
   return {
-    startDate: formatDate(startDate),
-    endDate: formatDate(endDate),
+    startDate: formatDateToString(startDate),
+    endDate: formatDateToString(endDate),
   };
 }
 
@@ -72,8 +78,8 @@ export function getPreviousWeekPeriod(period: ReportPeriod): ReportPeriod {
   endDate.setDate(endDate.getDate() - 7);
 
   return {
-    startDate: formatDate(startDate),
-    endDate: formatDate(endDate),
+    startDate: formatDateToString(startDate),
+    endDate: formatDateToString(endDate),
   };
 }
 
@@ -90,8 +96,26 @@ export function getPreviousReportPeriod(period: ReportPeriod): ReportPeriod {
   previousStartDate.setDate(previousEndDate.getDate() - periodLengthInDays + 1);
 
   return {
-    startDate: formatDate(previousStartDate),
-    endDate: formatDate(previousEndDate),
+    startDate: formatDateToString(previousStartDate),
+    endDate: formatDateToString(previousEndDate),
+  };
+}
+
+export function getNextReportPeriod(period: ReportPeriod): ReportPeriod {
+  const startDate = parseDateString(period.startDate);
+  const endDate = parseDateString(period.endDate);
+  const periodLengthInDays =
+    Math.round((endDate.getTime() - startDate.getTime()) / 86_400_000) + 1;
+
+  const nextStartDate = new Date(endDate);
+  nextStartDate.setDate(endDate.getDate() + 1);
+
+  const nextEndDate = new Date(nextStartDate);
+  nextEndDate.setDate(nextStartDate.getDate() + periodLengthInDays - 1);
+
+  return {
+    startDate: formatDateToString(nextStartDate),
+    endDate: formatDateToString(nextEndDate),
   };
 }
 
@@ -103,8 +127,8 @@ export function getNextWeekPeriod(period: ReportPeriod): ReportPeriod {
   endDate.setDate(endDate.getDate() + 7);
 
   return {
-    startDate: formatDate(startDate),
-    endDate: formatDate(endDate),
+    startDate: formatDateToString(startDate),
+    endDate: formatDateToString(endDate),
   };
 }
 
@@ -190,4 +214,49 @@ export function buildPeriodHref(
   });
 
   return `${hrefBase}?${params.toString()}`;
+}
+
+export function buildAllDataHref(hrefBase: string): string {
+  const params = new URLSearchParams({
+    period: "all",
+  });
+
+  return `${hrefBase}?${params.toString()}`;
+}
+
+export function resolveReportPeriodQuery(
+  input: ReportPeriodInput,
+): ReportPeriodQuery {
+  if (input.period === "all") {
+    return { mode: "all" };
+  }
+
+  const { start, end } = input;
+
+  if (
+    !start ||
+    !end ||
+    !isValidDateString(start) ||
+    !isValidDateString(end) ||
+    start > end
+  ) {
+    return { mode: "default" };
+  }
+
+  return {
+    mode: "range",
+    period: {
+      startDate: start,
+      endDate: end,
+    },
+  };
+}
+
+export function hasReportPeriodInput(input: ReportPeriodInput): boolean {
+  return (
+    typeof input.start === "string" &&
+    input.start.length > 0 &&
+    typeof input.end === "string" &&
+    input.end.length > 0
+  );
 }

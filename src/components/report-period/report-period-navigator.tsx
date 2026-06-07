@@ -7,41 +7,57 @@ import { Button } from "@/components/ui/button";
 import {
   buildPeriodHref,
   formatReportPeriodLabel,
-  getCurrentWeekPeriod,
-  getNextWeekPeriod,
-  getPreviousWeekPeriod,
-  isSameReportPeriod,
+  getNextReportPeriod,
+  getPreviousReportPeriod,
   type ReportPeriod,
 } from "@/lib/reporting/reportPeriod";
 
 type ReportPeriodNavigatorProps = {
   period: ReportPeriod;
   hrefBase: string;
+  defaultHref?: string;
+  isDefaultPeriod?: boolean;
+  mode?: "all" | "range";
 };
 
 export function ReportPeriodNavigator({
   period,
   hrefBase,
+  defaultHref = hrefBase,
+  isDefaultPeriod = false,
+  mode = "range",
 }: ReportPeriodNavigatorProps) {
-  const previousPeriod = getPreviousWeekPeriod(period);
-  const nextPeriod = getNextWeekPeriod(period);
-  const currentPeriod = getCurrentWeekPeriod();
+  const previousPeriod = getPreviousReportPeriod(period);
+  const nextPeriod = getNextReportPeriod(period);
 
-  const periodLabel = formatReportPeriodLabel(period);
-  const isCurrentPeriod = isSameReportPeriod(period, currentPeriod);
+  const formattedPeriod = formatReportPeriodLabel(period);
+  const periodLabel =
+    mode === "all" ? `All data: ${formattedPeriod}` : formattedPeriod;
+  const isAllData = mode === "all";
 
   return (
-    <div className="flex w-full max-w-full flex-row items-center justify-center gap-2 sm:w-fit">
+    <div className="flex w-full max-w-full items-center justify-center sm:w-fit">
       <div className="flex max-w-full items-center rounded-lg border border-border bg-card shadow-sm">
-        <Button variant="ghost" size="icon" asChild>
-          <Link
-            href={buildPeriodHref(hrefBase, previousPeriod)}
+        {isAllData ? (
+          <Button
+            variant="ghost"
+            size="icon"
             aria-label="Previous period"
-            scroll={false}
+            disabled
           >
             <ChevronLeft className="size-5" />
-          </Link>
-        </Button>
+          </Button>
+        ) : (
+          <Button variant="ghost" size="icon" asChild>
+            <Link
+              href={buildPeriodHref(hrefBase, previousPeriod)}
+              aria-label="Previous period"
+              scroll={false}
+            >
+              <ChevronLeft className="size-5" />
+            </Link>
+          </Button>
+        )}
 
         <ReportPeriodPickerDialog
           period={period}
@@ -49,28 +65,49 @@ export function ReportPeriodNavigator({
           label={periodLabel}
         />
 
-        <Button variant="ghost" size="icon" asChild>
-          <Link
-            href={buildPeriodHref(hrefBase, nextPeriod)}
+        {isAllData ? (
+          <Button
+            variant="ghost"
+            size="icon"
             aria-label="Next period"
-            scroll={false}
+            disabled
           >
             <ChevronRight className="size-5" />
-          </Link>
-        </Button>
-      </div>
+          </Button>
+        ) : (
+          <Button variant="ghost" size="icon" asChild>
+            <Link
+              href={buildPeriodHref(hrefBase, nextPeriod)}
+              aria-label="Next period"
+              scroll={false}
+            >
+              <ChevronRight className="size-5" />
+            </Link>
+          </Button>
+        )}
 
-      {isCurrentPeriod ? (
-        <Button variant="outline" size="sm" className="h-9 px-3" disabled>
-          Current week
-        </Button>
-      ) : (
-        <Button variant="outline" size="sm" className="h-9 px-3" asChild>
-          <Link href={buildPeriodHref(hrefBase, currentPeriod)} scroll={false}>
-            Current week
-          </Link>
-        </Button>
-      )}
+        {isDefaultPeriod ? (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-9 rounded-l-none border-l border-border px-3"
+            disabled
+          >
+            Clear
+          </Button>
+        ) : (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-9 rounded-l-none border-l border-border px-3"
+            asChild
+          >
+            <Link href={defaultHref} scroll={false}>
+              Clear
+            </Link>
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

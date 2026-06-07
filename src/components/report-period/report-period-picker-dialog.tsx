@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
   useTransition,
-  type FormEvent,
+  type ComponentProps,
   type MouseEvent,
 } from "react";
 
@@ -14,8 +14,10 @@ import { CalendarDays, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { parseDateString } from "@/lib/date";
 import {
   buildPeriodHref,
+  formatReportPeriodLabel,
   type ReportPeriod,
 } from "@/lib/reporting/reportPeriod";
 
@@ -25,10 +27,38 @@ type ReportPeriodPickerDialogProps = {
   label: string;
 };
 
+type FormSubmitEvent = Parameters<
+  NonNullable<ComponentProps<"form">["onSubmit"]>
+>[0];
+
 function handleBackdropClick(event: MouseEvent<HTMLDialogElement>) {
   if (event.target === event.currentTarget) {
     event.currentTarget.close();
   }
+}
+
+function getSelectedRangePreview(startDate: string, endDate: string) {
+  if (!isDateInputValue(startDate) || !isDateInputValue(endDate)) {
+    return null;
+  }
+
+  if (startDate > endDate) {
+    return null;
+  }
+
+  const start = parseDateString(startDate);
+  const end = parseDateString(endDate);
+  const dayCount =
+    Math.round((end.getTime() - start.getTime()) / 86_400_000) + 1;
+
+  return {
+    dayCount,
+    label: formatReportPeriodLabel({ startDate, endDate }),
+  };
+}
+
+function isDateInputValue(value: string) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value);
 }
 
 export function ReportPeriodPickerDialog({
@@ -44,6 +74,7 @@ export function ReportPeriodPickerDialog({
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
+  const selectedRangePreview = getSelectedRangePreview(startDate, endDate);
 
   function openDialog() {
     setStartDate(period.startDate);
@@ -56,7 +87,7 @@ export function ReportPeriodPickerDialog({
     dialogRef.current?.close();
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: FormSubmitEvent) {
     e.preventDefault();
 
     if (!startDate || !endDate) {
@@ -85,7 +116,7 @@ export function ReportPeriodPickerDialog({
       <button
         type="button"
         onClick={openDialog}
-        className="text-foreground hover:text-primary min-w-0 cursor-pointer px-3 text-center text-sm font-medium transition-colors sm:min-w-44"
+        className="min-w-0 cursor-pointer px-3 text-center text-sm font-medium text-foreground transition-colors hover:text-primary sm:min-w-44"
       >
         {label}
       </button>
@@ -95,12 +126,12 @@ export function ReportPeriodPickerDialog({
         onClick={handleBackdropClick}
         aria-describedby="period-picker-description"
         aria-labelledby="period-picker-title"
-        className="period-range-dialog border-border bg-card text-card-foreground m-auto w-[min(430px,calc(100vw-2rem))] overflow-hidden rounded-2xl border p-0 shadow-2xl"
+        className="period-range-dialog m-auto w-[min(430px,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-border bg-card p-0 text-card-foreground shadow-2xl"
       >
         <form onSubmit={handleSubmit}>
-          <div className="border-border/70 flex items-start justify-between gap-4 border-b px-5 py-4">
+          <div className="flex items-start justify-between gap-4 border-b border-border/70 px-5 py-4">
             <div className="flex items-center gap-3">
-              <div className="border-primary/25 bg-primary/10 text-primary flex size-10 items-center justify-center rounded-full border">
+              <div className="flex size-10 items-center justify-center rounded-full border border-primary/25 bg-primary/10 text-primary">
                 <CalendarDays className="size-5" aria-hidden="true" />
               </div>
 
@@ -110,7 +141,7 @@ export function ReportPeriodPickerDialog({
                 </h2>
                 <p
                   id="period-picker-description"
-                  className="text-muted-foreground mt-1 text-sm"
+                  className="mt-1 text-sm text-muted-foreground"
                 >
                   Choose a custom date range.
                 </p>
@@ -140,6 +171,7 @@ export function ReportPeriodPickerDialog({
                 id="period-start-date"
                 type="date"
                 value={startDate}
+                max={endDate || undefined}
                 autoFocus
                 onChange={(event) => {
                   setStartDate(event.target.value);
@@ -158,6 +190,7 @@ export function ReportPeriodPickerDialog({
                 id="period-end-date"
                 type="date"
                 value={endDate}
+                min={startDate || undefined}
                 onChange={(event) => {
                   setEndDate(event.target.value);
                   setError("");
@@ -167,14 +200,27 @@ export function ReportPeriodPickerDialog({
               />
             </div>
 
+            {selectedRangePreview ? (
+              <p className="rounded-lg border border-border bg-muted/20 px-3 py-2 text-sm text-muted-foreground">
+                Selected range:{" "}
+                <span className="font-medium text-foreground">
+                  {selectedRangePreview.label}
+                </span>
+                <span className="ml-2">
+                  {selectedRangePreview.dayCount}{" "}
+                  {selectedRangePreview.dayCount === 1 ? "day" : "days"}
+                </span>
+              </p>
+            ) : null}
+
             {error ? (
-              <p className="border-destructive/30 bg-destructive/10 text-destructive rounded-lg border px-3 py-2 text-sm">
+              <p className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
                 {error}
               </p>
             ) : null}
           </div>
 
-          <div className="border-border/70 bg-muted/20 flex flex-col-reverse gap-2 border-t px-5 py-4 sm:flex-row sm:justify-end">
+          <div className="flex flex-col-reverse gap-2 border-t border-border/70 bg-muted/20 px-5 py-4 sm:flex-row sm:justify-end">
             <Button
               type="button"
               variant="outline"
