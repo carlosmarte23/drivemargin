@@ -1,14 +1,13 @@
 import { describe, expect, test } from "vitest";
 
 import { generateDemoData } from "@/data/demo/generateDemoData";
-import type { DemoData } from "@/types/domain";
-
+import type { DemoSessionFormValues } from "@/lib/demo/demo-session-form";
 import {
   createDemoSession,
   deleteDemoSession,
   updateDemoSession,
 } from "@/lib/demo/demo-session-mutations";
-import type { DemoSessionFormValues } from "@/lib/demo/demo-session-form";
+import type { DemoData } from "@/types/domain";
 
 const referenceDate = new Date("2026-06-04T12:00:00.000Z");
 
@@ -42,25 +41,42 @@ function buildValidValues(data: DemoData): DemoSessionFormValues {
   };
 }
 
+function createSession(
+  data: DemoData,
+  values: DemoSessionFormValues,
+  sessionId: string,
+) {
+  const result = createDemoSession(data, values, {
+    sessionId,
+    earningIdFactory: (index) => `${sessionId}-earning-${index + 1}`,
+  });
+
+  expect(result.success).toBe(true);
+
+  if (!result.success) {
+    throw new Error("Expected demo session creation to succeed.");
+  }
+
+  return {
+    data: result.data,
+    session: findSession(result.data, sessionId),
+  };
+}
+
+function findSession(data: DemoData, sessionId: string) {
+  return data.sessions.find((item) => {
+    return item.id === sessionId;
+  });
+}
+
 describe("demo session mutations", () => {
   test("createDemoSession adds a session and its app earnings", () => {
     const data = buildData();
     const values = buildValidValues(data);
 
-    const result = createDemoSession(data, values, {
-      sessionId: "demo-session-new",
-      earningIdFactory: (index) => `demo-session-new-earning-${index + 1}`,
-    });
+    const result = createSession(data, values, "demo-session-new");
 
-    expect(result.success).toBe(true);
-
-    if (!result.success) return;
-
-    const session = result.data.sessions.find((item) => {
-      return item.id === "demo-session-new";
-    });
-
-    expect(session).toMatchObject({
+    expect(result.session).toMatchObject({
       id: "demo-session-new",
       date: "2026-06-04",
       vehicleId: values.vehicleId,
@@ -68,10 +84,10 @@ describe("demo session mutations", () => {
       totalMiles: 42.5,
       notes: "Airport and lunch shift",
     });
-    expect(session?.startedAt).toContain("T");
-    expect(session?.endedAt).toContain("T");
-    expect(new Date(session!.endedAt).getTime()).toBeGreaterThan(
-      new Date(session!.startedAt).getTime(),
+    expect(result.session?.startedAt).toContain("T");
+    expect(result.session?.endedAt).toContain("T");
+    expect(new Date(result.session!.endedAt).getTime()).toBeGreaterThan(
+      new Date(result.session!.startedAt).getTime(),
     );
 
     const earnings = result.data.sessionAppEarnings.filter((earning) => {
@@ -170,20 +186,9 @@ describe("demo session mutations", () => {
       endOdometer: "1042.5",
     };
 
-    const result = createDemoSession(data, values, {
-      sessionId: "demo-session-odometer",
-      earningIdFactory: (index) => `earning-${index + 1}`,
-    });
+    const result = createSession(data, values, "demo-session-odometer");
 
-    expect(result.success).toBe(true);
-
-    if (!result.success) return;
-
-    const session = result.data.sessions.find((item) => {
-      return item.id === "demo-session-odometer";
-    });
-
-    expect(session).toMatchObject({
+    expect(result.session).toMatchObject({
       mileageEntryMode: "odometer",
       totalMiles: 42.5,
       startOdometer: 1000,
@@ -200,21 +205,10 @@ describe("demo session mutations", () => {
       endTime: "01:30",
     };
 
-    const result = createDemoSession(data, values, {
-      sessionId: "demo-session-overnight",
-      earningIdFactory: (index) => `earning-${index + 1}`,
-    });
+    const result = createSession(data, values, "demo-session-overnight");
 
-    expect(result.success).toBe(true);
-
-    if (!result.success) return;
-
-    const session = result.data.sessions.find((item) => {
-      return item.id === "demo-session-overnight";
-    });
-
-    expect(session?.date).toBe("2026-06-04");
-    expect(session?.endedAt.slice(0, 10)).toBe("2026-06-05");
+    expect(result.session?.date).toBe("2026-06-04");
+    expect(result.session?.endedAt.slice(0, 10)).toBe("2026-06-05");
   });
 
   test("createDemoSession returns validation errors without changing data", () => {
