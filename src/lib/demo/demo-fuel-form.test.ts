@@ -21,7 +21,6 @@ function buildValidValues(data: DemoData): DemoFuelFormValues {
     date: "2026-06-04",
     vehicleId: data.vehicles[0]!.id,
     totalPaid: "52.75",
-    pricePerGallon: "3.50",
     gallons: "15.07",
     stationName: "Shell",
     odometer: "104500",
@@ -38,7 +37,6 @@ describe("demo fuel form", () => {
     expect(values).toMatchObject({
       vehicleId: data.vehicles.find((vehicle) => vehicle.isDefault)?.id,
       totalPaid: "",
-      pricePerGallon: "",
       gallons: "",
       stationName: "",
       odometer: "",
@@ -57,7 +55,6 @@ describe("demo fuel form", () => {
       date: purchase.date,
       vehicleId: purchase.vehicleId,
       totalPaid: (purchase.totalPaidCents / 100).toFixed(2),
-      pricePerGallon: (purchase.pricePerGallonCents / 100).toFixed(2),
       gallons: String(purchase.gallons),
       stationName: purchase.stationName ?? "",
       odometer:
@@ -120,7 +117,6 @@ describe("demo fuel form", () => {
       date: "",
       vehicleId: "missing-vehicle",
       totalPaid: "0",
-      pricePerGallon: "-1",
       gallons: "",
       odometer: "-10",
     };
@@ -135,7 +131,6 @@ describe("demo fuel form", () => {
       date: "Date is required",
       vehicleId: "Vehicle is required",
       totalPaid: "Enter an amount greater than $0.00.",
-      pricePerGallon: "Enter a price greater than $0.00.",
       gallons: "Enter gallons greater than 0.",
       odometer: "Enter a valid odometer value.",
     });

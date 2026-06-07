@@ -4,6 +4,7 @@ import type { FuelPurchase, MoneyCents } from "@/types/domain";
 
 import {
   calculateEstimatedFuelCostCents,
+  calculateFuelPricePerGallonCents,
   calculateGallonsPurchased,
   calculateGallonsUsed,
   getLatestFuelPricePerGallonCents,
@@ -82,6 +83,18 @@ describe("fuel calculations", () => {
     expect(calculateGallonsPurchased(5250, Number.NaN)).toBe(0);
     expect(calculateGallonsPurchased(-5250, 350)).toBe(0);
     expect(calculateGallonsPurchased(5250, -350)).toBe(0);
+  });
+
+  test("calculateFuelPricePerGallonCents returns total paid divided by gallons", () => {
+    expect(calculateFuelPricePerGallonCents(5275, 15.07)).toBe(350);
+  });
+
+  test("calculateFuelPricePerGallonCents returns 0 when total paid or gallons are invalid", () => {
+    expect(calculateFuelPricePerGallonCents(5275, 0)).toBe(0);
+    expect(calculateFuelPricePerGallonCents(Number.NaN, 15)).toBe(0);
+    expect(calculateFuelPricePerGallonCents(5275, Number.NaN)).toBe(0);
+    expect(calculateFuelPricePerGallonCents(-5275, 15)).toBe(0);
+    expect(calculateFuelPricePerGallonCents(5275, -15)).toBe(0);
   });
 
   test("getLatestFuelPricePerGallonCents returns the price from the most recent fuel purchase", () => {

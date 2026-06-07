@@ -67,6 +67,22 @@ export function calculateGallonsPurchased(
   return totalPaidCents / pricePerGallonCents;
 }
 
+export function calculateFuelPricePerGallonCents(
+  totalPaidCents: MoneyCents,
+  gallons: number,
+): MoneyCents {
+  if (
+    !Number.isFinite(totalPaidCents) ||
+    !Number.isFinite(gallons) ||
+    totalPaidCents <= 0 ||
+    gallons <= 0
+  ) {
+    return 0;
+  }
+
+  return Math.round(totalPaidCents / gallons);
+}
+
 export function getLatestFuelPricePerGallonCents(
   fuelPurchases: FuelPurchase[],
 ): MoneyCents {

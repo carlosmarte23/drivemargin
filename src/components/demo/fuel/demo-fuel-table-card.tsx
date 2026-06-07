@@ -1,3 +1,6 @@
+import { Pencil, Trash2 } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -13,6 +16,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { calculateFuelPricePerGallonCents } from "@/lib/calculations/fuel";
 import { formatSessionDate, formatSessionShortDate } from "@/lib/date";
 import { formatCurrencyFromCents } from "@/lib/formatters/money";
 import { formatMiles } from "@/lib/formatters/number";
@@ -23,7 +33,6 @@ export type DemoFuelTableRow = {
   vehicleName: string;
   date: string;
   totalPaidCents: MoneyCents;
-  pricePerGallonCents: MoneyCents;
   gallons: number;
   stationName?: string;
   odometer?: number;
@@ -33,11 +42,15 @@ export type DemoFuelTableRow = {
 type DemoFuelTableCardProps = {
   rows: DemoFuelTableRow[];
   periodLabel: string;
+  onEditFuelPurchase: (fuelPurchaseId: string) => void;
+  onDeleteFuelPurchase: (fuelPurchaseId: string) => void;
 };
 
 export function DemoFuelTableCard({
   rows,
   periodLabel,
+  onEditFuelPurchase,
+  onDeleteFuelPurchase,
 }: DemoFuelTableCardProps) {
   return (
     <Card className="gap-0">
@@ -62,6 +75,7 @@ export function DemoFuelTableCard({
                 Odometer
               </TableHead>
               <TableHead className="hidden xl:table-cell">Notes</TableHead>
+              <TableHead className="w-24 text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -69,7 +83,7 @@ export function DemoFuelTableCard({
             {rows.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={8}
+                  colSpan={9}
                   className="h-24 text-center text-muted-foreground"
                 >
                   No fuel purchases recorded for this period yet.
@@ -83,7 +97,10 @@ export function DemoFuelTableCard({
                   purchase.totalPaidCents,
                 );
                 const pricePerGallon = formatCurrencyFromCents(
-                  purchase.pricePerGallonCents,
+                  calculateFuelPricePerGallonCents(
+                    purchase.totalPaidCents,
+                    purchase.gallons,
+                  ),
                 );
                 const odometer = purchase.odometer
                   ? formatMiles(purchase.odometer)
@@ -122,6 +139,46 @@ export function DemoFuelTableCard({
 
                     <TableCell className="hidden max-w-64 truncate text-muted-foreground xl:table-cell">
                       {purchase.notes ?? "-"}
+                    </TableCell>
+
+                    <TableCell className="w-24 text-right">
+                      <div className="flex justify-end gap-1">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                aria-label={`Edit purchase ${date}`}
+                                className="hover:bg-primary/10 hover:text-primary"
+                                onClick={() => onEditFuelPurchase(purchase.id)}
+                              >
+                                <Pencil className="size-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Edit purchase</TooltipContent>
+                          </Tooltip>
+
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                aria-label={`Delete purchase ${date}`}
+                                className="hover:bg-destructive/10 hover:text-destructive"
+                                onClick={() =>
+                                  onDeleteFuelPurchase(purchase.id)
+                                }
+                              >
+                                <Trash2 className="size-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Delete purchase</TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
                     </TableCell>
                   </TableRow>
                 );

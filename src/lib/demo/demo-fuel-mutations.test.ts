@@ -21,7 +21,6 @@ function buildValidValues(data: DemoData): DemoFuelFormValues {
     date: "2026-06-04",
     vehicleId: data.vehicles[0]!.id,
     totalPaid: "52.75",
-    pricePerGallon: "3.50",
     gallons: "15.07",
     stationName: "Shell",
     odometer: "104500",
@@ -69,7 +68,6 @@ describe("demo fuel mutations", () => {
     const values: DemoFuelFormValues = {
       ...buildValidValues(data),
       totalPaid: "64.20",
-      pricePerGallon: "4.00",
       gallons: "16.05",
       stationName: "Costco",
       notes: "Edited fuel purchase",
@@ -134,7 +132,6 @@ describe("demo fuel mutations", () => {
     const values: DemoFuelFormValues = {
       ...buildValidValues(data),
       totalPaid: "0",
-      pricePerGallon: "",
       gallons: "-1",
     };
 
@@ -146,7 +143,6 @@ describe("demo fuel mutations", () => {
 
     expect(result.errors).toMatchObject({
       totalPaid: "Enter an amount greater than $0.00.",
-      pricePerGallon: "Enter a price greater than $0.00.",
       gallons: "Enter gallons greater than 0.",
     });
   });

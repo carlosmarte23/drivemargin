@@ -1,12 +1,11 @@
+import { calculateFuelPricePerGallonCents } from "@/lib/calculations/fuel";
 import { formatDateToString } from "@/lib/date";
-
 import type { DemoData, EntityId, MoneyCents } from "@/types/domain";
 
 export type DemoFuelFormValues = {
   date: string;
   vehicleId: EntityId;
   totalPaid: string;
-  pricePerGallon: string;
   gallons: string;
   stationName: string;
   odometer: string;
@@ -42,7 +41,6 @@ export function getDefaultDemoFuelFormValues(
     date: today,
     vehicleId: defaultVehicle?.id ?? "",
     totalPaid: "",
-    pricePerGallon: "",
     gallons: "",
     stationName: "",
     odometer: "",
@@ -66,7 +64,6 @@ export function getDemoFuelFormValues(
     date: fuelPurchase.date,
     vehicleId: fuelPurchase.vehicleId,
     totalPaid: (fuelPurchase.totalPaidCents / 100).toFixed(2),
-    pricePerGallon: (fuelPurchase.pricePerGallonCents / 100).toFixed(2),
     gallons: fuelPurchase.gallons.toString(),
     stationName: fuelPurchase.stationName ?? "",
     odometer:
@@ -96,11 +93,6 @@ export function parseDemoFuelFormValues(
     errors.totalPaid = "Enter an amount greater than $0.00.";
   }
 
-  const pricePerGallonCents = dollarInputToCents(values.pricePerGallon);
-  if (pricePerGallonCents <= 0) {
-    errors.pricePerGallon = "Enter a price greater than $0.00.";
-  }
-
   const gallons = numberInputToNumber(values.gallons);
   if (gallons <= 0) {
     errors.gallons = "Enter gallons greater than 0.";
@@ -128,7 +120,10 @@ export function parseDemoFuelFormValues(
       date: values.date,
       vehicleId: values.vehicleId,
       totalPaidCents,
-      pricePerGallonCents,
+      pricePerGallonCents: calculateFuelPricePerGallonCents(
+        totalPaidCents,
+        gallons,
+      ),
       gallons: gallons,
       stationName: stationName.length > 0 ? stationName : undefined,
       odometer,
