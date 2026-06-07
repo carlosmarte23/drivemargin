@@ -19,6 +19,8 @@ type MetricCardProps = {
   className?: string;
 };
 
+type MetricComparison = NonNullable<MetricCardProps["comparison"]>;
+
 const variantStyles = {
   primary: {
     accent: "before:bg-primary",
@@ -121,27 +123,43 @@ export function MetricCard({
           ) : null}
         </div>
 
-        {comparison ? (
-          <p className="mt-2 text-xs text-muted-foreground">
-            vs previous period{" "}
-            {comparison.percentChange === null ? (
-              <span>No previous data</span>
-            ) : (
-              <span
-                className={cn(
-                  "font-medium",
-                  comparison.percentChange > 0 && "text-emerald-500",
-                  comparison.percentChange < 0 && "text-red-500",
-                  comparison.percentChange === 0 && "text-muted-foreground",
-                )}
-              >
-                {comparison.percentChange > 0 ? "+" : ""}
-                {comparison.percentChange}%
-              </span>
-            )}
-          </p>
-        ) : null}
+        {comparison ? <MetricComparisonText comparison={comparison} /> : null}
       </CardContent>
     </Card>
   );
+}
+
+function MetricComparisonText({
+  comparison,
+}: {
+  comparison: MetricComparison;
+}) {
+  return (
+    <p className="mt-2 text-xs text-muted-foreground">
+      vs previous period{" "}
+      {comparison.percentChange === null ? (
+        <span>No previous data</span>
+      ) : (
+        <span
+          className={cn(
+            "font-medium",
+            getPercentChangeClassName(comparison.percentChange),
+          )}
+        >
+          {formatPercentChange(comparison.percentChange)}
+        </span>
+      )}
+    </p>
+  );
+}
+
+function formatPercentChange(percentChange: number) {
+  return `${percentChange > 0 ? "+" : ""}${percentChange}%`;
+}
+
+function getPercentChangeClassName(percentChange: number) {
+  if (percentChange > 0) return "text-emerald-500";
+  if (percentChange < 0) return "text-red-500";
+
+  return "text-muted-foreground";
 }
