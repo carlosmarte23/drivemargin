@@ -275,6 +275,7 @@ function DemoFuelFormContent({
         submitLabel={mode === "create" ? "Add fuel purchase" : "Save changes"}
         deleteLabel="Delete fuel purchase"
         isConfirmingDelete={isConfirmingDelete}
+        deleteButtonClassName="sm:mr-auto"
         deleteButtonDataAttribute="data-delete-fuel-button"
         onCancel={() => {
           onOpenChange(false);
