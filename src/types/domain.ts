@@ -1,3 +1,7 @@
+import type { ExpenseCategory } from "@/types/expense-category";
+
+export type { ExpenseCategory } from "@/types/expense-category";
+
 export type EntityId = string;
 export type MoneyCents = number;
 export type ISODateString = string;
@@ -6,18 +10,6 @@ export type CurrencyCode = "USD";
 export type ThemePreference = "light" | "dark" | "system";
 export type LanguagePreference = "en" | "es";
 export type MileageEntryMode = "manual" | "odometer";
-
-export type ExpenseCategory =
-  | "maintenance"
-  | "parking"
-  | "tolls"
-  | "supplies"
-  | "car_wash"
-  | "phone"
-  | "food"
-  | "tax_prep"
-  | "insurance"
-  | "other";
 
 export interface Vehicle {
   id: EntityId;

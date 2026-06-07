@@ -1,11 +1,11 @@
-import type { DemoData, EntityId, FuelPurchase } from "@/types/domain";
-
+import { createDemoEntityId } from "@/lib/demo/demo-entity-id";
 import {
   parseDemoFuelFormValues,
   type DemoFuelFormErrors,
   type DemoFuelFormValues,
   type ParsedDemoFuelFormValues,
 } from "@/lib/demo/demo-fuel-form";
+import type { DemoData, EntityId, FuelPurchase } from "@/types/domain";
 
 export type DemoFuelMutationOptions = {
   fuelPurchaseId?: EntityId;
@@ -27,7 +27,7 @@ export function createDemoFuelPurchase(
   }
 
   const fuelPurchaseId =
-    options.fuelPurchaseId ?? createEntityId("fuel-purchase");
+    options.fuelPurchaseId ?? createDemoEntityId("fuel-purchase");
   const fuelPurchase = buildFuelPurchase(fuelPurchaseId, parsed.values);
 
   return {
@@ -88,14 +88,6 @@ export function deleteDemoFuelPurchase(
       (purchase) => purchase.id !== fuelPurchaseId,
     ),
   };
-}
-
-function createEntityId(prefix: string): EntityId {
-  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
-    return `${prefix}-${crypto.randomUUID()}`;
-  }
-
-  return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
 function buildFuelPurchase(

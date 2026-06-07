@@ -5,6 +5,7 @@ import type {
   WorkSession,
 } from "@/types/domain";
 
+import { createDemoEntityId } from "./demo-entity-id";
 import {
   parseDemoSessionFormValues,
   type DemoSessionFormErrors,
@@ -32,7 +33,7 @@ export function createDemoSession(
     return parsed;
   }
 
-  const sessionId = options.sessionId ?? createEntityId("demo-session");
+  const sessionId = options.sessionId ?? createDemoEntityId("demo-session");
   const session = buildWorkSession(sessionId, parsed.values);
   const earnings = buildSessionAppEarnings(sessionId, parsed.values, options);
 
@@ -136,17 +137,9 @@ function buildSessionAppEarnings(
   return values.appEarnings.map((earning, index) => ({
     id:
       options.earningIdFactory?.(index) ??
-      createEntityId(`demo-session-earning-${index + 1}`),
+      createDemoEntityId(`demo-session-earning-${index + 1}`),
     sessionId,
     workAppId: earning.workAppId,
     amountCents: earning.amountCents,
   }));
-}
-
-function createEntityId(prefix: string): EntityId {
-  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
-    return `${prefix}-${crypto.randomUUID()}`;
-  }
-
-  return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
