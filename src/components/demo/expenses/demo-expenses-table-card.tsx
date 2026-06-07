@@ -1,3 +1,6 @@
+import { Pencil, Trash2 } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -13,6 +16,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { formatSessionDate, formatSessionShortDate } from "@/lib/date";
 import { formatCurrencyFromCents } from "@/lib/formatters/money";
 import type { MoneyCents } from "@/types/domain";
@@ -28,11 +37,15 @@ export type DemoExpensesTableRow = {
 type DemoExpensesTableCardProps = {
   rows: DemoExpensesTableRow[];
   periodLabel: string;
+  onEditExpense: (expenseId: string) => void;
+  onDeleteExpense: (expenseId: string) => void;
 };
 
 export function DemoExpensesTableCard({
   rows,
   periodLabel,
+  onEditExpense,
+  onDeleteExpense,
 }: DemoExpensesTableCardProps) {
   return (
     <Card className="gap-0">
@@ -51,6 +64,7 @@ export function DemoExpensesTableCard({
                 Description
               </TableHead>
               <TableHead>Amount</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -58,7 +72,7 @@ export function DemoExpensesTableCard({
             {rows.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={8}
+                  colSpan={5}
                   className="h-24 text-center text-muted-foreground"
                 >
                   No expenses recorded for this period.
@@ -88,6 +102,44 @@ export function DemoExpensesTableCard({
 
                     <TableCell className="text-muted-foreground tabular-nums">
                       {totalPaid}
+                    </TableCell>
+
+                    <TableCell className="w-24 text-right">
+                      <div className="flex justify-end gap-1">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                aria-label={`Edit expense ${date}`}
+                                className="hover:bg-primary/10 hover:text-primary"
+                                onClick={() => onEditExpense(expense.id)}
+                              >
+                                <Pencil className="size-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Edit expense</TooltipContent>
+                          </Tooltip>
+
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                aria-label={`Delete expense ${date}`}
+                                className="hover:bg-destructive/10 hover:text-destructive"
+                                onClick={() => onDeleteExpense(expense.id)}
+                              >
+                                <Trash2 className="size-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Delete expense</TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
                     </TableCell>
                   </TableRow>
                 );
