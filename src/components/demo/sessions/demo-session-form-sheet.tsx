@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent, type MouseEvent } from "react";
+import { useState, type ComponentProps, type MouseEvent } from "react";
 
 import { Trash2 } from "lucide-react";
 
@@ -43,6 +43,10 @@ type DemoSessionFormSheetProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
+
+type FormSubmitEvent = Parameters<
+  NonNullable<ComponentProps<"form">["onSubmit"]>
+>[0];
 
 export function DemoSessionFormSheet({
   mode,
@@ -146,7 +150,7 @@ function DemoSessionFormContent({
     }));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: FormSubmitEvent) {
     event.preventDefault();
 
     const result =

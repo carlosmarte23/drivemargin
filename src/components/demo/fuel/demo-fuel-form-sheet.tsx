@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent, type MouseEvent } from "react";
+import { useState, type ComponentProps, type MouseEvent } from "react";
 
 import { useDemoData } from "@/components/demo/demo-data-provider";
 import { DemoFieldError } from "@/components/demo/demo-field-error";
@@ -40,6 +40,10 @@ type DemoFuelFormSheetProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
+
+type FormSubmitEvent = Parameters<
+  NonNullable<ComponentProps<"form">["onSubmit"]>
+>[0];
 
 export function DemoFuelFormSheet({
   mode,
@@ -102,7 +106,7 @@ function DemoFuelFormContent({
     }));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: FormSubmitEvent) {
     event.preventDefault();
 
     const result =
