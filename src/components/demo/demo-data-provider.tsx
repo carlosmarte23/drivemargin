@@ -22,7 +22,7 @@ type DemoDataContextValue = {
   demoData: DemoData;
   isDemoDataReady: boolean;
   setDemoData: (nextData: DemoDataUpdater) => void;
-  resetDemoData: () => void;
+  resetDemoData: () => DemoData;
 };
 
 type DemoDataStore = {
@@ -31,7 +31,7 @@ type DemoDataStore = {
   subscribe: (listener: () => void) => () => void;
   initializeStorage: () => void;
   setDemoData: (nextData: DemoDataUpdater) => void;
-  resetDemoData: () => void;
+  resetDemoData: () => DemoData;
 };
 
 const DemoDataContext = createContext<DemoDataContextValue | null>(null);
@@ -115,6 +115,8 @@ function createDemoDataStore(initialData: DemoData): DemoDataStore {
       writeDemoDataToSessionStorage(currentData);
 
       emitChange();
+
+      return currentData;
     },
   };
 }

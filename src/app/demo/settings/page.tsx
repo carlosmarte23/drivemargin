@@ -1,7 +1,5 @@
-import { Settings } from "lucide-react";
-
 import { DemoBanner } from "@/components/demo/demo-banner";
-import { DemoPlaceholderCard } from "@/components/demo/demo-placeholder-card";
+import { DemoSettingsForm } from "@/components/demo/settings/demo-settings-form";
 import { AppShell } from "@/components/layout/app-shell";
 
 export default function DemoSettingsPage() {
@@ -11,7 +9,7 @@ export default function DemoSettingsPage() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
 
-          <p className="text-muted-foreground mt-2 max-w-2xl">
+          <p className="mt-2 max-w-2xl text-muted-foreground">
             Preview where vehicle, goals, mileage rate, and preferences will
             live.
           </p>
@@ -19,11 +17,7 @@ export default function DemoSettingsPage() {
 
         <DemoBanner />
 
-        <DemoPlaceholderCard
-          icon={Settings}
-          title="Demo settings coming next"
-          description="Sample settings will control the demo vehicle, estimated MPG, income goals, mileage rate, theme, and basic preferences."
-        />
+        <DemoSettingsForm />
       </div>
     </AppShell>
   );
