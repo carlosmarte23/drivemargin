@@ -26,6 +26,10 @@ import {
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import {
+  buildSessionSummary,
+  type SessionSummary,
+} from "@/lib/calculations/sessionSummary";
+import {
   getDefaultDemoSessionFormValues,
   getDemoSessionFormValues,
   type DemoSessionFormErrors,
@@ -42,6 +46,7 @@ type DemoSessionFormSheetProps = {
   sessionId?: string | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onCreateSuccess?: (summary: SessionSummary) => void;
 };
 
 type FormSubmitEvent = Parameters<
@@ -53,6 +58,7 @@ export function DemoSessionFormSheet({
   sessionId,
   open,
   onOpenChange,
+  onCreateSuccess,
 }: DemoSessionFormSheetProps) {
   const title = mode === "create" ? "Add session" : "Edit session";
   const description =
@@ -74,6 +80,7 @@ export function DemoSessionFormSheet({
           mode={mode}
           sessionId={sessionId}
           onOpenChange={onOpenChange}
+          onCreateSuccess={onCreateSuccess}
         />
       </SheetContent>
     </Sheet>
@@ -84,7 +91,11 @@ function DemoSessionFormContent({
   mode,
   sessionId,
   onOpenChange,
-}: Pick<DemoSessionFormSheetProps, "mode" | "sessionId" | "onOpenChange">) {
+  onCreateSuccess,
+}: Pick<
+  DemoSessionFormSheetProps,
+  "mode" | "sessionId" | "onOpenChange" | "onCreateSuccess"
+>) {
   const { demoData, setDemoData } = useDemoData();
   const [values, setValues] = useState<DemoSessionFormValues>(() => {
     if (mode === "edit" && sessionId) {
@@ -164,6 +175,46 @@ function DemoSessionFormContent({
     }
 
     setDemoData(result.data);
+
+    if (mode === "create") {
+      const sessionData = result.data.sessions.find((session) => {
+        return session.id === result.sessionId;
+      });
+
+      if (!sessionData) {
+        onOpenChange(false);
+        return;
+      }
+
+      const appEarnings = result.data.sessionAppEarnings.filter((earning) => {
+        return earning.sessionId === sessionData.id;
+      });
+
+      const sessionVehicle = result.data.vehicles.find((vehicle) => {
+        return vehicle.id === sessionData.vehicleId;
+      });
+
+      if (!sessionVehicle) {
+        onOpenChange(false);
+        return;
+      }
+
+      const summary = buildSessionSummary({
+        session: sessionData,
+        appEarnings,
+        sessionVehicle,
+        settings: result.data.settings,
+        fuelPurchases: result.data.fuelPurchases,
+      });
+
+      if (!summary || !onCreateSuccess) {
+        onOpenChange(false);
+        return;
+      }
+
+      onCreateSuccess(summary);
+    }
+
     onOpenChange(false);
   }
 

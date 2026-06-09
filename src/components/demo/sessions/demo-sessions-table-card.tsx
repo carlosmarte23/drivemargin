@@ -1,4 +1,4 @@
-import { Pencil, StickyNote, Trash2 } from "lucide-react";
+import { Eye, Pencil, StickyNote, Trash2 } from "lucide-react";
 
 import { DemoTableActionButton } from "@/components/demo/demo-table-action-button";
 import { Badge } from "@/components/ui/badge";
@@ -39,6 +39,7 @@ type DemoSessionsTableCardProps = {
   onEditSession: (sessionId: string) => void;
   onDeleteSession: (sessionId: string) => void;
   onViewSessionNotes: (sessionId: string) => void;
+  onViewSessionSummary: (sessionId: string) => void;
 };
 
 export function DemoSessionsTableCard({
@@ -47,6 +48,7 @@ export function DemoSessionsTableCard({
   onEditSession,
   onDeleteSession,
   onViewSessionNotes,
+  onViewSessionSummary,
 }: DemoSessionsTableCardProps) {
   return (
     <TableCard
@@ -58,7 +60,7 @@ export function DemoSessionsTableCard({
           <TableRow>
             <TableHead>Date</TableHead>
             <TableHead className="hidden md:table-cell">Time</TableHead>
-            <TableHead>Apps</TableHead>
+            <TableHead className="w-20 sm:w-auto">Apps</TableHead>
             <TableHead className="hidden xl:table-cell">Vehicle</TableHead>
             <TableHead className="hidden text-right sm:table-cell">
               Miles
@@ -68,7 +70,9 @@ export function DemoSessionsTableCard({
             </TableHead>
             <TableHead className="text-right">Gross</TableHead>
             <TableHead className="hidden 2xl:table-cell">Notes</TableHead>
-            <TableHead className="w-12 text-right">Actions</TableHead>
+            <TableHead className="w-[7.5rem] text-right sm:w-28">
+              Actions
+            </TableHead>
           </TableRow>
         </TableHeader>
 
@@ -90,6 +94,12 @@ export function DemoSessionsTableCard({
                 session.startedAt,
                 session.endedAt,
               );
+              const mobileAppShortNames = session.appShortNames.slice(0, 2);
+              const desktopAppShortNames = session.appShortNames.slice(0, 3);
+              const mobileOverflowCount =
+                session.appShortNames.length - mobileAppShortNames.length;
+              const desktopOverflowCount =
+                session.appShortNames.length - desktopAppShortNames.length;
 
               return (
                 <TableRow key={session.id}>
@@ -102,25 +112,50 @@ export function DemoSessionsTableCard({
                     {timeRange}
                   </TableCell>
 
-                  <TableCell className="max-w-32">
-                    <div className="flex items-center gap-1 overflow-hidden">
+                  <TableCell className="max-w-20 sm:max-w-32">
+                    <div className="flex items-center gap-1 overflow-hidden sm:hidden">
                       {session.appShortNames.length > 0 ? (
                         <>
-                          {session.appShortNames
-                            .slice(0, 3)
-                            .map((appShortName) => (
-                              <Badge
-                                key={appShortName}
-                                variant="secondary"
-                                className="px-1.5"
-                              >
-                                {appShortName}
-                              </Badge>
-                            ))}
+                          {mobileAppShortNames.map((appShortName) => (
+                            <Badge
+                              key={appShortName}
+                              variant="secondary"
+                              className="px-1 text-[11px]"
+                            >
+                              {appShortName}
+                            </Badge>
+                          ))}
 
-                          {session.appShortNames.length > 3 ? (
+                          {mobileOverflowCount > 0 ? (
+                            <Badge
+                              variant="secondary"
+                              className="px-1 text-[11px]"
+                            >
+                              +{mobileOverflowCount}
+                            </Badge>
+                          ) : null}
+                        </>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
+                    </div>
+
+                    <div className="hidden items-center gap-1 overflow-hidden sm:flex">
+                      {session.appShortNames.length > 0 ? (
+                        <>
+                          {desktopAppShortNames.map((appShortName) => (
+                            <Badge
+                              key={appShortName}
+                              variant="secondary"
+                              className="px-1.5"
+                            >
+                              {appShortName}
+                            </Badge>
+                          ))}
+
+                          {desktopOverflowCount > 0 ? (
                             <Badge variant="secondary" className="px-1.5">
-                              +{session.appShortNames.length - 3}
+                              +{desktopOverflowCount}
                             </Badge>
                           ) : null}
                         </>
@@ -150,14 +185,15 @@ export function DemoSessionsTableCard({
                     {session.notes ?? "-"}
                   </TableCell>
 
-                  <TableCell className="w-28">
-                    <div className="flex justify-end gap-1">
+                  <TableCell className="w-[7.5rem] sm:w-28">
+                    <div className="flex justify-end gap-0.5 sm:gap-1">
                       <TooltipProvider delayDuration={100}>
                         {session.notes?.trim() ? (
                           <DemoTableActionButton
                             label={`View notes for session ${date}`}
                             tooltip="View notes"
                             icon={StickyNote}
+                            size="icon-sm"
                             onClick={() => onViewSessionNotes(session.id)}
                           />
                         ) : null}
@@ -166,7 +202,16 @@ export function DemoSessionsTableCard({
                           label={`Edit session ${date}`}
                           tooltip="Edit session"
                           icon={Pencil}
+                          size="icon-sm"
                           onClick={() => onEditSession(session.id)}
+                        />
+
+                        <DemoTableActionButton
+                          label={`Show summary for session ${date}`}
+                          tooltip="Show summary"
+                          icon={Eye}
+                          size="icon-sm"
+                          onClick={() => onViewSessionSummary(session.id)}
                         />
 
                         <DemoTableActionButton
@@ -174,6 +219,7 @@ export function DemoSessionsTableCard({
                           tooltip="Delete session"
                           icon={Trash2}
                           tone="destructive"
+                          size="icon-sm"
                           onClick={() => onDeleteSession(session.id)}
                         />
                       </TooltipProvider>
