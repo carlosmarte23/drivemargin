@@ -1,7 +1,6 @@
 "use client";
 
 import { RotateCcw } from "lucide-react";
-import { useTheme } from "next-themes";
 import { toast } from "sonner";
 
 import { useDemoData } from "@/components/demo/demo-data-provider";
@@ -9,11 +8,9 @@ import { Button } from "@/components/ui/button";
 
 export function DemoResetButton() {
   const { resetDemoData } = useDemoData();
-  const { setTheme } = useTheme();
 
   const handleClick = () => {
-    const resetData = resetDemoData();
-    setTheme(resetData.settings.theme);
+    resetDemoData();
     toast.success("Demo data has been reset.", { position: "top-center" });
   };
 
