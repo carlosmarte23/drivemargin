@@ -13,6 +13,7 @@ type DemoTableActionButtonProps = {
   tooltip: string;
   icon: LucideIcon;
   tone?: "primary" | "destructive";
+  size?: "icon" | "icon-sm";
   onClick: () => void;
 };
 
@@ -26,6 +27,7 @@ export function DemoTableActionButton({
   tooltip,
   icon: Icon,
   tone = "primary",
+  size = "icon",
   onClick,
 }: DemoTableActionButtonProps) {
   return (
@@ -34,7 +36,7 @@ export function DemoTableActionButton({
         <Button
           type="button"
           variant="ghost"
-          size="icon"
+          size={size}
           aria-label={label}
           className={cn(toneClassNames[tone])}
           onClick={onClick}

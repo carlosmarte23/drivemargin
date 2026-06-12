@@ -4,5 +4,6 @@ export * from "./time";
 export * from "./fuel";
 export * from "./irsEstimate";
 export * from "./sessionMetrics";
+export * from "./sessionSummary";
 export * from "./dashboardMetrics";
 export * from "./insightRules";
