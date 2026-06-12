@@ -78,6 +78,26 @@ type SessionSummaryDialogProps = {
   onViewSessions?: () => void;
 };
 
+function getCreatedResultMessage(summary: SessionSummary) {
+  const hasHourlyTarget = summary.insights.some((insight) => {
+    return insight.id === "above-hourly-goal";
+  });
+
+  const hasMileageTarget = summary.insights.some((insight) => {
+    return insight.id === "above-mileage-goal";
+  });
+
+  if (hasHourlyTarget && hasMileageTarget) {
+    return "Strong session. You beat both profitability targets.";
+  }
+
+  if (hasHourlyTarget || hasMileageTarget) {
+    return "Good session. One profitability target cleared.";
+  }
+
+  return "Session saved. Profitability needs review.";
+}
+
 export function SessionSummaryDialog({
   open,
   onOpenChange,
@@ -91,12 +111,16 @@ export function SessionSummaryDialog({
     return null;
   }
 
-  const title = mode === "created" ? "Session created" : "Session summary";
+  const title = mode === "created" ? "Session logged" : "Session summary";
   const description =
     mode === "created"
-      ? "Profitability estimate for the session you just added."
+      ? "Here’s how this shift performed after estimated fuel."
       : "Profitability estimate for this work session.";
 
+  const resultMessage =
+    summary.netPerHourCents >= 0 && summary.netPerMileCents >= 0
+      ? getCreatedResultMessage(summary)
+      : undefined;
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex max-h-[calc(100dvh-2rem)] max-w-3xl grid-rows-none flex-col gap-0 overflow-hidden p-0">
@@ -107,17 +131,25 @@ export function SessionSummaryDialog({
 
         <div className="min-h-0 flex-1 overflow-y-auto px-8 py-4">
           <div className="mx-auto grid w-full max-w-4xl gap-3">
-            <section className="grid gap-4 sm:grid-cols-2">
-              <SummaryMetricItem
-                label="Estimated net after fuel"
-                value={formatCurrencyFromCents(
-                  summary.estimatedNetAfterFuelCents,
-                )}
-                description="Period-level expenses are not included."
-                variant="primary"
-                size="featured"
-              />
-
+            <SummaryMetricItem
+              label="Estimated net after fuel"
+              value={formatCurrencyFromCents(
+                summary.estimatedNetAfterFuelCents,
+              )}
+              description={
+                mode === "created"
+                  ? resultMessage
+                  : "Period-level expenses are not included."
+              }
+              footnote={
+                mode === "created"
+                  ? "Period-level expenses are not included."
+                  : undefined
+              }
+              variant="primary"
+              size="featured"
+            />
+            <section className="grid gap-4 sm:grid-cols-3">
               <SummaryMetricItem
                 label="Net per hour"
                 value={formatCurrencyFromCents(summary.netPerHourCents)}
@@ -265,6 +297,7 @@ type SummaryMetricItemProps = {
   label: string;
   value: string;
   description?: string;
+  footnote?: string;
   variant?: SummaryMetricVariant;
   size?: "default" | "featured";
 };
@@ -273,6 +306,7 @@ function SummaryMetricItem({
   label,
   value,
   description,
+  footnote,
   variant = "muted",
   size = "default",
 }: SummaryMetricItemProps) {
@@ -294,15 +328,7 @@ function SummaryMetricItem({
         )}
       >
         <div className="space-y-1">
-          <div className="flex items-center gap-1.5">
-            <p className="text-sm font-medium text-muted-foreground">{label}</p>
-            <span
-              aria-hidden="true"
-              className="inline-flex size-3.5 shrink-0 items-center justify-center rounded-full text-muted-foreground"
-            >
-              <Info className="size-3.5" />
-            </span>
-          </div>
+          <p className="text-sm font-medium text-muted-foreground">{label}</p>
 
           <p
             className={cn(
@@ -318,6 +344,10 @@ function SummaryMetricItem({
           <p className="mt-3 text-sm leading-5 text-muted-foreground">
             {description}
           </p>
+        ) : null}
+
+        {footnote ? (
+          <p className="mt-1 text-xs text-muted-foreground">{footnote}</p>
         ) : null}
       </CardContent>
     </Card>
