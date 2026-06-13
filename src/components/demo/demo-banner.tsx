@@ -3,17 +3,12 @@ import { Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { DemoResetButton } from "./demo-reset-button";
-import { DemoTourLaunchButton } from "./tour/demo-tour-launch-button";
 
 type DemoBannerProps = {
   className?: string;
-  showTourButton?: boolean;
 };
 
-export function DemoBanner({
-  className,
-  showTourButton = false,
-}: DemoBannerProps) {
+export function DemoBanner({ className }: DemoBannerProps) {
   return (
     <aside
       aria-label="Demo information"
@@ -42,8 +37,7 @@ export function DemoBanner({
           </div>
         </div>
 
-        <div className="flex shrink-0 gap-2 pl-11 sm:pl-0">
-          {showTourButton && <DemoTourLaunchButton />}
+        <div className="shrink-0 pl-11 sm:pl-0">
           <DemoResetButton />
         </div>
       </div>

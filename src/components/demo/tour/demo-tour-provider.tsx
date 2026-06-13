@@ -6,10 +6,10 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
   type ReactNode,
 } from "react";
+import { useRouter } from "next/navigation";
 
 import { EVENTS, useJoyride } from "react-joyride";
 
@@ -23,7 +23,7 @@ import {
 type DemoTourContextValue = {
   hasSeenTour: boolean;
   startTour: () => void;
-  resetTour: () => void;
+  resetTourSeen: () => void;
 };
 
 const DemoTourContext = createContext<DemoTourContextValue | null>(null);
@@ -33,10 +33,10 @@ type DemoTourProviderProps = {
 };
 
 export function DemoTourProvider({ children }: DemoTourProviderProps) {
-  const hasHandledInitialQuery = useRef(false);
   const [hasSeenTour, setHasSeenTour] = useState(() => {
     return hasSeenDemoTour();
   });
+  const router = useRouter();
 
   const { controls, on, Tour } = useJoyride({
     continuous: true,
@@ -100,13 +100,7 @@ export function DemoTourProvider({ children }: DemoTourProviderProps) {
   });
 
   const startTour = useCallback(() => {
-    controls.reset(true);
-  }, [controls]);
-
-  const resetTour = useCallback(() => {
-    resetDemoTourSeen();
-    setHasSeenTour(false);
-    controls.reset(true);
+    controls.start(0);
   }, [controls]);
 
   useEffect(() => {
@@ -119,34 +113,24 @@ export function DemoTourProvider({ children }: DemoTourProviderProps) {
           top: 0,
           behavior: "smooth",
         });
+
+        router.replace("/demo", { scroll: false });
       }, 150);
     });
-  }, [on]);
+  }, [on, router]);
 
-  useEffect(() => {
-    if (hasHandledInitialQuery.current) {
-      return;
-    }
-
-    hasHandledInitialQuery.current = true;
-
-    const shouldStartFromQuery =
-      new URLSearchParams(window.location.search).get("tour") === "1";
-
-    if (shouldStartFromQuery) {
-      window.setTimeout(() => {
-        controls.reset(true);
-      }, 250);
-    }
-  }, [controls]);
+  const resetTourSeen = useCallback(() => {
+    resetDemoTourSeen();
+    setHasSeenTour(false);
+  }, []);
 
   const value = useMemo(
     () => ({
       hasSeenTour,
       startTour,
-      resetTour,
+      resetTourSeen,
     }),
-    [hasSeenTour, startTour, resetTour],
+    [hasSeenTour, resetTourSeen, startTour],
   );
 
   return (
