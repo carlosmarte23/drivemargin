@@ -36,7 +36,10 @@ export function ReportPeriodNavigator({
   const isAllData = mode === "all";
 
   return (
-    <div className="flex w-full max-w-full items-center justify-center sm:w-fit">
+    <div
+      data-tour="demo-period-nav"
+      className="flex w-full max-w-full items-center justify-center sm:w-fit"
+    >
       <div className="flex max-w-full items-center rounded-lg border border-border bg-card shadow-sm">
         {isAllData ? (
           <Button

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { DemoDataProvider } from "@/components/demo/demo-data-provider";
+import { DemoTourProvider } from "@/components/demo/tour/demo-tour-provider";
 import { generateDemoData } from "@/data/demo/generateDemoData";
 
 type DemoLayoutProps = {
@@ -10,7 +11,7 @@ type DemoLayoutProps = {
 export default function DemoLayout({ children }: DemoLayoutProps) {
   return (
     <DemoDataProvider initialData={generateDemoData()}>
-      {children}
+      <DemoTourProvider>{children}</DemoTourProvider>
     </DemoDataProvider>
   );
 }

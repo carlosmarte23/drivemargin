@@ -7,6 +7,7 @@ type DashboardChartCardProps = {
   title: string;
   description: string;
   children: ReactNode;
+  tourTarget?: string;
   className?: string;
 };
 
@@ -14,10 +15,11 @@ export function DashboardChartCard({
   title,
   description,
   children,
+  tourTarget,
   className,
 }: DashboardChartCardProps) {
   return (
-    <Card className={cn("min-w-0", className)}>
+    <Card data-tour={tourTarget} className={cn("min-w-0", className)}>
       <CardContent className="min-w-0 p-3 sm:p-4">
         <div className="mb-2.5">
           <h2 className="text-base font-semibold text-card-foreground">

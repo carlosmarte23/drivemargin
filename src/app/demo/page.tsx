@@ -1,5 +1,6 @@
 import { DemoDashboard } from "@/components/demo/dashboard/demo-dashboard";
 import { DemoBanner } from "@/components/demo/demo-banner";
+import { DemoTourAutoStart } from "@/components/demo/tour/demo-tour-auto-start";
 import { AppShell } from "@/components/layout/app-shell";
 import { ReportPeriodNavigator } from "@/components/report-period/report-period-navigator";
 import {
@@ -40,6 +41,8 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
       }
     >
       <div className="space-y-5">
+        <DemoTourAutoStart />
+
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
           <p className="mt-2 max-w-2xl text-muted-foreground">

@@ -41,6 +41,7 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
           variant="outline"
           size="icon"
           className="lg:hidden"
+          data-tour="demo-mobile-nav-trigger"
           aria-label="Open navigation menu"
         >
           <Menu className="size-4" />

@@ -16,6 +16,7 @@ type MetricCardProps = {
   comparison?: {
     percentChange: number | null;
   };
+  tourTarget?: string;
   className?: string;
 };
 
@@ -48,6 +49,7 @@ export function MetricCard({
   density = "default",
   sparklineData,
   comparison,
+  tourTarget,
   className,
 }: MetricCardProps) {
   const styles = variantStyles[variant];
@@ -55,6 +57,7 @@ export function MetricCard({
 
   return (
     <Card
+      data-tour={tourTarget}
       size="sm"
       className={cn(
         "relative overflow-hidden rounded-xl border-border bg-card shadow-sm transition-colors hover:bg-accent/30",

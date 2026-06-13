@@ -12,6 +12,7 @@ export function DemoBanner({ className }: DemoBannerProps) {
   return (
     <aside
       aria-label="Demo information"
+      data-tour="demo-banner"
       className={cn(
         "relative overflow-hidden rounded-xl border border-border bg-card px-4 py-3 text-card-foreground shadow-sm",
         "before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-secondary",

@@ -24,6 +24,7 @@ export function DemoSessionCreateAction() {
     <>
       <DemoFloatingActionButton
         label="Add session"
+        tourTarget="add-session-action"
         onClick={() => {
           setIsCreateSheetOpen(true);
         }}

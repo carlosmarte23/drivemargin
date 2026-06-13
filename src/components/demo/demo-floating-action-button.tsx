@@ -15,6 +15,7 @@ type DemoFloatingActionButtonProps = {
   label: string;
   onClick: () => void;
   icon?: ReactNode;
+  tourTarget?: string;
   className?: string;
 };
 
@@ -22,6 +23,7 @@ export function DemoFloatingActionButton({
   label,
   onClick,
   icon = <Plus className="size-5" />,
+  tourTarget,
   className,
 }: DemoFloatingActionButtonProps) {
   return (
@@ -35,6 +37,7 @@ export function DemoFloatingActionButton({
               "fixed right-6 bottom-6 z-40 size-12 rounded-full border border-primary/20 bg-primary text-primary-foreground hover:bg-primary-hover",
               className,
             )}
+            data-tour={tourTarget}
             aria-label={label}
             onClick={onClick}
           >
