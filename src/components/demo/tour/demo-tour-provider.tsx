@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import {
   createContext,
   useCallback,
@@ -9,7 +11,6 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { useRouter } from "next/navigation";
 
 import { EVENTS, useJoyride } from "react-joyride";
 
