@@ -32,6 +32,7 @@ export function EarningsOverTimeChart({ data }: EarningsOverTimeChartProps) {
       title="Earnings over time"
       description="Net earnings compared with the previous matching period."
       className="xl:col-span-2"
+      tourTarget="dashboard-charts"
     >
       <ChartContainer
         config={chartConfig}

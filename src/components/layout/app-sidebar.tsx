@@ -35,7 +35,10 @@ export function AppSidebar({ basePath = "/demo" }: AppSidebarProps) {
         </p>
       </div>
 
-      <nav className="flex flex-1 flex-col gap-1 p-3">
+      <nav
+        data-tour="demo-sidebar-nav"
+        className="flex flex-1 flex-col gap-1 p-3"
+      >
         {navItems.map((item) => {
           const Icon = item.icon;
 

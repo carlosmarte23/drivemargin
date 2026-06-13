@@ -48,7 +48,7 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
           </p>
         </div>
 
-        <DemoBanner />
+        <DemoBanner showTourButton />
 
         <DemoDashboard period={reportPeriod} basePath={basePath} />
       </div>

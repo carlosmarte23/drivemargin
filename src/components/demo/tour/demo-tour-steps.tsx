@@ -35,6 +35,9 @@ export const demoTourSteps = [
     title: "Profitability metrics",
     content:
       "These cards summarize gross earnings, estimated fuel cost, expenses, net earnings, hours, and miles for the active period.",
+    placement: "bottom",
+    scrollOffset: 120,
+    spotlightPadding: 8,
   },
   {
     id: "charts",
@@ -42,6 +45,9 @@ export const demoTourSteps = [
     title: "Trends and breakdowns",
     content:
       "Charts help compare earnings over time, gross versus costs, and which apps contributed revenue.",
+    placement: "bottom",
+    scrollOffset: 120,
+    spotlightPadding: 8,
   },
   {
     id: "recent-sessions",

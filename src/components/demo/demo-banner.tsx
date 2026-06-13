@@ -3,15 +3,21 @@ import { Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { DemoResetButton } from "./demo-reset-button";
+import { DemoTourLaunchButton } from "./tour/demo-tour-launch-button";
 
 type DemoBannerProps = {
   className?: string;
+  showTourButton?: boolean;
 };
 
-export function DemoBanner({ className }: DemoBannerProps) {
+export function DemoBanner({
+  className,
+  showTourButton = false,
+}: DemoBannerProps) {
   return (
     <aside
       aria-label="Demo information"
+      data-tour="demo-banner"
       className={cn(
         "relative overflow-hidden rounded-xl border border-border bg-card px-4 py-3 text-card-foreground shadow-sm",
         "before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-secondary",
@@ -36,7 +42,8 @@ export function DemoBanner({ className }: DemoBannerProps) {
           </div>
         </div>
 
-        <div className="shrink-0 pl-11 sm:pl-0">
+        <div className="flex shrink-0 gap-2 pl-11 sm:pl-0">
+          {showTourButton && <DemoTourLaunchButton />}
           <DemoResetButton />
         </div>
       </div>

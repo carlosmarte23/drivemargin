@@ -97,8 +97,12 @@ export function DashboardMetricsSection({
   return (
     <section aria-label="Dashboard metrics">
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
-        {topMetricCards.map((metric) => (
-          <MetricCard key={metric.title} {...metric} />
+        {topMetricCards.map((metric, index) => (
+          <MetricCard
+            key={metric.title}
+            {...metric}
+            tourTarget={index === 0 ? "dashboard-metrics" : undefined}
+          />
         ))}
       </div>
 
