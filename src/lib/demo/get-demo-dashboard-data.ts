@@ -156,6 +156,19 @@ export function buildDemoDashboardData(data: DemoData, period: ReportPeriod) {
     totalMiles: metrics.totalMiles,
   };
 
+  const efficiencyTargets = {
+    netPerHour: {
+      targetCents: data.settings.targetNetCentsPerHour,
+      meetsTarget:
+        metrics.averageNetCentsPerHour >= data.settings.targetNetCentsPerHour,
+    },
+    netPerMile: {
+      targetCents: data.settings.targetNetCentsPerMile,
+      meetsTarget:
+        metrics.averageNetCentsPerMile >= data.settings.targetNetCentsPerMile,
+    },
+  };
+
   const dailyMetrics = getDatesInPeriod(period).map((date) => {
     return {
       date,
@@ -265,6 +278,7 @@ export function buildDemoDashboardData(data: DemoData, period: ReportPeriod) {
     previousPeriod,
     previousMetrics,
     metricComparisons,
+    efficiencyTargets,
     irsMileageDeduction,
     dailyMetrics,
     recentSessions,

@@ -14,6 +14,7 @@ export function Dashboard({ dashboardData, period, basePath }: DashboardProps) {
   const {
     metrics,
     metricComparisons,
+    efficiencyTargets,
     irsMileageDeduction,
     recentSessions,
     dailyTrendSeries,
@@ -25,6 +26,7 @@ export function Dashboard({ dashboardData, period, basePath }: DashboardProps) {
       <DashboardMetricsSection
         metrics={metrics}
         metricComparisons={metricComparisons}
+        efficiencyTargets={efficiencyTargets}
         irsMileageDeduction={irsMileageDeduction}
         dailyTrendSeries={dailyTrendSeries}
       />

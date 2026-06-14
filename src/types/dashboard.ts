@@ -57,4 +57,15 @@ export type DashboardData = {
   charts: DashboardChartsData;
   dailyTrendSeries: DashboardTrendSeries;
   recentSessions: DashboardRecentSession[];
+  efficiencyTargets: DashboardEfficiencyTargets;
+};
+
+export type DashboardTargetStatus = {
+  targetCents: number;
+  meetsTarget: boolean;
+};
+
+export type DashboardEfficiencyTargets = {
+  netPerHour: DashboardTargetStatus;
+  netPerMile: DashboardTargetStatus;
 };

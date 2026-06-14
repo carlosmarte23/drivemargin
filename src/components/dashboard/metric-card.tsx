@@ -14,6 +14,11 @@ type MetricCardProps = {
   comparison?: {
     percentChange: number | null;
   };
+  badge?: {
+    label: string;
+    value: string;
+    tone: "positive" | "warning" | "negative";
+  };
   tourTarget?: string;
   className?: string;
 };
@@ -39,6 +44,14 @@ const variantStyles = {
   },
 };
 
+const badgeToneStyles = {
+  positive:
+    "border-emerald-500/25 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+  warning:
+    "border-amber-500/25 bg-amber-500/10 text-amber-700 dark:text-amber-300",
+  negative: "border-red-500/25 bg-red-500/10 text-red-600 dark:text-red-400",
+};
+
 export function MetricCard({
   title,
   value,
@@ -47,6 +60,7 @@ export function MetricCard({
   density = "default",
   sparklineData,
   comparison,
+  badge,
   tourTarget,
   className,
 }: MetricCardProps) {
@@ -66,8 +80,8 @@ export function MetricCard({
     >
       <CardContent
         className={cn(
-          "px-6 py-5 group-data-[size=sm]/card:px-6",
-          isCompact && "px-5 py-4 group-data-[size=sm]/card:px-5",
+          "px-4 py-3 group-data-[size=sm]/card:px-6",
+          isCompact && "px-3 py-2",
         )}
       >
         <div
@@ -75,6 +89,7 @@ export function MetricCard({
             "grid gap-3",
             sparklineData &&
               "sm:grid-cols-[minmax(0,44%)_minmax(7rem,1fr)] sm:items-end",
+            badge && "grid-cols-[minmax(0,1fr)_auto] items-start",
           )}
         >
           <div>
@@ -97,7 +112,7 @@ export function MetricCard({
 
             <p
               className={cn(
-                "mt-3 text-sm leading-5 text-muted-foreground",
+                "mt-2 text-sm leading-5 text-pretty text-muted-foreground",
                 isCompact && "mt-2",
               )}
             >
@@ -105,7 +120,19 @@ export function MetricCard({
             </p>
           </div>
 
-          {sparklineData ? (
+          {badge ? (
+            <div
+              className={cn(
+                "w-fit rounded-md border px-2.5 py-1.5 text-right text-xs font-medium",
+                badgeToneStyles[badge.tone],
+              )}
+            >
+              <p>{badge.label}</p>
+              <p className="mt-0.5 opacity-80">{badge.value}</p>
+            </div>
+          ) : null}
+
+          {sparklineData && !badge ? (
             <div
               className={cn(
                 "h-12 w-full overflow-hidden rounded-md text-current sm:h-14",
@@ -130,7 +157,7 @@ function MetricComparisonText({
   comparison: MetricComparison;
 }) {
   return (
-    <p className="mt-2 text-xs text-muted-foreground">
+    <p className="mt-0.5 text-xs text-muted-foreground">
       vs previous period{" "}
       {comparison.percentChange === null ? (
         <span>No previous data</span>
