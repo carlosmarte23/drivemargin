@@ -17,6 +17,8 @@ type ReportPeriodNavigatorProps = {
   hrefBase: string;
   defaultHref?: string;
   isDefaultPeriod?: boolean;
+  canNavigatePrevious?: boolean;
+  canNavigateNext?: boolean;
   mode?: "all" | "range";
 };
 
@@ -25,6 +27,8 @@ export function ReportPeriodNavigator({
   hrefBase,
   defaultHref = hrefBase,
   isDefaultPeriod = false,
+  canNavigatePrevious = true,
+  canNavigateNext = true,
   mode = "range",
 }: ReportPeriodNavigatorProps) {
   const previousPeriod = getPreviousReportPeriod(period);
@@ -33,13 +37,16 @@ export function ReportPeriodNavigator({
   const formattedPeriod = formatReportPeriodLabel(period);
   const isAllData = mode === "all";
 
+  const isPreviousDisabled = !canNavigatePrevious || isAllData;
+  const isNextDisabled = !canNavigateNext || isAllData;
+
   return (
     <div
       data-tour="demo-period-nav"
       className="flex w-full max-w-full items-center justify-center sm:w-fit"
     >
       <div className="flex max-w-full items-center rounded-lg border border-border bg-card shadow-sm">
-        {isAllData ? (
+        {isAllData || isPreviousDisabled ? (
           <Button
             variant="ghost"
             size="icon"
@@ -67,7 +74,7 @@ export function ReportPeriodNavigator({
           labelPrefix={isAllData ? "All data:" : undefined}
         />
 
-        {isAllData ? (
+        {isAllData || isNextDisabled ? (
           <Button variant="ghost" size="icon" aria-label="Next period" disabled>
             <ChevronRight className="size-5" />
           </Button>

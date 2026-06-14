@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 
 import { DemoDashboard } from "@/components/demo/dashboard/demo-dashboard";
 import { DemoBanner } from "@/components/demo/demo-banner";
+import { DemoDashboardPeriodNavigator } from "@/components/demo/demo-dashboard-period-navigator";
 import { DemoTourAutoStart } from "@/components/demo/tour/demo-tour-auto-start";
 import { AppShell } from "@/components/layout/app-shell";
-import { ReportPeriodNavigator } from "@/components/report-period/report-period-navigator";
 import {
   resolveReportPeriod,
   resolveReportPeriodQuery,
@@ -41,7 +41,7 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
       basePath="/demo"
       pageLabel="Demo Dashboard"
       headerContent={
-        <ReportPeriodNavigator
+        <DemoDashboardPeriodNavigator
           period={reportPeriod}
           hrefBase={basePath}
           defaultHref={basePath}
