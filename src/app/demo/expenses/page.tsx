@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { DemoBanner } from "@/components/demo/demo-banner";
 import { DemoRecordsPeriodNavigator } from "@/components/demo/demo-records-period-navigator";
 import { DemoExpensesTableSection } from "@/components/demo/expenses/demo-expenses-table-section";
@@ -7,6 +9,16 @@ import type { ReportPeriodInput } from "@/lib/reporting/reportPeriod";
 type DemoExpensesPageProps = {
   searchParams: Promise<ReportPeriodInput>;
 };
+
+export const metadata: Metadata = {
+  title: "Demo expenses",
+  description:
+    "Review sample non-fuel expenses and see how DriveMargin tracks operating costs for independent delivery drivers.",
+  alternates: {
+    canonical: "/demo/expenses",
+  },
+};
+
 export default async function DemoExpensesPage({
   searchParams,
 }: DemoExpensesPageProps) {

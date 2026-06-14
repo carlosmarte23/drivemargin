@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { DemoDashboard } from "@/components/demo/dashboard/demo-dashboard";
 import { DemoBanner } from "@/components/demo/demo-banner";
 import { DemoTourAutoStart } from "@/components/demo/tour/demo-tour-auto-start";
@@ -11,6 +13,15 @@ import {
 
 type DemoPageProps = {
   searchParams: Promise<ReportPeriodInput>;
+};
+
+export const metadata: Metadata = {
+  title: "Demo workspace",
+  description:
+    "Explore DriveMargin with sample sessions, earnings, mileage, fuel, and expense data before setting up your own driver dashboard.",
+  alternates: {
+    canonical: "/demo",
+  },
 };
 
 export default async function DemoPage({ searchParams }: DemoPageProps) {

@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { DemoBanner } from "@/components/demo/demo-banner";
 import { DemoRecordsPeriodNavigator } from "@/components/demo/demo-records-period-navigator";
 import { DemoSessionsTableSection } from "@/components/demo/sessions/demo-sessions-table-section";
@@ -6,6 +8,15 @@ import type { ReportPeriodInput } from "@/lib/reporting/reportPeriod";
 
 type DemoSessionsPageProps = {
   searchParams: Promise<ReportPeriodInput>;
+};
+
+export const metadata: Metadata = {
+  title: "Demo work sessions",
+  description:
+    "Review and edit sample work sessions with platform earnings, miles, hours, and profit metrics in the DriveMargin demo workspace.",
+  alternates: {
+    canonical: "/demo/sessions",
+  },
 };
 
 export default async function DemoSessionsPage({

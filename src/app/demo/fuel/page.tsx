@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { DemoBanner } from "@/components/demo/demo-banner";
 import { DemoRecordsPeriodNavigator } from "@/components/demo/demo-records-period-navigator";
 import { DemoFuelTableSection } from "@/components/demo/fuel/demo-fuel-table-section";
@@ -6,6 +8,15 @@ import type { ReportPeriodInput } from "@/lib/reporting/reportPeriod";
 
 type DemoFuelPageProps = {
   searchParams: Promise<ReportPeriodInput>;
+};
+
+export const metadata: Metadata = {
+  title: "Demo fuel purchases",
+  description:
+    "Explore sample fuel purchases and see how DriveMargin separates actual gas spending from estimated trip fuel costs.",
+  alternates: {
+    canonical: "/demo/fuel",
+  },
 };
 
 export default async function DemoFuelPage({
