@@ -1,6 +1,6 @@
 "use client";
 
-import { Line, LineChart } from "recharts";
+import { Line, LineChart, ReferenceLine, YAxis } from "recharts";
 
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 
@@ -28,6 +28,13 @@ export function MetricSparkline({ data }: MetricSparklineProps) {
       initialDimension={{ width: 180, height: 56 }}
     >
       <LineChart accessibilityLayer data={data}>
+        <YAxis hide domain={["auto", "auto"]} />
+        <ReferenceLine
+          y={0}
+          stroke="currentColor"
+          strokeDasharray="2 2"
+          opacity={0.2}
+        />
         <Line
           dataKey="value"
           type="monotone"

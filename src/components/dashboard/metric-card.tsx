@@ -1,5 +1,3 @@
-import { Info } from "lucide-react";
-
 import { Card, CardContent } from "@/components/ui/card";
 import type { MetricTrendChartPoint } from "@/lib/charts/dashboardChartData";
 import { cn } from "@/lib/utils";
@@ -85,12 +83,6 @@ export function MetricCard({
                 <p className="text-sm font-medium text-muted-foreground">
                   {title}
                 </p>
-                <span
-                  aria-hidden="true"
-                  className="inline-flex size-3.5 shrink-0 items-center justify-center rounded-full text-muted-foreground"
-                >
-                  <Info className="size-3.5" />
-                </span>
               </div>
 
               <p
