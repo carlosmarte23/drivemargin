@@ -25,6 +25,7 @@ type ReportPeriodPickerDialogProps = {
   period: ReportPeriod;
   hrefBase: string;
   label: string;
+  labelPrefix?: string;
 };
 
 type FormSubmitEvent = Parameters<
@@ -65,6 +66,7 @@ export function ReportPeriodPickerDialog({
   period,
   hrefBase,
   label,
+  labelPrefix,
 }: ReportPeriodPickerDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [startDate, setStartDate] = useState(period.startDate);
@@ -116,9 +118,17 @@ export function ReportPeriodPickerDialog({
       <button
         type="button"
         onClick={openDialog}
+        aria-label={labelPrefix ? `${labelPrefix} ${label}` : undefined}
         className="min-w-0 cursor-pointer px-3 text-center text-sm font-medium text-foreground transition-colors hover:text-primary sm:min-w-44"
       >
-        {label}
+        {labelPrefix ? (
+          <span className="inline-flex items-center sm:gap-1">
+            <span className="sr-only sm:not-sr-only">{labelPrefix}</span>
+            <span>{label}</span>
+          </span>
+        ) : (
+          label
+        )}
       </button>
 
       <dialog
@@ -169,16 +179,17 @@ export function ReportPeriodPickerDialog({
               </label>
               <Input
                 id="period-start-date"
+                name="start"
                 type="date"
+                autoComplete="off"
                 value={startDate}
                 max={endDate || undefined}
-                autoFocus
                 onChange={(event) => {
                   setStartDate(event.target.value);
                   setError("");
                 }}
                 aria-invalid={Boolean(error)}
-                className="h-10 dark:[color-scheme:dark]"
+                className="h-10 dark:scheme-dark"
               />
             </div>
 
@@ -188,7 +199,9 @@ export function ReportPeriodPickerDialog({
               </label>
               <Input
                 id="period-end-date"
+                name="end"
                 type="date"
+                autoComplete="off"
                 value={endDate}
                 min={startDate || undefined}
                 onChange={(event) => {
@@ -196,7 +209,7 @@ export function ReportPeriodPickerDialog({
                   setError("");
                 }}
                 aria-invalid={Boolean(error)}
-                className="h-10 dark:[color-scheme:dark]"
+                className="h-10 dark:scheme-dark"
               />
             </div>
 
@@ -206,7 +219,7 @@ export function ReportPeriodPickerDialog({
                 <span className="font-medium text-foreground">
                   {selectedRangePreview.label}
                 </span>
-                <span className="ml-2">
+                <span className="mt-1 block sm:mt-0 sm:ml-2 sm:inline">
                   {selectedRangePreview.dayCount}{" "}
                   {selectedRangePreview.dayCount === 1 ? "day" : "days"}
                 </span>

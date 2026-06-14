@@ -31,8 +31,6 @@ export function ReportPeriodNavigator({
   const nextPeriod = getNextReportPeriod(period);
 
   const formattedPeriod = formatReportPeriodLabel(period);
-  const periodLabel =
-    mode === "all" ? `All data: ${formattedPeriod}` : formattedPeriod;
   const isAllData = mode === "all";
 
   return (
@@ -65,7 +63,8 @@ export function ReportPeriodNavigator({
         <ReportPeriodPickerDialog
           period={period}
           hrefBase={hrefBase}
-          label={periodLabel}
+          label={formattedPeriod}
+          labelPrefix={isAllData ? "All data:" : undefined}
         />
 
         {isAllData ? (
