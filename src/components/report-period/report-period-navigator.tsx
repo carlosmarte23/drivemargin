@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { ReportPeriodPickerDialog } from "@/components/report-period/report-period-picker-dialog";
 import { Button } from "@/components/ui/button";
+import type { DemoRecordQuickRange } from "@/lib/demo/demo-records-period-presets";
 import {
   buildPeriodHref,
   formatReportPeriodLabel,
@@ -20,6 +21,7 @@ type ReportPeriodNavigatorProps = {
   canNavigatePrevious?: boolean;
   canNavigateNext?: boolean;
   mode?: "all" | "range";
+  quickRanges?: DemoRecordQuickRange[];
 };
 
 export function ReportPeriodNavigator({
@@ -30,6 +32,7 @@ export function ReportPeriodNavigator({
   canNavigatePrevious = true,
   canNavigateNext = true,
   mode = "range",
+  quickRanges,
 }: ReportPeriodNavigatorProps) {
   const previousPeriod = getPreviousReportPeriod(period);
   const nextPeriod = getNextReportPeriod(period);
@@ -72,6 +75,7 @@ export function ReportPeriodNavigator({
           hrefBase={hrefBase}
           label={formattedPeriod}
           labelPrefix={isAllData ? "All data:" : undefined}
+          quickRanges={quickRanges}
         />
 
         {isAllData || isNextDisabled ? (

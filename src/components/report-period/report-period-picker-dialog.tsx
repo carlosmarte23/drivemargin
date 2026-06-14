@@ -15,6 +15,7 @@ import { CalendarDays, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { parseDateString } from "@/lib/date";
+import type { DemoRecordQuickRange } from "@/lib/demo/demo-records-period-presets";
 import {
   buildPeriodHref,
   formatReportPeriodLabel,
@@ -24,6 +25,7 @@ import {
 type ReportPeriodPickerDialogProps = {
   period: ReportPeriod;
   hrefBase: string;
+  quickRanges?: DemoRecordQuickRange[];
   label: string;
   labelPrefix?: string;
 };
@@ -67,6 +69,7 @@ export function ReportPeriodPickerDialog({
   hrefBase,
   label,
   labelPrefix,
+  quickRanges,
 }: ReportPeriodPickerDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [startDate, setStartDate] = useState(period.startDate);
@@ -87,6 +90,27 @@ export function ReportPeriodPickerDialog({
 
   function closeDialog() {
     dialogRef.current?.close();
+  }
+
+  function handleQuickRangeSelect(range: DemoRecordQuickRange) {
+    setError("");
+
+    if (range.href) {
+      const href = range.href;
+
+      startTransition(() => {
+        router.push(href, { scroll: false });
+      });
+      closeDialog();
+      return;
+    }
+
+    if (!range.period) {
+      return;
+    }
+
+    setStartDate(range.period.startDate);
+    setEndDate(range.period.endDate);
   }
 
   function handleSubmit(e: FormSubmitEvent) {
@@ -224,6 +248,25 @@ export function ReportPeriodPickerDialog({
                   {selectedRangePreview.dayCount === 1 ? "day" : "days"}
                 </span>
               </p>
+            ) : null}
+
+            {quickRanges?.length ? (
+              <div>
+                <h3 className="mt-4 text-sm font-semibold">Quick ranges</h3>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {quickRanges.map((range) => (
+                    <Button
+                      key={range.label}
+                      type="button"
+                      variant="outline"
+                      onClick={() => handleQuickRangeSelect(range)}
+                      disabled={isPending}
+                    >
+                      {range.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
             ) : null}
 
             {error ? (
