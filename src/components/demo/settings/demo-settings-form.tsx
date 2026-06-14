@@ -198,7 +198,9 @@ function DemoSettingsFormContent({
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label>Theme</Label>
+              <Label htmlFor="theme" aria-label="Theme">
+                Theme
+              </Label>
               <Select
                 value={selectedTheme}
                 name="theme"

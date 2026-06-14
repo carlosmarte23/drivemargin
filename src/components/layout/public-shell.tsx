@@ -31,13 +31,7 @@ export function PublicShell({ children }: PublicShellProps) {
           </div>
 
           <nav className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              asChild
-              aria-label="Try the app demo"
-              title="App demo"
-            >
+            <Button variant="ghost" size="sm" asChild>
               <Link href="/demo">Try demo</Link>
             </Button>
 

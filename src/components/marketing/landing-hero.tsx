@@ -35,15 +35,10 @@ export function LandingHero() {
           </p>
 
           <div className="mt-6 flex flex-col gap-3 motion-safe:animate-fade-in-up motion-safe:animate-delay-200 motion-safe:animate-duration-700 sm:flex-row lg:mt-[clamp(1.25rem,3svh,1.75rem)]">
-            <Button
-              size="lg"
-              asChild
-              aria-label="Try the app demo"
-              title="App demo"
-            >
+            <Button size="lg" asChild>
               <Link href="/demo">
                 Try demo
-                <ArrowRight className="size-4" />
+                <ArrowRight aria-hidden="true" className="size-4" />
               </Link>
             </Button>
 
