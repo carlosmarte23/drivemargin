@@ -17,6 +17,12 @@ export function AppShell({
 }: AppShellProps) {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:ring-2 focus:ring-ring"
+      >
+        Skip to content
+      </a>
       <AppSidebar basePath={basePath} />
 
       <div className="lg:pl-64">
@@ -48,7 +54,10 @@ export function AppShell({
           </div>
         </header>
 
-        <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6">
+        <main
+          id="main-content"
+          className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6"
+        >
           {children}
         </main>
       </div>
