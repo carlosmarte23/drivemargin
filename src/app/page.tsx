@@ -9,10 +9,10 @@ import { LandingProblem } from "@/components/marketing/landing-problem";
 
 const pageTitle = "Real profit tracking for independent drivers";
 const pageDescription =
-  "A profitability dashboard for multi-app independent drivers.";
+  "Track delivery earnings, mileage, fuel costs, and expenses in one profitability dashboard built for multi-app independent drivers.";
 
 export const metadata: Metadata = {
-  title: `${pageTitle} | DriveMargin`,
+  title: pageTitle,
   description: pageDescription,
   alternates: {
     canonical: "/",

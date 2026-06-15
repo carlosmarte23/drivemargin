@@ -10,9 +10,14 @@ export const demoTourSteps = [
     id: "welcome",
     target: "body",
     placement: "center",
-    title: "Explore DriveMargin",
-    content:
-      "This short tour shows how the demo workspace tracks delivery profit, fuel cost, expenses, and work sessions.",
+    content: (
+      <>
+        <strong>Explore DriveMargin</strong>
+        <br />
+        This short tour shows how the demo workspace tracks delivery profit,
+        fuel cost, expenses, and work sessions.
+      </>
+    ),
   },
   {
     id: "demo-data",

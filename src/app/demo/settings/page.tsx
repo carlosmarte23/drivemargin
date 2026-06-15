@@ -1,6 +1,17 @@
+import type { Metadata } from "next";
+
 import { DemoBanner } from "@/components/demo/demo-banner";
 import { DemoSettingsForm } from "@/components/demo/settings/demo-settings-form";
 import { AppShell } from "@/components/layout/app-shell";
+
+export const metadata: Metadata = {
+  title: "Demo settings",
+  description:
+    "Adjust sample driver goals, mileage rates, vehicles, and display preferences for the DriveMargin demo workspace.",
+  alternates: {
+    canonical: "/demo/settings",
+  },
+};
 
 export default function DemoSettingsPage() {
   return (

@@ -70,13 +70,7 @@ export function LandingFinalCta() {
           </div>
 
           <div className="flex flex-col gap-3 sm:mx-auto sm:w-full sm:max-w-md sm:flex-row lg:mx-0 lg:w-auto lg:min-w-82 lg:justify-end">
-            <Button
-              className="w-full sm:flex-1 lg:min-w-40"
-              size="lg"
-              asChild
-              aria-label="Try the app demo"
-              title="App demo"
-            >
+            <Button className="w-full sm:flex-1 lg:min-w-40" size="lg" asChild>
               <Link href="/demo">
                 Try demo
                 <ArrowRight className="size-4" />

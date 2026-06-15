@@ -6,6 +6,6 @@ export const demoSettings: UserSettings = {
   targetNetCentsPerHour: 2000, // $20/hr
   targetNetCentsPerMile: 175, // $1.75/mi
   irsMileageRateCentsPerMile: 75, // $0.75/mi
-  theme: "light",
+  theme: "system",
   language: "en",
 };

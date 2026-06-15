@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { ReportPeriodPickerDialog } from "@/components/report-period/report-period-picker-dialog";
 import { Button } from "@/components/ui/button";
+import type { DemoRecordQuickRange } from "@/lib/demo/demo-records-period-presets";
 import {
   buildPeriodHref,
   formatReportPeriodLabel,
@@ -17,7 +18,10 @@ type ReportPeriodNavigatorProps = {
   hrefBase: string;
   defaultHref?: string;
   isDefaultPeriod?: boolean;
+  canNavigatePrevious?: boolean;
+  canNavigateNext?: boolean;
   mode?: "all" | "range";
+  quickRanges?: DemoRecordQuickRange[];
 };
 
 export function ReportPeriodNavigator({
@@ -25,15 +29,19 @@ export function ReportPeriodNavigator({
   hrefBase,
   defaultHref = hrefBase,
   isDefaultPeriod = false,
+  canNavigatePrevious = true,
+  canNavigateNext = true,
   mode = "range",
+  quickRanges,
 }: ReportPeriodNavigatorProps) {
   const previousPeriod = getPreviousReportPeriod(period);
   const nextPeriod = getNextReportPeriod(period);
 
   const formattedPeriod = formatReportPeriodLabel(period);
-  const periodLabel =
-    mode === "all" ? `All data: ${formattedPeriod}` : formattedPeriod;
   const isAllData = mode === "all";
+
+  const isPreviousDisabled = !canNavigatePrevious || isAllData;
+  const isNextDisabled = !canNavigateNext || isAllData;
 
   return (
     <div
@@ -41,7 +49,7 @@ export function ReportPeriodNavigator({
       className="flex w-full max-w-full items-center justify-center sm:w-fit"
     >
       <div className="flex max-w-full items-center rounded-lg border border-border bg-card shadow-sm">
-        {isAllData ? (
+        {isAllData || isPreviousDisabled ? (
           <Button
             variant="ghost"
             size="icon"
@@ -65,10 +73,12 @@ export function ReportPeriodNavigator({
         <ReportPeriodPickerDialog
           period={period}
           hrefBase={hrefBase}
-          label={periodLabel}
+          label={formattedPeriod}
+          labelPrefix={isAllData ? "All data:" : undefined}
+          quickRanges={quickRanges}
         />
 
-        {isAllData ? (
+        {isAllData || isNextDisabled ? (
           <Button variant="ghost" size="icon" aria-label="Next period" disabled>
             <ChevronRight className="size-5" />
           </Button>
