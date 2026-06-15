@@ -10,7 +10,6 @@ export const demoTourSteps = [
     id: "welcome",
     target: "body",
     placement: "center",
-    title: "Explore DriveMargin",
     content: (
       <>
         <strong>Explore DriveMargin</strong>
