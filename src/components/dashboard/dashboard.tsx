@@ -1,8 +1,19 @@
-import { DashboardChartsSection } from "@/components/dashboard/dashboard-charts-section";
+import dynamic from "next/dynamic";
+
 import { DashboardMetricsSection } from "@/components/dashboard/dashboard-metrics-section";
 import { DashboardRecentSessions } from "@/components/dashboard/dashboard-recent-sessions";
 import type { ReportPeriod } from "@/lib/reporting/reportPeriod";
 import type { DashboardData } from "@/types/dashboard";
+
+const DashboardChartsSection = dynamic(
+  () =>
+    import("@/components/dashboard/dashboard-charts-section").then(
+      (mod) => mod.DashboardChartsSection,
+    ),
+  {
+    loading: () => <DashboardChartsSkeleton />,
+  },
+);
 
 type DashboardProps = {
   dashboardData: DashboardData;
@@ -39,5 +50,17 @@ export function Dashboard({ dashboardData, period, basePath }: DashboardProps) {
         basePath={basePath}
       />
     </div>
+  );
+}
+
+function DashboardChartsSkeleton() {
+  return (
+    <section aria-label="Dashboard charts" className="min-w-0 space-y-4">
+      <div className="h-80 rounded-xl border border-border bg-card" />
+      <div className="grid min-w-0 gap-4 xl:grid-cols-2">
+        <div className="h-72 rounded-xl border border-border bg-card" />
+        <div className="h-72 rounded-xl border border-border bg-card" />
+      </div>
+    </section>
   );
 }
