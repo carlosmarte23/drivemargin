@@ -8,19 +8,23 @@ import { buildMetricTrendChartData } from "@/lib/charts/dashboardChartData";
 import { formatCurrencyFromCents } from "@/lib/formatters/money";
 import { formatHours, formatMiles } from "@/lib/formatters/number";
 import type {
+  DashboardEfficiencyTargets,
   DashboardIrsMileageDeduction,
   DashboardMetricComparisons,
+  DashboardTargetStatus,
 } from "@/types/dashboard";
 
 type DashboardMetricsSectionProps = {
   metrics: DashboardMetrics;
   metricComparisons: DashboardMetricComparisons;
+  efficiencyTargets: DashboardEfficiencyTargets;
   irsMileageDeduction: DashboardIrsMileageDeduction;
   dailyTrendSeries: DashboardTrendSeries;
 };
 export function DashboardMetricsSection({
   metrics,
   metricComparisons,
+  efficiencyTargets,
   irsMileageDeduction,
   dailyTrendSeries,
 }: DashboardMetricsSectionProps) {
@@ -82,6 +86,7 @@ export function DashboardMetricsSection({
       description: "Average hourly profit",
       variant: "muted",
       density: "compact",
+      badge: buildTargetBadge(efficiencyTargets.netPerHour, "/hr"),
       comparison: metricComparisons.averageNetCentsPerHour,
     },
     {
@@ -90,6 +95,7 @@ export function DashboardMetricsSection({
       description: "Average profit per mile",
       variant: "muted",
       density: "compact",
+      badge: buildTargetBadge(efficiencyTargets.netPerMile, "/mi"),
       comparison: metricComparisons.averageNetCentsPerMile,
     },
   ] as const;
@@ -97,8 +103,12 @@ export function DashboardMetricsSection({
   return (
     <section aria-label="Dashboard metrics">
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
-        {topMetricCards.map((metric) => (
-          <MetricCard key={metric.title} {...metric} />
+        {topMetricCards.map((metric, index) => (
+          <MetricCard
+            key={metric.title}
+            {...metric}
+            tourTarget={index === 0 ? "dashboard-metrics" : undefined}
+          />
         ))}
       </div>
 
@@ -152,4 +162,12 @@ export function DashboardMetricsSection({
       </div>
     </section>
   );
+}
+
+function buildTargetBadge(target: DashboardTargetStatus, unit: string) {
+  return {
+    label: target.meetsTarget ? "Above target" : "Below target",
+    value: `Target ${formatCurrencyFromCents(target.targetCents)}${unit}`,
+    tone: target.meetsTarget ? "positive" : "warning",
+  } as const;
 }

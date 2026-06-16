@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import { toast } from "sonner";
 
 import { useDemoData } from "@/components/demo/demo-data-provider";
+import { DemoTourReplayButton } from "@/components/demo/tour/demo-tour-replay-button";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -42,11 +43,28 @@ export function DemoSettingsForm() {
   const { demoData, setDemoData } = useDemoData();
 
   return (
-    <DemoSettingsFormContent
-      key={getDemoSettingsFormKey(demoData)}
-      demoData={demoData}
-      setDemoData={setDemoData}
-    />
+    <div className="space-y-4">
+      <DemoSettingsFormContent
+        key={getDemoSettingsFormKey(demoData)}
+        demoData={demoData}
+        setDemoData={setDemoData}
+      />
+
+      <section className="rounded-xl border border-border bg-card p-4">
+        <div className="space-y-1">
+          <h2 className="text-base font-semibold text-card-foreground">
+            Guided tour
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Replay the demo walkthrough from the dashboard.
+          </p>
+        </div>
+
+        <div className="mt-4 flex items-center gap-2">
+          <DemoTourReplayButton />
+        </div>
+      </section>
+    </div>
   );
 }
 
@@ -180,7 +198,9 @@ function DemoSettingsFormContent({
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label>Theme</Label>
+              <Label htmlFor="theme" aria-label="Theme">
+                Theme
+              </Label>
               <Select
                 value={selectedTheme}
                 name="theme"
@@ -205,6 +225,7 @@ function DemoSettingsFormContent({
             </div>
           </div>
         </CardContent>
+
         <CardFooter className="justify-end border-t px-6 py-4">
           <Button type="submit" variant="outline">
             Save

@@ -16,17 +16,23 @@ export function AppShell({
   headerContent,
 }: AppShellProps) {
   return (
-    <div className="bg-background text-foreground min-h-screen">
+    <div className="min-h-screen bg-background text-foreground">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:ring-2 focus:ring-ring"
+      >
+        Skip to content
+      </a>
       <AppSidebar basePath={basePath} />
 
       <div className="lg:pl-64">
-        <header className="border-border/70 bg-background/90 sticky top-0 z-40 border-b backdrop-blur">
+        <header className="sticky top-0 z-40 border-b border-border/70 bg-background/90 backdrop-blur">
           <div className="flex min-h-16 flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <MobileNav basePath={basePath} />
 
-                <p className="text-muted-foreground text-sm font-medium">
+                <p className="text-sm font-medium text-muted-foreground">
                   {pageLabel}
                 </p>
               </div>
@@ -48,7 +54,10 @@ export function AppShell({
           </div>
         </header>
 
-        <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6">
+        <main
+          id="main-content"
+          className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6"
+        >
           {children}
         </main>
       </div>

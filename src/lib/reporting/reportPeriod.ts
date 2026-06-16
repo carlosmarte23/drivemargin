@@ -9,6 +9,13 @@ const reportPeriodDateFormatter = new Intl.DateTimeFormat("en-US", {
   day: "2-digit",
 });
 
+const reportPeriodMonthDayFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+});
+
+const DAY_IN_MS = 86_400_000;
+
 export type ReportPeriod = {
   startDate: string;
   endDate: string;
@@ -71,65 +78,19 @@ export function resolveReportPeriod(
 }
 
 export function getPreviousWeekPeriod(period: ReportPeriod): ReportPeriod {
-  const startDate = parseDateString(period.startDate);
-  const endDate = parseDateString(period.endDate);
-
-  startDate.setDate(startDate.getDate() - 7);
-  endDate.setDate(endDate.getDate() - 7);
-
-  return {
-    startDate: formatDateToString(startDate),
-    endDate: formatDateToString(endDate),
-  };
+  return shiftReportPeriod(period, -7);
 }
 
 export function getPreviousReportPeriod(period: ReportPeriod): ReportPeriod {
-  const startDate = parseDateString(period.startDate);
-  const endDate = parseDateString(period.endDate);
-  const periodLengthInDays =
-    Math.round((endDate.getTime() - startDate.getTime()) / 86_400_000) + 1;
-
-  const previousEndDate = new Date(startDate);
-  previousEndDate.setDate(startDate.getDate() - 1);
-
-  const previousStartDate = new Date(previousEndDate);
-  previousStartDate.setDate(previousEndDate.getDate() - periodLengthInDays + 1);
-
-  return {
-    startDate: formatDateToString(previousStartDate),
-    endDate: formatDateToString(previousEndDate),
-  };
+  return shiftReportPeriod(period, -getReportPeriodLengthInDays(period));
 }
 
 export function getNextReportPeriod(period: ReportPeriod): ReportPeriod {
-  const startDate = parseDateString(period.startDate);
-  const endDate = parseDateString(period.endDate);
-  const periodLengthInDays =
-    Math.round((endDate.getTime() - startDate.getTime()) / 86_400_000) + 1;
-
-  const nextStartDate = new Date(endDate);
-  nextStartDate.setDate(endDate.getDate() + 1);
-
-  const nextEndDate = new Date(nextStartDate);
-  nextEndDate.setDate(nextStartDate.getDate() + periodLengthInDays - 1);
-
-  return {
-    startDate: formatDateToString(nextStartDate),
-    endDate: formatDateToString(nextEndDate),
-  };
+  return shiftReportPeriod(period, getReportPeriodLengthInDays(period));
 }
 
 export function getNextWeekPeriod(period: ReportPeriod): ReportPeriod {
-  const startDate = parseDateString(period.startDate);
-  const endDate = parseDateString(period.endDate);
-
-  startDate.setDate(startDate.getDate() + 7);
-  endDate.setDate(endDate.getDate() + 7);
-
-  return {
-    startDate: formatDateToString(startDate),
-    endDate: formatDateToString(endDate),
-  };
+  return shiftReportPeriod(period, 7);
 }
 
 export function formatReportPeriodLabel(period: ReportPeriod): string {
@@ -166,8 +127,6 @@ const isValidDateString = (dateString: string): boolean => {
   const month = Number(dateString.slice(5, 7));
   const day = Number(dateString.slice(8, 10));
 
-  // const date = new Date(year, month - 1, day);
-
   const date = parseDateString(dateString);
 
   return (
@@ -198,11 +157,31 @@ function getDatePart(
 }
 
 const formatMonthDay = (date: Date): string => {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-  }).format(date);
+  return reportPeriodMonthDayFormatter.format(date);
 };
+
+function getReportPeriodLengthInDays(period: ReportPeriod): number {
+  const startDate = parseDateString(period.startDate);
+  const endDate = parseDateString(period.endDate);
+
+  return Math.round((endDate.getTime() - startDate.getTime()) / DAY_IN_MS) + 1;
+}
+
+function shiftReportPeriod(
+  period: ReportPeriod,
+  offsetDays: number,
+): ReportPeriod {
+  const startDate = parseDateString(period.startDate);
+  const endDate = parseDateString(period.endDate);
+
+  startDate.setDate(startDate.getDate() + offsetDays);
+  endDate.setDate(endDate.getDate() + offsetDays);
+
+  return {
+    startDate: formatDateToString(startDate),
+    endDate: formatDateToString(endDate),
+  };
+}
 
 export function buildPeriodHref(
   hrefBase: string,

@@ -4,14 +4,7 @@ import { ChevronDown } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { CardFooter } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -20,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { TableCard } from "@/components/ui/table-card";
 import {
   formatSessionDate,
   formatSessionShortDate,
@@ -49,15 +43,21 @@ export function DashboardRecentSessions({
   const sessionsHref = buildPeriodHref(`${basePath}/sessions`, period);
 
   return (
-    <Card className="gap-0">
-      <CardHeader className="pb-4">
-        <CardTitle>Recent sessions</CardTitle>
-        <CardDescription>
-          Latest work sessions on this period: {periodLabel}.
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent className="px-0 pb-0">
+    <div data-tour="recent-sessions">
+      <TableCard
+        title="Recent sessions"
+        description={<>Latest work sessions on this period: {periodLabel}.</>}
+        footer={
+          <CardFooter className="justify-center border-t bg-transparent px-4 py-1">
+            <Button asChild variant="ghost" size="sm">
+              <Link href={sessionsHref}>
+                View sessions for this period
+                <ChevronDown className="size-4" />
+              </Link>
+            </Button>
+          </CardFooter>
+        }
+      >
         <Table>
           <TableHeader>
             <TableRow>
@@ -159,16 +159,7 @@ export function DashboardRecentSessions({
             })}
           </TableBody>
         </Table>
-      </CardContent>
-
-      <CardFooter className="justify-center border-t bg-transparent px-4 py-1">
-        <Button asChild variant="ghost" size="sm">
-          <Link href={sessionsHref}>
-            View sessions for this period
-            <ChevronDown className="size-4" />
-          </Link>
-        </Button>
-      </CardFooter>
-    </Card>
+      </TableCard>
+    </div>
   );
 }

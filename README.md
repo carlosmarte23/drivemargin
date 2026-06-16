@@ -8,11 +8,12 @@ The app helps users track work sessions, split earnings by platform, estimate fu
 
 Public demo release.
 
-Current release: `0.4.0`
+Current release: `0.5.0`
 
-DriveMargin `0.4.0` is a frontend public demo release with sample data,
-dashboard reporting, editable demo records, and temporary sessionStorage
-persistence. The fullstack backend is planned for `1.0`.
+DriveMargin `0.5.0` is a polished public demo release with sample data,
+dashboard reporting, editable demo records, guided walkthrough, responsive
+review, and temporary sessionStorage persistence. The fullstack backend is
+planned for `1.0`.
 
 Included in this release:
 
@@ -25,11 +26,14 @@ Included in this release:
 - Non-fuel expenses CRUD
 - Demo settings form
 - Temporary demo data reset
+- Guided demo tour
+- Public landing polish
+- Responsive and accessibility polish
 - Calculation engine and tests
 
 ## Tech stack
 
-Current `0.4.0` stack:
+Current `0.5.0` stack:
 
 - Next.js
 - TypeScript
@@ -86,8 +90,8 @@ Available demo areas:
 
 Next planned phases:
 
-- `0.5`: Full app polish, responsive review, demo guided tour, and public demo
-  presentation updates.
+- `0.6`: Product demo video, stronger launch presentation assets, and
+  additional public demo refinements.
 - `1.0`: Authentication, onboarding, real database persistence, authenticated
   app workspace, and production CRUD backed by user data.
 

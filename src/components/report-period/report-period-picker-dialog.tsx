@@ -15,6 +15,7 @@ import { CalendarDays, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { parseDateString } from "@/lib/date";
+import type { DemoRecordQuickRange } from "@/lib/demo/demo-records-period-presets";
 import {
   buildPeriodHref,
   formatReportPeriodLabel,
@@ -24,7 +25,9 @@ import {
 type ReportPeriodPickerDialogProps = {
   period: ReportPeriod;
   hrefBase: string;
+  quickRanges?: DemoRecordQuickRange[];
   label: string;
+  labelPrefix?: string;
 };
 
 type FormSubmitEvent = Parameters<
@@ -65,6 +68,8 @@ export function ReportPeriodPickerDialog({
   period,
   hrefBase,
   label,
+  labelPrefix,
+  quickRanges,
 }: ReportPeriodPickerDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [startDate, setStartDate] = useState(period.startDate);
@@ -85,6 +90,27 @@ export function ReportPeriodPickerDialog({
 
   function closeDialog() {
     dialogRef.current?.close();
+  }
+
+  function handleQuickRangeSelect(range: DemoRecordQuickRange) {
+    setError("");
+
+    if (range.href) {
+      const href = range.href;
+
+      startTransition(() => {
+        router.push(href, { scroll: false });
+      });
+      closeDialog();
+      return;
+    }
+
+    if (!range.period) {
+      return;
+    }
+
+    setStartDate(range.period.startDate);
+    setEndDate(range.period.endDate);
   }
 
   function handleSubmit(e: FormSubmitEvent) {
@@ -116,9 +142,17 @@ export function ReportPeriodPickerDialog({
       <button
         type="button"
         onClick={openDialog}
+        aria-label={labelPrefix ? `${labelPrefix} ${label}` : undefined}
         className="min-w-0 cursor-pointer px-3 text-center text-sm font-medium text-foreground transition-colors hover:text-primary sm:min-w-44"
       >
-        {label}
+        {labelPrefix ? (
+          <span className="inline-flex items-center sm:gap-1">
+            <span className="sr-only sm:not-sr-only">{labelPrefix}</span>
+            <span>{label}</span>
+          </span>
+        ) : (
+          label
+        )}
       </button>
 
       <dialog
@@ -169,16 +203,17 @@ export function ReportPeriodPickerDialog({
               </label>
               <Input
                 id="period-start-date"
+                name="start"
                 type="date"
+                autoComplete="off"
                 value={startDate}
                 max={endDate || undefined}
-                autoFocus
                 onChange={(event) => {
                   setStartDate(event.target.value);
                   setError("");
                 }}
                 aria-invalid={Boolean(error)}
-                className="h-10 dark:[color-scheme:dark]"
+                className="h-10 dark:scheme-dark"
               />
             </div>
 
@@ -188,7 +223,9 @@ export function ReportPeriodPickerDialog({
               </label>
               <Input
                 id="period-end-date"
+                name="end"
                 type="date"
+                autoComplete="off"
                 value={endDate}
                 min={startDate || undefined}
                 onChange={(event) => {
@@ -196,7 +233,7 @@ export function ReportPeriodPickerDialog({
                   setError("");
                 }}
                 aria-invalid={Boolean(error)}
-                className="h-10 dark:[color-scheme:dark]"
+                className="h-10 dark:scheme-dark"
               />
             </div>
 
@@ -206,11 +243,30 @@ export function ReportPeriodPickerDialog({
                 <span className="font-medium text-foreground">
                   {selectedRangePreview.label}
                 </span>
-                <span className="ml-2">
+                <span className="mt-1 block sm:mt-0 sm:ml-2 sm:inline">
                   {selectedRangePreview.dayCount}{" "}
                   {selectedRangePreview.dayCount === 1 ? "day" : "days"}
                 </span>
               </p>
+            ) : null}
+
+            {quickRanges?.length ? (
+              <div>
+                <h3 className="mt-4 text-sm font-semibold">Quick ranges</h3>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {quickRanges.map((range) => (
+                    <Button
+                      key={range.label}
+                      type="button"
+                      variant="outline"
+                      onClick={() => handleQuickRangeSelect(range)}
+                      disabled={isPending}
+                    >
+                      {range.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
             ) : null}
 
             {error ? (

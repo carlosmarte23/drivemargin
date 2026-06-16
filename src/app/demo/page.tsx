@@ -1,7 +1,10 @@
+import type { Metadata } from "next";
+
 import { DemoDashboard } from "@/components/demo/dashboard/demo-dashboard";
 import { DemoBanner } from "@/components/demo/demo-banner";
+import { DemoDashboardPeriodNavigator } from "@/components/demo/demo-dashboard-period-navigator";
+import { DemoTourAutoStart } from "@/components/demo/tour/demo-tour-auto-start";
 import { AppShell } from "@/components/layout/app-shell";
-import { ReportPeriodNavigator } from "@/components/report-period/report-period-navigator";
 import {
   resolveReportPeriod,
   resolveReportPeriodQuery,
@@ -10,6 +13,15 @@ import {
 
 type DemoPageProps = {
   searchParams: Promise<ReportPeriodInput>;
+};
+
+export const metadata: Metadata = {
+  title: "Demo workspace",
+  description:
+    "Explore DriveMargin with sample sessions, earnings, mileage, fuel, and expense data before setting up your own driver dashboard.",
+  alternates: {
+    canonical: "/demo",
+  },
 };
 
 export default async function DemoPage({ searchParams }: DemoPageProps) {
@@ -29,7 +41,7 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
       basePath="/demo"
       pageLabel="Demo Dashboard"
       headerContent={
-        <ReportPeriodNavigator
+        <DemoDashboardPeriodNavigator
           period={reportPeriod}
           hrefBase={basePath}
           defaultHref={basePath}
@@ -40,6 +52,8 @@ export default async function DemoPage({ searchParams }: DemoPageProps) {
       }
     >
       <div className="space-y-5">
+        <DemoTourAutoStart />
+
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
           <p className="mt-2 max-w-2xl text-muted-foreground">

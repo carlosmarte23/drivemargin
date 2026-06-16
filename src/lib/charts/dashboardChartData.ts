@@ -13,16 +13,18 @@ const APP_CHART_COLORS = [
   "var(--chart-5)",
 ] as const;
 
+const chartDateLabelFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  timeZone: "UTC",
+});
+
 function centsToDollars(cents: number): number {
   return Math.round((cents / 100) * 100) / 100;
 }
 
 function formatChartDateLabel(date: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${date}T12:00:00Z`));
+  return chartDateLabelFormatter.format(new Date(`${date}T12:00:00Z`));
 }
 
 function getMetricValue(
@@ -140,6 +142,7 @@ export function buildEarningsByAppChartData({
   workApps,
 }: BuildEarningsByAppChartDataParams): EarningsByAppChartPoint[] {
   const totalsByAppId = new Map<string, number>();
+  const workAppById = new Map(workApps.map((workApp) => [workApp.id, workApp]));
 
   for (const earning of sessionAppEarnings) {
     const currentTotal = totalsByAppId.get(earning.workAppId) ?? 0;
@@ -149,7 +152,7 @@ export function buildEarningsByAppChartData({
 
   return Array.from(totalsByAppId.entries())
     .map(([workAppId, earningsCents]) => {
-      const app = workApps.find((item) => item.id === workAppId);
+      const app = workAppById.get(workAppId);
 
       return {
         appName: app?.name ?? workAppId,

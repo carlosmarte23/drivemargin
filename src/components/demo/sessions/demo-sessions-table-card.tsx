@@ -1,14 +1,7 @@
-import { Pencil, StickyNote, Trash2 } from "lucide-react";
+import { Eye, Pencil, StickyNote, Trash2 } from "lucide-react";
 
+import { DemoTableActionButton } from "@/components/demo/demo-table-action-button";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -17,13 +10,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  TooltipProvider,
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from "@/components/ui/tooltip";
-
+import { TableCard } from "@/components/ui/table-card";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import {
   formatSessionDate,
   formatSessionShortDate,
@@ -51,6 +39,7 @@ type DemoSessionsTableCardProps = {
   onEditSession: (sessionId: string) => void;
   onDeleteSession: (sessionId: string) => void;
   onViewSessionNotes: (sessionId: string) => void;
+  onViewSessionSummary: (sessionId: string) => void;
 };
 
 export function DemoSessionsTableCard({
@@ -59,176 +48,189 @@ export function DemoSessionsTableCard({
   onEditSession,
   onDeleteSession,
   onViewSessionNotes,
+  onViewSessionSummary,
 }: DemoSessionsTableCardProps) {
   return (
-    <Card className="gap-0">
-      <CardHeader className="pb-4">
-        <CardTitle>Sessions</CardTitle>
-        <CardDescription>
-          Work sessions recorded for {periodLabel}.
-        </CardDescription>
-      </CardHeader>
+    <TableCard
+      title="Sessions"
+      description={<>Work sessions recorded for {periodLabel}.</>}
+    >
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Date</TableHead>
+            <TableHead className="hidden md:table-cell">Time</TableHead>
+            <TableHead className="w-20 sm:w-auto">Apps</TableHead>
+            <TableHead className="hidden xl:table-cell">Vehicle</TableHead>
+            <TableHead className="hidden text-right sm:table-cell">
+              Miles
+            </TableHead>
+            <TableHead className="hidden text-right sm:table-cell">
+              Hours
+            </TableHead>
+            <TableHead className="text-right">Gross</TableHead>
+            <TableHead className="hidden 2xl:table-cell">Notes</TableHead>
+            <TableHead className="w-[7.5rem] text-right sm:w-28">
+              Actions
+            </TableHead>
+          </TableRow>
+        </TableHeader>
 
-      <CardContent className="px-0 pb-0">
-        <Table>
-          <TableHeader>
+        <TableBody>
+          {rows.length === 0 ? (
             <TableRow>
-              <TableHead>Date</TableHead>
-              <TableHead className="hidden md:table-cell">Time</TableHead>
-              <TableHead>Apps</TableHead>
-              <TableHead className="hidden xl:table-cell">Vehicle</TableHead>
-              <TableHead className="hidden text-right sm:table-cell">
-                Miles
-              </TableHead>
-              <TableHead className="hidden text-right sm:table-cell">
-                Hours
-              </TableHead>
-              <TableHead className="text-right">Gross</TableHead>
-              <TableHead className="hidden 2xl:table-cell">Notes</TableHead>
-              <TableHead className="w-12 text-right">Actions</TableHead>
+              <TableCell
+                colSpan={9}
+                className="h-24 text-center text-muted-foreground"
+              >
+                No sessions recorded for this period yet.
+              </TableCell>
             </TableRow>
-          </TableHeader>
+          ) : (
+            rows.map((session) => {
+              const date = formatSessionDate(session.date);
+              const shortDate = formatSessionShortDate(session.date);
+              const timeRange = formatSessionTimeRange(
+                session.startedAt,
+                session.endedAt,
+              );
+              const mobileAppShortNames = session.appShortNames.slice(0, 2);
+              const desktopAppShortNames = session.appShortNames.slice(0, 3);
+              const mobileOverflowCount =
+                session.appShortNames.length - mobileAppShortNames.length;
+              const desktopOverflowCount =
+                session.appShortNames.length - desktopAppShortNames.length;
 
-          <TableBody>
-            {rows.length === 0 ? (
-              <TableRow>
-                <TableCell
-                  colSpan={9}
-                  className="h-24 text-center text-muted-foreground"
-                >
-                  No sessions recorded for this period yet.
-                </TableCell>
-              </TableRow>
-            ) : (
-              rows.map((session) => {
-                const date = formatSessionDate(session.date);
-                const shortDate = formatSessionShortDate(session.date);
-                const timeRange = formatSessionTimeRange(
-                  session.startedAt,
-                  session.endedAt,
-                );
+              return (
+                <TableRow key={session.id}>
+                  <TableCell className="font-medium text-primary">
+                    <span className="sm:hidden">{shortDate}</span>
+                    <span className="hidden sm:inline">{date}</span>
+                  </TableCell>
 
-                return (
-                  <TableRow key={session.id}>
-                    <TableCell className="font-medium text-primary">
-                      <span className="sm:hidden">{shortDate}</span>
-                      <span className="hidden sm:inline">{date}</span>
-                    </TableCell>
+                  <TableCell className="hidden text-muted-foreground md:table-cell">
+                    {timeRange}
+                  </TableCell>
 
-                    <TableCell className="hidden text-muted-foreground md:table-cell">
-                      {timeRange}
-                    </TableCell>
+                  <TableCell className="max-w-20 sm:max-w-32">
+                    <div className="flex items-center gap-1 overflow-hidden sm:hidden">
+                      {session.appShortNames.length > 0 ? (
+                        <>
+                          {mobileAppShortNames.map((appShortName) => (
+                            <Badge
+                              key={appShortName}
+                              variant="secondary"
+                              className="px-1 text-[11px]"
+                            >
+                              {appShortName}
+                            </Badge>
+                          ))}
 
-                    <TableCell className="max-w-32">
-                      <div className="flex items-center gap-1 overflow-hidden">
-                        {session.appShortNames.length > 0 ? (
-                          <>
-                            {session.appShortNames
-                              .slice(0, 3)
-                              .map((appShortName) => (
-                                <Badge
-                                  key={appShortName}
-                                  variant="secondary"
-                                  className="px-1.5"
-                                >
-                                  {appShortName}
-                                </Badge>
-                              ))}
-
-                            {session.appShortNames.length > 3 ? (
-                              <Badge variant="secondary" className="px-1.5">
-                                +{session.appShortNames.length - 3}
-                              </Badge>
-                            ) : null}
-                          </>
-                        ) : (
-                          <span className="text-muted-foreground">-</span>
-                        )}
-                      </div>
-                    </TableCell>
-
-                    <TableCell className="hidden text-muted-foreground xl:table-cell">
-                      {session.vehicleName}
-                    </TableCell>
-
-                    <TableCell className="hidden text-right tabular-nums sm:table-cell">
-                      {formatMiles(session.totalMiles)}
-                    </TableCell>
-
-                    <TableCell className="hidden text-right tabular-nums sm:table-cell">
-                      {formatHours(session.hoursWorked)}
-                    </TableCell>
-
-                    <TableCell className="text-right font-medium tabular-nums">
-                      {formatCurrencyFromCents(session.grossEarningsCents)}
-                    </TableCell>
-
-                    <TableCell className="hidden max-w-64 truncate text-muted-foreground 2xl:table-cell">
-                      {session.notes ?? "-"}
-                    </TableCell>
-
-                    <TableCell className="w-28">
-                      <div className="flex justify-end gap-1">
-                        <TooltipProvider delayDuration={100}>
-                          {session.notes?.trim() ? (
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button
-                                  type="button"
-                                  variant="ghost"
-                                  size="icon"
-                                  aria-label={`View notes for session ${date}`}
-                                  className="hover:bg-primary/10 hover:text-primary"
-                                  onClick={() => onViewSessionNotes(session.id)}
-                                >
-                                  <StickyNote className="size-4" />
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>View notes</TooltipContent>
-                            </Tooltip>
+                          {mobileOverflowCount > 0 ? (
+                            <Badge
+                              variant="secondary"
+                              className="px-1 text-[11px]"
+                            >
+                              +{mobileOverflowCount}
+                            </Badge>
                           ) : null}
+                        </>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
+                    </div>
 
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                aria-label={`Edit session ${date}`}
-                                className="hover:bg-primary/10 hover:text-primary"
-                                onClick={() => onEditSession(session.id)}
-                              >
-                                <Pencil className="size-4" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Edit session</TooltipContent>
-                          </Tooltip>
+                    <div className="hidden items-center gap-1 overflow-hidden sm:flex">
+                      {session.appShortNames.length > 0 ? (
+                        <>
+                          {desktopAppShortNames.map((appShortName) => (
+                            <Badge
+                              key={appShortName}
+                              variant="secondary"
+                              className="px-1.5"
+                            >
+                              {appShortName}
+                            </Badge>
+                          ))}
 
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                aria-label={`Delete session ${date}`}
-                                className="hover:bg-destructive/10 hover:text-destructive"
-                                onClick={() => onDeleteSession(session.id)}
-                              >
-                                <Trash2 className="size-4" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Delete session</TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })
-            )}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+                          {desktopOverflowCount > 0 ? (
+                            <Badge variant="secondary" className="px-1.5">
+                              +{desktopOverflowCount}
+                            </Badge>
+                          ) : null}
+                        </>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
+                    </div>
+                  </TableCell>
+
+                  <TableCell className="hidden text-muted-foreground xl:table-cell">
+                    {session.vehicleName}
+                  </TableCell>
+
+                  <TableCell className="hidden text-right tabular-nums sm:table-cell">
+                    {formatMiles(session.totalMiles)}
+                  </TableCell>
+
+                  <TableCell className="hidden text-right tabular-nums sm:table-cell">
+                    {formatHours(session.hoursWorked)}
+                  </TableCell>
+
+                  <TableCell className="text-right font-medium tabular-nums">
+                    {formatCurrencyFromCents(session.grossEarningsCents)}
+                  </TableCell>
+
+                  <TableCell className="hidden max-w-64 truncate text-muted-foreground 2xl:table-cell">
+                    {session.notes ?? "-"}
+                  </TableCell>
+
+                  <TableCell className="w-[7.5rem] sm:w-28">
+                    <div className="flex justify-end gap-0.5 sm:gap-1">
+                      <TooltipProvider delayDuration={100}>
+                        {session.notes?.trim() ? (
+                          <DemoTableActionButton
+                            label={`View notes for session ${date}`}
+                            tooltip="View notes"
+                            icon={StickyNote}
+                            size="icon-sm"
+                            onClick={() => onViewSessionNotes(session.id)}
+                          />
+                        ) : null}
+
+                        <DemoTableActionButton
+                          label={`Edit session ${date}`}
+                          tooltip="Edit session"
+                          icon={Pencil}
+                          size="icon-sm"
+                          onClick={() => onEditSession(session.id)}
+                        />
+
+                        <DemoTableActionButton
+                          label={`Show summary for session ${date}`}
+                          tooltip="Show summary"
+                          icon={Eye}
+                          size="icon-sm"
+                          onClick={() => onViewSessionSummary(session.id)}
+                        />
+
+                        <DemoTableActionButton
+                          label={`Delete session ${date}`}
+                          tooltip="Delete session"
+                          icon={Trash2}
+                          tone="destructive"
+                          size="icon-sm"
+                          onClick={() => onDeleteSession(session.id)}
+                        />
+                      </TooltipProvider>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })
+          )}
+        </TableBody>
+      </Table>
+    </TableCard>
   );
 }
