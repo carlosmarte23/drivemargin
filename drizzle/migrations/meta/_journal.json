@@ -15,6 +15,13 @@
       "when": 1781735491636,
       "tag": "0001_add_initial_rls_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781738928868,
+      "tag": "0002_add_unique_user_id_to_vehicles",
+      "breakpoints": true
     }
   ]
 }

@@ -49,7 +49,7 @@ export const vehicles = pgTable(
   "vehicles",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    userId: uuid("user_id").notNull(),
+    userId: uuid("user_id").notNull().unique(),
     displayName: text("display_name").notNull(),
     estimatedMpg: numeric("estimated_mpg", {
       precision: 5,
