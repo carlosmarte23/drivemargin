@@ -54,6 +54,7 @@ export const vehicles = pgTable(
     estimatedMpg: numeric("estimated_mpg", {
       precision: 5,
       scale: 2,
+      mode: "number",
     }).notNull(),
     defaultMileageEntryMode: mileageEntryModeEnum("default_mileage_entry_mode"),
     isDefault: boolean("is_default").notNull(),
