@@ -1,6 +1,8 @@
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Button } from "@/components/ui/button";
+import { logout } from "@/features/auth/actions";
 
 type AppShellProps = {
   children: React.ReactNode;
@@ -9,7 +11,7 @@ type AppShellProps = {
   headerContent?: React.ReactNode;
 };
 
-export function AppShell({
+export async function AppShell({
   children,
   basePath = "/demo",
   pageLabel = "Dashboard",
@@ -48,8 +50,16 @@ export function AppShell({
               </div>
             ) : null}
 
-            <div className="hidden lg:block">
+            <div className="hidden gap-2 lg:flex">
               <ThemeToggle />
+
+              {basePath === "/app" ? (
+                <form action={logout}>
+                  <Button type="submit" variant="outline">
+                    Logout
+                  </Button>
+                </form>
+              ) : null}
             </div>
           </div>
         </header>
