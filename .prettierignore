@@ -2,6 +2,7 @@
 build
 coverage
 dist
+drizzle/migrations
 node_modules
 out
 pnpm-lock.yaml
