@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { requireUser } from "@/lib/auth/requireUser";
+
 export const metadata: Metadata = {
   robots: {
     index: false,
@@ -7,10 +9,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AppLayout({
+export default async function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await requireUser();
+
   return children;
 }
