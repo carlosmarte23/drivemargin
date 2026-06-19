@@ -15,7 +15,7 @@ export async function getProfileByUserId(userId: string) {
   return profile ?? null;
 }
 
-export async function createProfileForUser(input: {
+export async function upsertProfileForUser(input: {
   userId: string;
   displayName?: string | null;
 }) {
@@ -25,6 +25,13 @@ export async function createProfileForUser(input: {
       userId: input.userId,
       displayName: input.displayName ?? null,
       onboardingCompleted: false,
+    })
+    .onConflictDoUpdate({
+      target: profiles.userId,
+      set: {
+        displayName: input.displayName ?? null,
+        updatedAt: new Date(),
+      },
     })
     .returning();
 

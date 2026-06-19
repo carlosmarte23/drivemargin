@@ -81,9 +81,16 @@ export const userSettings = pgTable(
       .default(150),
     theme: themePreferenceEnum("theme").notNull(),
     language: languagePreferenceEnum("language").notNull(),
-    irsMileageDeductionRateCents: integer("irs_mileage_deduction_rate_cents")
+    irsMileageDeductionRateCents: numeric(
+      "irs_mileage_deduction_rate_cents_per_mile",
+      {
+        precision: 4,
+        scale: 2,
+        mode: "number",
+      },
+    )
       .notNull()
-      .default(72),
+      .default(72.5),
     createdAt: timestamp("created_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
