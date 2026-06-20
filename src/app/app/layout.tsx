@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
+import { getProfileByUserId } from "@/db/queries/profiles";
 import { requireUser } from "@/lib/auth/requireUser";
 
 export const metadata: Metadata = {
@@ -14,7 +16,12 @@ export default async function AppLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  await requireUser();
+  const user = await requireUser();
+  const profile = await getProfileByUserId(user.id);
+
+  if (!profile?.onboardingCompleted) {
+    redirect("/onboarding");
+  }
 
   return children;
 }
