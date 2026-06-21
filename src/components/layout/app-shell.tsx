@@ -9,14 +9,18 @@ type AppShellProps = {
   basePath?: "/demo" | "/app";
   pageLabel?: string;
   headerContent?: React.ReactNode;
+  userDisplayName?: string | null;
 };
 
-export async function AppShell({
+export function AppShell({
   children,
   basePath = "/demo",
   pageLabel = "Dashboard",
   headerContent,
+  userDisplayName,
 }: AppShellProps) {
+  const displayName = userDisplayName?.trim();
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <a
@@ -50,7 +54,11 @@ export async function AppShell({
               </div>
             ) : null}
 
-            <div className="hidden gap-2 lg:flex">
+            <div className="hidden items-center gap-2 lg:flex">
+              {displayName ? (
+                <p className="text-sm font-medium">Welcome, {displayName}</p>
+              ) : null}
+
               <ThemeToggle />
 
               {basePath === "/app" ? (

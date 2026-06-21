@@ -1,11 +1,15 @@
 import "server-only";
 
+import { cache } from "react";
+
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
 import { profiles } from "@/db/schema";
 
-export async function getProfileByUserId(userId: string) {
+export const getProfileByUserId = cache(async function getProfileByUserId(
+  userId: string,
+) {
   const [profile] = await db
     .select()
     .from(profiles)
@@ -13,7 +17,7 @@ export async function getProfileByUserId(userId: string) {
     .limit(1);
 
   return profile ?? null;
-}
+});
 
 export async function upsertProfileForUser(input: {
   userId: string;
