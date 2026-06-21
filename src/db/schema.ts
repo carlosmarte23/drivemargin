@@ -49,11 +49,12 @@ export const vehicles = pgTable(
   "vehicles",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    userId: uuid("user_id").notNull(),
+    userId: uuid("user_id").notNull().unique(),
     displayName: text("display_name").notNull(),
     estimatedMpg: numeric("estimated_mpg", {
       precision: 5,
       scale: 2,
+      mode: "number",
     }).notNull(),
     defaultMileageEntryMode: mileageEntryModeEnum("default_mileage_entry_mode"),
     isDefault: boolean("is_default").notNull(),
@@ -80,9 +81,16 @@ export const userSettings = pgTable(
       .default(150),
     theme: themePreferenceEnum("theme").notNull(),
     language: languagePreferenceEnum("language").notNull(),
-    irsMileageDeductionRateCents: integer("irs_mileage_deduction_rate_cents")
+    irsMileageDeductionRateCents: numeric(
+      "irs_mileage_deduction_rate_cents_per_mile",
+      {
+        precision: 4,
+        scale: 2,
+        mode: "number",
+      },
+    )
       .notNull()
-      .default(72),
+      .default(72.5),
     createdAt: timestamp("created_at", { withTimezone: true })
       .notNull()
       .defaultNow(),

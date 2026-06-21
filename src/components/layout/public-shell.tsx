@@ -36,13 +36,7 @@ export function PublicShell({ children }: PublicShellProps) {
             </Button>
 
             <Button variant="ghost" size="sm" asChild>
-              <Link
-                href="https://github.com/carlosmarte23/drivemargin"
-                target="_blank"
-                rel="noreferrer"
-              >
-                GitHub
-              </Link>
+              <Link href="/login">Log in</Link>
             </Button>
 
             <div className="hidden sm:block">

@@ -1,8 +1,17 @@
 import { AppShell } from "@/components/layout/app-shell";
+import { getProfileByUserId } from "@/db/queries/profiles";
+import { requireUser } from "@/lib/auth/requireUser";
 
-export default function AppDashboardPage() {
+export default async function AppDashboardPage() {
+  const user = await requireUser();
+  const profile = await getProfileByUserId(user.id);
+
   return (
-    <AppShell basePath="/app" pageLabel="Protected app placeholder">
+    <AppShell
+      basePath="/app"
+      pageLabel="Protected app placeholder"
+      userDisplayName={profile?.displayName}
+    >
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
 

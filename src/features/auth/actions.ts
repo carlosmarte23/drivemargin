@@ -76,7 +76,7 @@ export async function signup(
     };
   }
 
-  redirect("/app/dashboard");
+  redirect("/onboarding");
 }
 
 export async function logout() {
