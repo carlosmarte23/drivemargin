@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { ArrowLeft, Menu } from "lucide-react";
+import { ArrowLeft, LogOut, Menu } from "lucide-react";
 
 import { BrandLogo } from "@/components/brand-logo";
 import {
@@ -22,6 +22,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { logout } from "@/features/auth/actions";
 import { cn } from "@/lib/utils";
 
 type MobileNavProps = {
@@ -92,16 +93,31 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
         </nav>
 
         <div className="mt-auto border-t border-border/70 p-3">
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-2 text-muted-foreground"
-            asChild
-          >
-            <Link href="/">
-              <ArrowLeft className="size-4" />
-              {footerLabel}
-            </Link>
-          </Button>
+          <div className="flex flex-col gap-1">
+            <Button
+              variant="ghost"
+              className="w-full justify-start gap-2 text-muted-foreground"
+              asChild
+            >
+              <Link href="/">
+                <ArrowLeft className="size-4" />
+                {footerLabel}
+              </Link>
+            </Button>
+
+            {basePath === "/app" ? (
+              <form action={logout}>
+                <Button
+                  type="submit"
+                  variant="ghost"
+                  className="w-full justify-start gap-2 text-muted-foreground"
+                >
+                  <LogOut className="size-4" />
+                  Logout
+                </Button>
+              </form>
+            ) : null}
+          </div>
         </div>
       </SheetContent>
     </Sheet>

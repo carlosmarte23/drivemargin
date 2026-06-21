@@ -1,3 +1,8 @@
+import Link from "next/link";
+
+import { ArrowLeft } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 import AuthSidePanel from "./auth-side-panel";
@@ -18,6 +23,18 @@ export function AuthShell({
           : "max-w-md grid-cols-1",
       )}
     >
+      <Button
+        variant="ghost"
+        size="sm"
+        className="fixed top-4 left-4 z-10 gap-2 sm:top-6 sm:left-6"
+        asChild
+      >
+        <Link href="/">
+          <ArrowLeft className="size-4" />
+          Back to home
+        </Link>
+      </Button>
+
       {showSidePanel ? (
         <aside className="hidden sm:block">
           <AuthSidePanel />

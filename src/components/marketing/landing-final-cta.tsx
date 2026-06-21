@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, LogIn } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -83,21 +83,9 @@ export function LandingFinalCta() {
               size="lg"
               asChild
             >
-              <Link
-                href="https://github.com/carlosmarte23/drivemargin"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span
-                  aria-hidden="true"
-                  className="size-4 bg-current"
-                  style={{
-                    WebkitMask:
-                      "url(/icons/github.svg) center / contain no-repeat",
-                    mask: "url(/icons/github.svg) center / contain no-repeat",
-                  }}
-                />
-                View on GitHub
+              <Link href="/login">
+                <LogIn className="size-4" />
+                Log in
               </Link>
             </Button>
           </div>
