@@ -1,8 +1,7 @@
 import "server-only";
 
 import { db } from "@/db";
-import { profiles, vehicles, userSettings } from "@/db/schema";
-
+import { profiles, userSettings, vehicles } from "@/db/schema";
 import { DriverSetupData } from "@/features/driver-setup/lib/parse-driver-setup-form";
 
 type SaveDriverSetupForUserInput = {
