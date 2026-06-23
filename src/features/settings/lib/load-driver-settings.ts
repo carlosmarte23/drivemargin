@@ -22,6 +22,10 @@ export async function loadDriverSettings(userId: string) {
   };
 }
 
+export type DriverSettingsFormValues = Awaited<
+  ReturnType<typeof loadDriverSettings>
+>;
+
 function centsToDollar(amount: number | null | undefined) {
   return amount == null ? null : (amount / 100).toFixed(2);
 }

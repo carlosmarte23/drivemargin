@@ -33,6 +33,7 @@ const previousState: DriverSettingsFormState = {
   status: "idle",
   message: null,
   errors: {},
+  values: {},
 };
 
 describe("updateDriverSettings", () => {
@@ -42,12 +43,20 @@ describe("updateDriverSettings", () => {
 
   test("returns field errors when settings form parsing fails", async () => {
     const formData = new FormData();
+    formData.set("displayName", "Alex");
+    formData.set("vehicleName", "");
+    formData.set("estimatedMpg", "42");
+    formData.set("defaultMileageEntryMode", "manual");
+    formData.set("targetNetPerHour", "25");
+    formData.set("targetNetPerMile", "2");
+    formData.set("irsMileageRate", "0.725");
+    formData.set("theme", "dark");
 
     actionMocks.requireUser.mockResolvedValue({ id: "user-1" });
     actionMocks.parseDriverSettingsFormData.mockReturnValue({
       success: false,
       errors: {
-        targetNetPerHour: "Target net per hour must be greater than 0",
+        vehicleName: "Vehicle name is required",
       },
     });
 
@@ -57,7 +66,17 @@ describe("updateDriverSettings", () => {
       status: "error",
       message: "Please check the settings form and try again.",
       errors: {
-        targetNetPerHour: "Target net per hour must be greater than 0",
+        vehicleName: "Vehicle name is required",
+      },
+      values: {
+        displayName: "Alex",
+        vehicleName: "",
+        estimatedMpg: "42",
+        defaultMileageEntryMode: "manual",
+        targetNetPerHour: "25",
+        targetNetPerMile: "2",
+        irsMileageRate: "0.725",
+        theme: "dark",
       },
     });
     expect(actionMocks.saveDriverSetupForUser).not.toHaveBeenCalled();
@@ -96,6 +115,7 @@ describe("updateDriverSettings", () => {
       status: "success",
       message: "Settings updated.",
       errors: {},
+      values: {},
     });
   });
 });
