@@ -36,7 +36,7 @@ export function AuthFormCard({
 
         <CardContent className="px-8 py-4">{children}</CardContent>
 
-        <CardFooter className="flex flex-col justify-center gap-0.5 border-t-0 bg-transparent px-8 py-2.5 sm:flex-row sm:gap-2">
+        <CardFooter className="flex flex-col justify-center gap-0.5 border-t-0 bg-transparent px-8 pt-3 pb-5 sm:flex-row sm:gap-2 sm:py-3">
           <p className="text-sm text-muted-foreground">{footer}</p>
           <Link
             href={href}

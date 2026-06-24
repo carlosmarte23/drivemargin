@@ -17,7 +17,7 @@ export function AuthShell({
   return (
     <main
       className={cn(
-        "mx-auto grid min-h-svh w-full items-center justify-center px-6 py-6",
+        "mx-auto grid min-h-svh w-full items-center justify-center px-6 py-16 sm:py-20",
         showSidePanel
           ? "max-w-5xl gap-10 sm:grid-cols-[minmax(0,420px)_minmax(0,360px)] lg:gap-16"
           : "max-w-md grid-cols-1",
