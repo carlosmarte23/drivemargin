@@ -15,7 +15,10 @@ const driverSetupFormSchema = z.object({
     .number()
     .min(5, "Estimated MPG must be at least 5")
     .max(100, "Estimated MPG must be realistic."),
-  defaultMileageEntryMode: z.enum(["manual", "odometer"]),
+  defaultMileageEntryMode: z.enum(
+    ["manual", "odometer"],
+    "Choose a valid mileage entry mode",
+  ),
   targetNetCentsPerHour: z.coerce
     .number()
     .min(1, "Target net per hour must be greater than 0")
@@ -35,6 +38,25 @@ export type DriverSetupData = {
   targetNetCentsPerMile: number;
 };
 
+export type DriverSetupFields =
+  | "displayName"
+  | "vehicleName"
+  | "estimatedMpg"
+  | "defaultMileageEntryMode"
+  | "targetNetCentsPerHour"
+  | "targetNetCentsPerMile";
+
+const DriverSetupFormFieldsNames = {
+  displayName: true,
+  vehicleName: true,
+  estimatedMpg: true,
+  defaultMileageEntryMode: true,
+  targetNetCentsPerHour: true,
+  targetNetCentsPerMile: true,
+} satisfies Record<DriverSetupFields, true>;
+
+export type DriverSetupFormErrors = Partial<Record<DriverSetupFields, string>>;
+
 type ParsedDriverSetupFormData =
   | {
       success: true;
@@ -42,7 +64,7 @@ type ParsedDriverSetupFormData =
     }
   | {
       success: false;
-      message: string;
+      errors: DriverSetupFormErrors;
     };
 
 export function parseDriverSetupFormData(
@@ -58,23 +80,37 @@ export function parseDriverSetupFormData(
   });
 
   if (!result.success) {
+    const errors: DriverSetupFormErrors = {};
+
+    for (const issue of result.error.issues) {
+      const field = issue.path[0];
+
+      if (typeof field !== "string") {
+        continue;
+      }
+
+      if (field in DriverSetupFormFieldsNames) {
+        errors[field as DriverSetupFields] = issue.message;
+      }
+    }
+
     return {
       success: false as const,
-      message:
-        result.error.issues[0]?.message ??
-        "Please check the onboarding form and try again.",
+      errors,
     };
   }
+
+  const data = result.data;
 
   return {
     success: true as const,
     data: {
-      displayName: result.data.displayName,
-      vehicleName: result.data.vehicleName,
-      estimatedMpg: result.data.estimatedMpg,
-      defaultMileageEntryMode: result.data.defaultMileageEntryMode,
-      targetNetCentsPerHour: dollarsToCents(result.data.targetNetCentsPerHour),
-      targetNetCentsPerMile: dollarsToCents(result.data.targetNetCentsPerMile),
+      displayName: data.displayName,
+      vehicleName: data.vehicleName,
+      estimatedMpg: data.estimatedMpg,
+      defaultMileageEntryMode: data.defaultMileageEntryMode,
+      targetNetCentsPerHour: dollarsToCents(data.targetNetCentsPerHour),
+      targetNetCentsPerMile: dollarsToCents(data.targetNetCentsPerMile),
     },
   };
 }
