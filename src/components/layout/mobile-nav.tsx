@@ -12,12 +12,14 @@ import {
   getWorkspaceLabel,
   isNavItemActive,
 } from "@/components/layout/app-navigation";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -27,13 +29,18 @@ import { cn } from "@/lib/utils";
 
 type MobileNavProps = {
   basePath?: "/demo" | "/app";
+  userDisplayName?: string | null;
 };
 
-export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
+export function MobileNav({
+  basePath = "/demo",
+  userDisplayName,
+}: MobileNavProps) {
   const pathname = usePathname();
   const navItems = getNavItems(basePath);
   const workspaceLabel = getWorkspaceLabel(basePath);
   const footerLabel = getReturnToSiteLabel(basePath);
+  const displayName = userDisplayName?.trim();
 
   return (
     <Sheet>
@@ -49,15 +56,23 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
         </Button>
       </SheetTrigger>
 
-      <SheetContent side="left" className="flex h-dvh flex-col p-0">
-        <SheetHeader>
-          <SheetTitle>
-            <div className="flex flex-col gap-2 border-b p-4">
+      <SheetContent side="right" className="flex h-dvh flex-col gap-0 p-0">
+        <SheetHeader className="border-b border-border/70 p-4 pr-12">
+          <SheetTitle asChild>
+            <div className="space-y-4">
               <BrandLogo />
 
-              <p className="truncate text-xs text-muted-foreground">
-                {workspaceLabel}
-              </p>
+              <div className="rounded-lg border border-border/70 bg-muted/40 p-3">
+                <p className="text-xs font-normal text-muted-foreground">
+                  {workspaceLabel}
+                </p>
+
+                {displayName ? (
+                  <p className="mt-1 truncate text-sm font-medium text-foreground">
+                    {displayName}
+                  </p>
+                ) : null}
+              </div>
             </div>
           </SheetTitle>
 
@@ -92,8 +107,10 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
           })}
         </nav>
 
-        <div className="mt-auto border-t border-border/70 p-3">
+        <SheetFooter className="border-t border-border/70 p-3">
           <div className="flex flex-col gap-1">
+            <ThemeToggle triggerVariant="menu-item" />
+
             <Button
               variant="ghost"
               className="w-full justify-start gap-2 text-muted-foreground"
@@ -106,11 +123,11 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
             </Button>
 
             {basePath === "/app" ? (
-              <form action={logout}>
+              <form action={logout} className="pt-2">
                 <Button
                   type="submit"
-                  variant="ghost"
-                  className="w-full justify-start gap-2 text-muted-foreground"
+                  variant="destructive"
+                  className="w-full justify-center gap-2 bg-destructive text-destructive-foreground hover:bg-destructive/90"
                 >
                   <LogOut className="size-4" />
                   Logout
@@ -118,7 +135,7 @@ export function MobileNav({ basePath = "/demo" }: MobileNavProps) {
               </form>
             ) : null}
           </div>
-        </div>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

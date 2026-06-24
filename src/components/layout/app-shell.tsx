@@ -1,3 +1,4 @@
+import { BrandLogo } from "@/components/brand-logo";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -34,18 +35,26 @@ export function AppShell({
       <div className="lg:pl-64">
         <header className="sticky top-0 z-40 border-b border-border/70 bg-background/90 backdrop-blur">
           <div className="flex min-h-16 flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <MobileNav basePath={basePath} />
+            <div className="flex items-center gap-3 lg:hidden">
+              <BrandLogo
+                className="shrink-0"
+                iconClassName="size-6"
+                textClassName="text-base max-[360px]:hidden"
+              />
 
-                <p className="text-sm font-medium text-muted-foreground">
+              <div className="min-w-0 flex-1 text-center">
+                <p className="truncate font-semibold text-foreground">
                   {pageLabel}
                 </p>
               </div>
 
-              <div className="lg:hidden">
-                <ThemeToggle />
-              </div>
+              <MobileNav basePath={basePath} userDisplayName={displayName} />
+            </div>
+
+            <div className="hidden items-center gap-3 lg:flex">
+              <p className="text-sm font-medium text-muted-foreground">
+                {pageLabel}
+              </p>
             </div>
 
             {headerContent ? (

@@ -4,9 +4,18 @@ import { db } from "@/db";
 import { profiles, userSettings, vehicles } from "@/db/schema";
 import { DriverSetupData } from "@/features/driver-setup/lib/parse-driver-setup-form";
 
+const DEFAULT_IRS_MILEAGE_DEDUCTION_RATE_CENTS = 72.5;
+const DEFAULT_THEME = "system";
+const DEFAULT_LANGUAGE = "en";
+
+type SaveDriverSetupData = DriverSetupData & {
+  theme?: "light" | "dark" | "system";
+  irsMileageDeductionRateCents?: number;
+};
+
 type SaveDriverSetupForUserInput = {
   userId: string;
-  data: DriverSetupData;
+  data: SaveDriverSetupData;
   markOnboardingComplete: boolean;
 };
 
@@ -65,15 +74,21 @@ export async function saveDriverSetupForUser({
         userId,
         targetNetCentsPerHour: data.targetNetCentsPerHour,
         targetNetCentsPerMile: data.targetNetCentsPerMile,
-        theme: "system",
-        language: "en",
-        irsMileageDeductionRateCents: 72.5,
+        theme: data.theme ?? DEFAULT_THEME,
+        language: DEFAULT_LANGUAGE,
+        irsMileageDeductionRateCents:
+          data.irsMileageDeductionRateCents ??
+          DEFAULT_IRS_MILEAGE_DEDUCTION_RATE_CENTS,
       })
       .onConflictDoUpdate({
         target: userSettings.userId,
         set: {
           targetNetCentsPerHour: data.targetNetCentsPerHour,
           targetNetCentsPerMile: data.targetNetCentsPerMile,
+          theme: data.theme ?? DEFAULT_THEME,
+          irsMileageDeductionRateCents:
+            data.irsMileageDeductionRateCents ??
+            DEFAULT_IRS_MILEAGE_DEDUCTION_RATE_CENTS,
           updatedAt: now,
         },
       });

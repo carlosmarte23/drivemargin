@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 const themeOptions = [
   {
@@ -29,26 +30,54 @@ const themeOptions = [
   },
 ] as const;
 
-export function ThemeToggle() {
+type ThemeToggleProps = {
+  triggerVariant?: "icon" | "menu-item";
+};
+
+export function ThemeToggle({ triggerVariant = "icon" }: ThemeToggleProps) {
   const { setTheme, theme } = useTheme();
 
   const currentTheme = theme ?? "system";
+  const currentThemeOption =
+    themeOptions.find((option) => option.value === currentTheme) ??
+    themeOptions[0];
+  const CurrentThemeIcon = currentThemeOption.icon;
+  const isMenuItemTrigger = triggerVariant === "menu-item";
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
-          size="icon"
+          variant={isMenuItemTrigger ? "ghost" : "outline"}
+          size={isMenuItemTrigger ? "default" : "icon"}
           aria-label="Change theme"
-          className="relative overflow-hidden"
+          className={cn(
+            isMenuItemTrigger
+              ? "w-full justify-start gap-2 text-muted-foreground"
+              : "relative overflow-hidden",
+          )}
         >
-          <Sun className="absolute size-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute size-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+          {isMenuItemTrigger ? (
+            <>
+              <CurrentThemeIcon className="size-4" />
+              <span>Theme</span>
+              <span className="ml-auto text-xs text-muted-foreground">
+                {currentThemeOption.label}
+              </span>
+            </>
+          ) : (
+            <>
+              <Sun className="absolute size-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+              <Moon className="absolute size-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+            </>
+          )}
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="w-40">
+      <DropdownMenuContent
+        align={isMenuItemTrigger ? "start" : "end"}
+        className="w-40"
+      >
         {themeOptions.map((option) => {
           const Icon = option.icon;
           const isSelected = currentTheme === option.value;
