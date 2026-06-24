@@ -56,10 +56,8 @@ describe("parseDriverSetupFormData", () => {
         displayName: "Display name is required",
         vehicleName: "Vehicle name is required",
         estimatedMpg: "Estimated MPG must be at least 5",
-        targetNetCentsPerHour:
-          "Target net per hour must be greater than 0",
-        targetNetCentsPerMile:
-          "Target net per mile must be greater than 0",
+        targetNetCentsPerHour: "Target net per hour must be greater than 0",
+        targetNetCentsPerMile: "Target net per mile must be greater than 0",
       },
     });
   });
