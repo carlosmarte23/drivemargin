@@ -4,7 +4,10 @@ import { redirect } from "next/navigation";
 
 import { parseDriverSetupFormData } from "@/features/driver-setup/lib/parse-driver-setup-form";
 import { saveDriverSetupForUser } from "@/features/driver-setup/lib/server/save-driver-setup";
-import type { OnboardingFormState } from "@/features/onboarding/types";
+import type {
+  OnboardingFormState,
+  OnboardingRawFormValues,
+} from "@/features/onboarding/types";
 import { requireUser } from "@/lib/auth/requireUser";
 
 export async function completeOnboarding(
@@ -12,13 +15,16 @@ export async function completeOnboarding(
   formData: FormData,
 ): Promise<OnboardingFormState> {
   const user = await requireUser();
-
   const parsed = await parseDriverSetupFormData(formData);
 
   if (!parsed.success) {
+    const rawFormData = getOnboardingRawFormValues(formData);
+
     return {
       status: "error",
-      message: parsed.message,
+      message: "Please check the onboarding form and try again.",
+      errors: parsed.errors,
+      values: rawFormData,
     };
   }
 
@@ -29,4 +35,19 @@ export async function completeOnboarding(
   });
 
   redirect("/app/dashboard");
+}
+
+function getOnboardingRawFormValues(
+  formData: FormData,
+): OnboardingRawFormValues {
+  return {
+    displayName: String(formData.get("displayName") ?? ""),
+    vehicleName: String(formData.get("vehicleName") ?? ""),
+    estimatedMpg: String(formData.get("estimatedMpg") ?? ""),
+    defaultMileageEntryMode: String(
+      formData.get("defaultMileageEntryMode") ?? "",
+    ),
+    targetNetPerHour: String(formData.get("targetNetPerHour") ?? ""),
+    targetNetPerMile: String(formData.get("targetNetPerMile") ?? ""),
+  };
 }

@@ -14,13 +14,22 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { completeOnboarding } from "@/features/onboarding/actions/complete-onboarding";
-import { initialOnboardingFormState } from "@/features/onboarding/types";
+import {
+  initialOnboardingFormState,
+  OnboardingRawFormValues,
+} from "@/features/onboarding/types";
 
 export function OnboardingForm() {
   const [state, formAction, isPending] = useActionState(
     completeOnboarding,
     initialOnboardingFormState,
   );
+
+  function getFieldValue<Key extends keyof OnboardingRawFormValues>(
+    key: Key,
+  ): string {
+    return state.values[key] ?? "";
+  }
 
   return (
     <form action={formAction} className="w-full">
@@ -45,8 +54,14 @@ export function OnboardingForm() {
               type="text"
               name="displayName"
               placeholder="e.g. Alex"
+              defaultValue={getFieldValue("displayName")}
               className="w-full rounded-md border bg-background px-3 py-2 text-sm"
             />
+            {state.errors.displayName && (
+              <p className="mb-4 text-sm text-destructive">
+                {state.errors.displayName}
+              </p>
+            )}
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
@@ -59,8 +74,14 @@ export function OnboardingForm() {
                 type="text"
                 name="vehicleName"
                 placeholder="e.g. Prius"
+                defaultValue={getFieldValue("vehicleName")}
                 className="w-full rounded-md border bg-background px-3 py-2 text-sm"
               />
+              {state.errors.vehicleName && (
+                <p className="mb-4 text-sm text-destructive">
+                  {state.errors.vehicleName}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -75,8 +96,14 @@ export function OnboardingForm() {
                 step="0.01"
                 min="5"
                 placeholder="27.5"
+                defaultValue={getFieldValue("estimatedMpg")}
                 className="w-full rounded-md border bg-background px-3 py-2 text-sm"
               />
+              {state.errors.estimatedMpg && (
+                <p className="mb-4 text-sm text-destructive">
+                  {state.errors.estimatedMpg}
+                </p>
+              )}
             </div>
           </div>
 
@@ -90,7 +117,9 @@ export function OnboardingForm() {
 
             <RadioGroup
               name="defaultMileageEntryMode"
-              defaultValue="manual"
+              defaultValue={
+                getFieldValue("defaultMileageEntryMode") || "manual"
+              }
               className="grid gap-3 sm:grid-cols-2"
             >
               <Label
@@ -109,6 +138,12 @@ export function OnboardingForm() {
                 Odometer
               </Label>
             </RadioGroup>
+
+            {state.errors.defaultMileageEntryMode && (
+              <p className="mb-4 text-sm text-destructive">
+                {state.errors.defaultMileageEntryMode}
+              </p>
+            )}
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
@@ -124,8 +159,14 @@ export function OnboardingForm() {
                 step="0.01"
                 min="1"
                 placeholder="$ 20.00"
+                defaultValue={getFieldValue("targetNetPerHour")}
                 className="w-full rounded-md border bg-background px-3 py-2 text-sm"
               />
+              {state.errors.targetNetCentsPerHour && (
+                <p className="mb-4 text-sm text-destructive">
+                  {state.errors.targetNetCentsPerHour}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -140,12 +181,17 @@ export function OnboardingForm() {
                 step="0.01"
                 min="1"
                 placeholder="$ 1.50"
+                defaultValue={getFieldValue("targetNetPerMile")}
                 className="w-full rounded-md border bg-background px-3 py-2 text-sm"
               />
+              {state.errors.targetNetCentsPerMile && (
+                <p className="mb-4 text-sm text-destructive">
+                  {state.errors.targetNetCentsPerMile}
+                </p>
+              )}
             </div>
           </div>
 
-          {state.message ? <p>{state.message}</p> : null}
           <Button type="submit" className="w-full" disabled={isPending}>
             {isPending ? "Finishing..." : "Finish setup"}
           </Button>
